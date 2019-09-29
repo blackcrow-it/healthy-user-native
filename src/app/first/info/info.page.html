@@ -1,10 +1,44 @@
 <style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
   .white-text {
     color: #ffffff;
   }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+
+  .input-custom {
+    --background: #efd5d5;
+    --border-radius: 5px;
+    --border-width: 0 0 0 0;
+    --highlight-color-focused: none;
+  }
+
+  .red-text {
+    color: #f04141
+  }
+
+  .dark-red-text {
+    color: #5b0d0d;
+  }
 </style>
 <ion-header>
-  <ion-toolbar class="white-text" style="--background: #f04141;">
+  <ion-toolbar class="white-text color-toolbar">
     <ion-title>Điền thông tin</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="login" class="white-text"></ion-back-button>
@@ -12,16 +46,78 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-card>
-        <ion-card-header>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          <ion-card-title>Card Title</ion-card-title>
-        </ion-card-header>
-      
+<ion-content class="background-main">
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="background-white">
         <ion-card-content>
-          Keep close to Nature's heart... and break clear away, once in awhile,
-          and climb a mountain or spend a week in the woods. Wash your spirit clean.
+          <ion-row>
+            <ion-col size="12">
+              <ion-item class="input-custom">
+                <ion-icon class="dark-red-text" name="person" slot="start"></ion-icon>
+                <ion-input placeholder="Họ và tên" clearInput></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label>Giới tính</ion-label>
+                <ion-select>
+                  <ion-select-option value="male">Nam</ion-select-option>
+                  <ion-select-option value="female">Nữ</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label>Ngày sinh</ion-label>
+                <ion-datetime></ion-datetime>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="fixed">Email</ion-label>
+                <ion-input inputmode="email" clearInput></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="fixed">Số điện thoại</ion-label>
+                <ion-input type="tel" clearInput></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
         </ion-card-content>
       </ion-card>
+    </ion-col>
+
+    <ion-col size="12">
+      <ion-text class="red-text">
+        <h1 style="margin: 10px 10px 0px 10px">
+          <ion-icon class="dark-red-text" name="body"></ion-icon> Chỉ Số Cơ Thể
+        </h1>
+      </ion-text>
+    </ion-col>
+
+    <ion-col size="12">
+      <ion-card class="background-white">
+        <ion-card-content>
+          <ion-item (click)="showWeightPicker()">
+            <ion-label>Cân nặng</ion-label>
+            <ion-label slot="end">{{ weight }}</ion-label>
+          </ion-item>
+          <ion-item (click)="showHeightPicker()">
+            <ion-label>Chiều cao</ion-label>
+            <ion-label slot="end">{{ height }}</ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title style="text-align: center;">Tiếp tục</ion-title>
+  </ion-toolbar>
+</ion-footer>
