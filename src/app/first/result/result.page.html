@@ -1,0 +1,95 @@
+<style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+
+  .input-custom {
+    --background: #efd5d5;
+    --border-radius: 5px;
+    --border-width: 0 0 0 0;
+    --highlight-color-focused: none;
+  }
+
+  .red-text {
+    color: #f04141
+  }
+
+  .dark-red-text {
+    color: #5b0d0d;
+  }
+</style>
+<ion-header>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title>Kết quả</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="target" class="white-text"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main">
+  <ion-row>
+    <ion-col size="12">
+      <h6 style="text-align: center">Lượng calories cần nạp mỗi ngày</h6>
+      <h1 style="text-align: center">2500 kcal</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="background-white">
+        <ion-card-header>
+          <ion-card-subtitle>Chi tiết</ion-card-subtitle>
+          <ion-card-title>Macro *</ion-card-title>
+        </ion-card-header>
+        <ion-card-content style="text-align: center">
+          <ion-row>
+            <ion-col size="4">Protein</ion-col>
+            <ion-col size="4">Carbonhydrates</ion-col>
+            <ion-col size="4">Fat</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4">174 g</ion-col>
+            <ion-col size="4">115.8 g</ion-col>
+            <ion-col size="4">34 g</ion-col>
+          </ion-row>
+          <br/>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <h6 style="text-align: center">* Với lượng dinh dưỡng này cùng với chế độ hoạt động điều độ, trong vòng <b>2 tháng</b> bạn sẽ giảm
+        được <b>2 kg</b>.</h6>
+    </ion-col>
+  </ion-row>
+</ion-content>
+  <ion-row>
+      <ion-col size="12">
+        <p style="color: #737373; font-size: 14px">* Macro được hiểu là ba chất dinh dưỡng cơ bản như carb (đường), protein (đạm) và fat (chất béo). Đây là ba loại dưỡng chất mang chức năng chính là tiếp năng lượng cho cơ thể.</p>
+      </ion-col>
+    </ion-row>
+<ion-footer>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title style="text-align: center;">Hoàn thành</ion-title>
+  </ion-toolbar>
+</ion-footer>

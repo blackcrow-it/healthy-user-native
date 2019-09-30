@@ -1,0 +1,117 @@
+<style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+
+  .input-custom {
+    --background: #efd5d5;
+    --border-radius: 5px;
+    --border-width: 0 0 0 0;
+    --highlight-color-focused: none;
+  }
+
+  .red-text {
+    color: #f04141
+  }
+
+  .dark-red-text {
+    color: #5b0d0d;
+  }
+</style>
+<ion-header>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title>Mục tiêu</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="info" class="white-text"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main">
+  <ion-row>
+    <ion-col size="12">
+      <h1 style="text-align: center">Chỉ số BMI của bạn là 18.4</h1>
+      <h6 style="text-align: center">Thể trạng bình thường</h6>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="background-white">
+        <ion-card-header>
+          <ion-card-subtitle>Gợi ý</ion-card-subtitle>
+          <ion-card-title>Cân nặng</ion-card-title>
+        </ion-card-header>
+        <ion-card-content style="text-align: center">
+          <ion-row>
+            <ion-col size="4">Tối thiểu</ion-col>
+            <ion-col size="4">Phù hợp</ion-col>
+            <ion-col size="4">Tối đa</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4">55.0 kg</ion-col>
+            <ion-col size="4">60.0 kg</ion-col>
+            <ion-col size="4">65.0 kg</ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col size="12">
+      <ion-card class="background-white">
+        <ion-card-header>
+          <ion-card-subtitle>Yêu cầu</ion-card-subtitle>
+          <ion-card-title>Mục tiêu</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item (click)="showWeightPicker()">
+            <ion-label>Cân nặng đạt</ion-label>
+            <ion-label slot="end">{{ weight }}</ion-label>
+          </ion-item>
+          <ion-item (click)="showHeightPicker()">
+            <ion-label>Thời gian</ion-label>
+            <ion-input style="text-align: right" slot="end" type="number" placeholder="1"></ion-input>
+            <ion-select slot="end" value="month">
+              <ion-select-option value="month">Tháng</ion-select-option>
+              <ion-select-option value="year">Năm</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label>Mức độ hoạt động</ion-label>
+            <ion-select value="normal">
+              <ion-select-option value="low">Nhẹ</ion-select-option>
+              <ion-select-option value="normal">Trung bình</ion-select-option>
+              <ion-select-option value="high">Nặng</ion-select-option>
+              <ion-select-option value="special">Đặc biệt</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title style="text-align: center;">Tiếp tục</ion-title>
+  </ion-toolbar>
+</ion-footer>
