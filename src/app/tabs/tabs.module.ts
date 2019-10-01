@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { TabsPage } from './tabs.page';
+import { SearchPageModule } from '../search/search.module'
 
 const routes: Routes = [
   {
@@ -14,11 +15,12 @@ const routes: Routes = [
     children:[
         { path: 'tab1', loadChildren: '../tab1/tab1.module#Tab1PageModule' },
         { path: 'tab2', loadChildren: '../tab2/tab2.module#Tab2PageModule' },
+        { path: 'menu', loadChildren: '../menu/menu.module#MenuPageModule' },
     ]
   },
   {
     path:'',
-    redirectTo:'/tabs/tab1',
+    redirectTo:'/tabs/menu',
     pathMatch:'full'
   }
 ];
@@ -28,6 +30,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    SearchPageModule,
     RouterModule.forChild(routes)
   ],
   declarations: [TabsPage]

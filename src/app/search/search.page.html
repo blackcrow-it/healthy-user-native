@@ -1,0 +1,26 @@
+<style>
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+</style>
+<ion-header>
+  <ion-toolbar class="white-text color-toolbar">
+    <ion-title>Tìm kiếm</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="color-toolbar">
+    <ion-searchbar animated placeholder="Món ăn, cửa hàng, ..."></ion-searchbar>
+    <ion-buttons slot="secondary">
+        <ion-button color="light" (click)="close()">
+          Hủy
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>
