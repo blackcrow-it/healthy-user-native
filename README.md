@@ -16,6 +16,8 @@
 	npm install -g @angular/cli
     npm install -g ionic
 
+	npm install chart.js --save
+
 ------------ run app   ------------
 
 	ionic serve

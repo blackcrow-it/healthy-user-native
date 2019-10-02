@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
   // { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
+  { path: 'food', loadChildren: './food/food.module#FoodPageModule' },
 ];
 
 @NgModule({

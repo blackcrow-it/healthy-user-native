@@ -1,0 +1,154 @@
+<style>
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+
+  .column-center {
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+  }
+
+  .column-center div {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .color-carbs {
+    color: #3171e0
+  }
+
+  .color-fat {
+    color: #f04141
+  }
+
+  .color-protein {
+    color: #28e070
+  }
+
+  .text-amount {
+    font-weight: bold;
+    color: #000000
+  }
+</style>
+
+<ion-header>
+  <ion-toolbar class="color-toolbar white-text">
+    <ion-title>Món ăn</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/menu" class="white-text"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main">
+  <ion-row>
+    <ion-col size="12">
+      <ion-card class="background-white">
+        <ion-card-header>
+          <ion-card-title>Trứng</ion-card-title>
+          <ion-card-subtitle>Quả to</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #doughnutCanvas></canvas>
+          <ion-row>
+            <ion-col size="4" class="column-center">
+              <div>
+                <h6>2%</h6>
+                <h2 class="text-amount">2.5 g</h2>
+                <h6 class="color-carbs">Carbs</h6>
+              </div>
+            </ion-col>
+            <ion-col size="4" class="column-center">
+              <div>
+                <h6>2%</h6>
+                <h2 class="text-amount">4.8 g</h2>
+                <h6 class="color-fat">Fat</h6>
+              </div>
+            </ion-col>
+            <ion-col size="4" class="column-center">
+              <div>
+                <h6>2%</h6>
+                <h2 class="text-amount">6.3 g</h2>
+                <h6 class="color-protein">Protein</h6>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-list>
+            <ion-item>
+              <ion-label>Đơn vị</ion-label>
+              <ion-select value="g" placeholder="Chọn" okText="Chọn" cancelText="Hủy">
+                <ion-select-option value="g">1 g</ion-select-option>
+                <ion-select-option value="kg">1 kg</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Số lượng</ion-label>
+              <ion-input slot="end" type="number" inputmode="decimal"></ion-input>
+            </ion-item>
+          </ion-list>
+          <br />
+          <ion-row style="text-align: center">
+            <ion-col size="12">
+              <ion-title>Mục tiêu ngày</ion-title>
+            </ion-col>
+            <ion-col size="3">
+              <ion-progress-bar color="warning" value="0.50"></ion-progress-bar>
+              <div style="padding-top: 5px">
+                <ion-label style="color: #000000">50%</ion-label><br />
+                <ion-label>Calories</ion-label>
+              </div>
+            </ion-col>
+            <ion-col size="3">
+              <ion-progress-bar color="primary" value="0.80"></ion-progress-bar>
+              <div style="padding-top: 5px">
+                <ion-label style="color: #000000">80%</ion-label><br />
+                <ion-label>Carbs</ion-label>
+              </div>
+            </ion-col>
+            <ion-col size="3">
+              <ion-progress-bar color="danger" value="0.20"></ion-progress-bar>
+              <div style="padding-top: 5px">
+                <ion-label style="color: #000000">20%</ion-label><br />
+                <ion-label>Fat</ion-label>
+              </div>
+            </ion-col>
+            <ion-col size="3">
+              <ion-progress-bar color="success" value="0.90"></ion-progress-bar>
+              <div style="padding-top: 5px">
+                <ion-label style="color: #000000">90%</ion-label><br />
+                <ion-label>Protein</ion-label>
+              </div>
+            </ion-col>
+          </ion-row>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>
