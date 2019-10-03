@@ -8,7 +8,7 @@ import { Chart } from 'chart.js';
   styleUrls: ['./food.page.scss'],
 })
 export class FoodPage implements OnInit {
-  @ViewChild("doughnutCanvas") doughnutCanvas: ElementRef;
+  @ViewChild("doughnutCanvas", {static: true}) doughnutCanvas: ElementRef;
 
   private doughnutChart: Chart;
 

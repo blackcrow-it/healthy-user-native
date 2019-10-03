@@ -17,6 +17,7 @@
     npm install -g ionic
 
 	npm install chart.js --save
+	npm install ng-circle-progress --save
 
 ------------ run app   ------------
 

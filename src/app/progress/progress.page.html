@@ -1,0 +1,74 @@
+<style>
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  ion-card {
+    --background: #ffffff;
+  }
+
+  .weight-text-detail {
+    color: #000000;
+  }
+
+  .title-text-detail {
+    color: #000000;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+</style>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>progress</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main">
+  <ion-card>
+    <ion-card-content>
+      <ion-row style="text-align: center">
+        <ion-col size="4" style="text-align: left">
+          <p class="weight-text-detail">55 kg</p>
+          <p class="title-text-detail">BẮT ĐẦU</p>
+        </ion-col>
+        <ion-col size="4">
+          <p class="weight-text-detail">52 kg</p>
+          <p class="title-text-detail">HIỆN TẠI</p>
+        </ion-col>
+        <ion-col size="4" style="text-align: right">
+          <p class="weight-text-detail"><ion-icon name="trending-down"></ion-icon> 3 kg</p>
+          <p class="title-text-detail">THAY ĐỔI (-5.5%)</p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <canvas #lineCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+        <ion-list>
+            <ion-item>
+              <ion-label>
+                <h3>52 kg</h3>
+                <p>3 tháng 10 năm 2019</p>
+              </ion-label>
+                <ion-icon name="trash" slot="end"></ion-icon>
+              <!-- <ion-button fill="clear" color="danger">
+              </ion-button> -->
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <h3>55 kg</h3>
+                <p>10 tháng 9 năm 2019</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

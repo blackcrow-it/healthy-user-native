@@ -1,47 +1,47 @@
 <style>
-.background-main {
-  --background: #f9f9f9;
-}
-ion-card {
-  --background: #ffffff;
-}
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  ion-card {
+    --background: #ffffff;
+  }
 </style>
 
 <ion-header>
   <ion-toolbar>
     <ion-title>menu</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <br />
+    <ion-row style="text-align: center;">
+      <ion-col size="3">
+        <ion-label>Carbs</ion-label>
+        <circle-progress [percent]="85" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
+          [title]="titleCarbs"></circle-progress>
+      </ion-col>
+      <ion-col size="3">
+        <ion-label>Fat</ion-label>
+        <circle-progress [percent]="80" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
+          [title]="titleFat"></circle-progress>
+      </ion-col>
+      <ion-col size="3">
+        <ion-label>Protein</ion-label>
+        <circle-progress [percent]="65" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
+          [title]="titleProtein"></circle-progress>
+      </ion-col>
+      <ion-col size="3">
+        <ion-label>Calories</ion-label>
+        <circle-progress [percent]="90" [radius]="100" [showSubtitle]="true" [subtitle]="progressCalo"
+          [title]="titleCalo" [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true"
+          [titleColor]="'#78C000'"></circle-progress>
+      </ion-col>
+    </ion-row>
+    <br />
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="background-main">
-  <ion-card style="--background: #efd5d5;">
-    <ion-card-header>
-      <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
-      <ion-card-title>Lượng Calories</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-row style="text-align: center;">
-        <ion-col size="3">
-          <h1>2,340</h1>
-          <p>Mục tiêu</p>
-        </ion-col>
-        <ion-col size="1">
-          <h1>-</h1>
-        </ion-col>
-        <ion-col size="3">
-          <h1>10</h1>
-          <p>Thức ăn</p>
-        </ion-col>
-        <ion-col size="1">
-          <h1>=</h1>
-        </ion-col>
-        <ion-col size="4">
-          <h1>2,268</h1>
-          <p>Còn lại</p>
-        </ion-col>
-      </ion-row>
-    </ion-card-content>
-  </ion-card>
 
   <ion-card>
     <ion-card-header>

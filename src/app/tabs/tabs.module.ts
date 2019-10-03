@@ -16,6 +16,7 @@ const routes: Routes = [
         { path: 'tab1', loadChildren: '../tab1/tab1.module#Tab1PageModule' },
         { path: 'tab2', loadChildren: '../tab2/tab2.module#Tab2PageModule' },
         { path: 'menu', loadChildren: '../menu/menu.module#MenuPageModule' },
+        { path: 'progress', loadChildren: '../progress/progress.module#ProgressPageModule' },
     ]
   },
   {
