@@ -9,7 +9,7 @@ import { SearchPage } from './search.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'search',
     component: SearchPage
   }
 ];

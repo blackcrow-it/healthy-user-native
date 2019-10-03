@@ -9,13 +9,14 @@ const routes: Routes = [
   { path: 'target', loadChildren: './first/target/target.module#TargetPageModule' },
   { path: 'result', loadChildren: './first/result/result.module#ResultPageModule' },
   { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
-  { path: 'tab1', loadChildren: './tab1/tab1.module#Tab1PageModule' },
-  { path: 'tab2', loadChildren: './tab2/tab2.module#Tab2PageModule' },
-  { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
+  // { path: 'tab1', loadChildren: './tab1/tab1.module#Tab1PageModule' },
+  // { path: 'tab2', loadChildren: './tab2/tab2.module#Tab2PageModule' },
+  // { path: 'menu', loadChildren: './menu/menu.module#MenuPageModule' },
   // { path: 'search', loadChildren: './search/search.module#SearchPageModule' },
   { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' },
   { path: 'food', loadChildren: './food/food.module#FoodPageModule' },
-  { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
+  { path: 'more', loadChildren: './more/more.module#MorePageModule' },
+  // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
 ];
 
 @NgModule({
