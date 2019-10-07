@@ -1,0 +1,283 @@
+<style>
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  ion-card {
+    --background: #ffffff;
+  }
+
+  .swipe-category {
+    overflow-x: scroll;
+    justify-content: left;
+    white-space: nowrap;
+  }
+
+  .swipe-category ion-row {
+    display: inline;
+  }
+
+  .swipe-category ion-col {
+    display: inline-block;
+    padding: 0;
+  }
+
+  .swipe-category ion-col .title-category {
+    padding-left: 10px;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+
+  .swipe-category ion-card img {
+    height: 70px;
+  }
+
+  .swipe-post {
+    overflow-x: scroll;
+    justify-content: left;
+    white-space: nowrap;
+  }
+
+  .swipe-post ion-row {
+    display: inline;
+  }
+
+  .swipe-post ion-row ion-col {
+    display: inline-block;
+    padding: 0;
+  }
+
+  .swipe-post ion-card {
+    margin: 5px;
+  }
+
+  .swipe-post ion-card img {
+    height: 100px;
+  }
+
+  .swipe-post ion-card ion-card-header {
+    padding: 10px;
+    padding-bottom: 0;
+  }
+
+  .swipe-post ion-card ion-card-title {
+    white-space: normal;
+    display: block;
+    display: -webkit-box;
+    max-width: 100%;
+    height: 3rem;
+    font-size: 15px;
+    line-height: 1.5rem;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+  }
+
+  .swipe-post ion-card ion-card-content {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .swipe-post ion-card ion-card-header {
+    /* font-size: 16px; */
+    word-wrap: break-word;
+  }
+
+  .title-group {
+    font-weight: bold;
+  }
+</style>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>shop</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main">
+  <!-- <ion-searchbar placeholder="Nhà hàng, món ăn, ẩm thực"></ion-searchbar> -->
+  <ion-slides [options]="sliderConfig">
+    <ion-slide>
+      <ion-card style="height:150px">
+        <img src="https://znews-photo.zadn.vn/w1024/Uploaded/neg_esfjeee/2019_03_15/top32quananngonodanang_1.jpg" />
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card style="height:150px">
+        <img src="https://znews-photo.zadn.vn/w1024/Uploaded/neg_esfjeee/2019_03_15/top32quananngonodanang_1.jpg" />
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+
+  <br />
+  <ion-item>
+    <ion-label>
+      <h2 class="title-group">Khám phá danh mục</h2>
+    </ion-label>
+  </ion-item>
+  <div class="swipe-category">
+    <ion-row>
+      <ion-col size="4">
+        <ion-card>
+          <img src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+        </ion-card>
+        <p class="title-category">Title</p>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <img src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+        </ion-card>
+        <p class="title-category">Title</p>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <img src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+        </ion-card>
+        <p class="title-category">Title</p>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <img src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+        </ion-card>
+        <p class="title-category">Title</p>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <img src="https://ionicframework.com/docs/demos/api/card/madison.jpg" />
+        </ion-card>
+        <p class="title-category">Title</p>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+  <ion-item>
+    <ion-label>
+      <h2 class="title-group">Bữa trưa tươi vui</h2>
+      <p class="subtitle-group">Đặt ngay kẻo hết</p>
+    </ion-label>
+    <ion-button slot="end" fill="clear">
+      <b>Xem tất cả</b>
+    </ion-button>
+  </ion-item>
+  <div class="swipe-post">
+    <ion-row style="margin-left: 5px;">
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+  <ion-item>
+    <ion-label>
+      <h2 class="title-group">Bữa trưa tươi vui</h2>
+      <p class="subtitle-group">Đặt ngay kẻo hết</p>
+    </ion-label>
+    <ion-button slot="end" fill="clear">
+      <b>Xem tất cả</b>
+    </ion-button>
+  </ion-item>
+  <div class="swipe-post">
+    <ion-row style="margin-left: 5px;">
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="5">
+        <ion-card>
+          <img
+            src="https://cdn-01.independent.ie/incoming/article36646079.ece/bf867/AUTOCROP/w620/os_183906250_l_2015.jpg" />
+          <ion-card-header>
+            <ion-card-title>McDonald's - Hoàng Đạo Thúy</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-icon slot="start" name="pricetag" color="warning"></ion-icon> Ưu đãi hằng ngày
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
