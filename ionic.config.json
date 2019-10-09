@@ -1,5 +1,7 @@
 {
   "name": "healthy-user-native",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
