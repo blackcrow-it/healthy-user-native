@@ -15,6 +15,7 @@
 
 	npm install -g @angular/cli
     npm install -g ionic
+	npm install @ionic/storage --save
 
 	npm install chart.js --save
 	npm install ng-circle-progress --save

@@ -42,12 +42,11 @@
 </ion-header>
 
 <ion-content class="background-main">
-
-  <ion-card>
+  <ion-card *ngFor="let food of foods">
     <ion-card-header>
       <ion-card-title>
         <!-- Bữa sáng -->
-        <span item-left>Bữa sáng</span>
+        <span item-left>{{ food['title'] }}</span>
         <span item-right>
           <div style="float: right;">
             72 kcal
@@ -59,14 +58,14 @@
     <ion-card-content>
       <ion-list>
         <!-- Multi-line sliding item with icon options on both sides -->
-        <ion-item-sliding id="item100">
+        <ion-item-sliding *ngFor="let item of food['data']" id="{{ item['id'] }}">
           <ion-item href="food">
             <ion-label>
-              <h2>Trứng</h2>
-              <p>1 quả to</p>
+              <h2>{{ item['name'] }}</h2>
+              <p>{{ item['quantity'] }} {{ item['unit'] }}</p>
             </ion-label>
-            <ion-note slot="end">
-              72
+            <ion-note slot="end" style="font-size: 14px;">
+              {{ item['quantity'] * item['kcal'] }}
             </ion-note>
           </ion-item>
 
@@ -84,124 +83,5 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        <span item-left>Bữa trưa</span>
-        <span item-right>
-          <div style="float: right;">
-            72 kcal
-          </div>
-        </span>
-      </ion-card-title>
-
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <!-- Multi-line sliding item with icon options on both sides -->
-        <ion-item-sliding id="item100">
-          <ion-item href="#">
-            <ion-label>
-              <h2>Trứng</h2>
-              <p>1 quả to</p>
-            </ion-label>
-            <ion-note slot="end">
-              72
-            </ion-note>
-          </ion-item>
-
-          <ion-item-options side="end">
-            <ion-item-option color="danger">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-      <ion-button color="danger" fill="clear">
-        Thêm đồ ăn
-        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        <span item-left>Bữa tối</span>
-        <span item-right>
-          <div style="float: right;">
-            72 kcal
-          </div>
-        </span>
-      </ion-card-title>
-
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <!-- Multi-line sliding item with icon options on both sides -->
-        <ion-item-sliding id="item100">
-          <ion-item href="#">
-            <ion-label>
-              <h2>Trứng</h2>
-              <p>1 quả to</p>
-            </ion-label>
-            <ion-note slot="end">
-              72
-            </ion-note>
-          </ion-item>
-
-          <ion-item-options side="end">
-            <ion-item-option color="danger">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-      <ion-button color="danger" fill="clear">
-        Thêm đồ ăn
-        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        <span item-left>Bữa phụ</span>
-        <span item-right>
-          <div style="float: right;">
-            72 kcal
-          </div>
-        </span>
-      </ion-card-title>
-
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <!-- Multi-line sliding item with icon options on both sides -->
-        <ion-item-sliding id="item100">
-          <ion-item href="#">
-            <ion-label>
-              <h2>Trứng</h2>
-              <p>1 quả to</p>
-            </ion-label>
-            <ion-note slot="end">
-              72
-            </ion-note>
-          </ion-item>
-
-          <ion-item-options side="end">
-            <ion-item-option color="danger">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-      <ion-button color="danger" fill="clear">
-        Thêm đồ ăn
-        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
 
 </ion-content>

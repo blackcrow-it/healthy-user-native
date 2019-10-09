@@ -10,21 +10,21 @@ import { SearchPageModule } from '../search/search.module'
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path:'',
+    redirectTo:'menu',
+    pathMatch:'full'
+  },
+  {
+    path: '',
     component: TabsPage,
     children:[
-        { path: 'tab1', loadChildren: '../tab1/tab1.module#Tab1PageModule' },
         { path: 'menu', loadChildren: '../menu/menu.module#MenuPageModule' },
         { path: 'progress', loadChildren: '../progress/progress.module#ProgressPageModule' },
         { path: 'more', loadChildren: '../more/more.module#MorePageModule' },
         { path: 'shop', loadChildren: '../shop/shop.module#ShopPageModule' },
     ]
-  },
-  {
-    path:'',
-    redirectTo:'/tabs/menu',
-    pathMatch:'full'
   }
+  
 ];
 
 @NgModule({

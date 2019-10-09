@@ -49,7 +49,7 @@
         <ion-item class="transparent white-text">
           <ion-icon class="white-text" name="contact" slot="start"></ion-icon>
           <ion-label position="floating">Tên đăng nhập</ion-label>
-          <ion-input clearInput></ion-input>
+          <ion-input clearInput [ngModel]="username" (ngModelChange)="username = $event"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -59,7 +59,7 @@
         <ion-item class="transparent white-text">
           <ion-icon class="white-text" name="lock" slot="start"></ion-icon>
           <ion-label position="floating">Mật khẩu</ion-label>
-          <ion-input type="password" clearInput></ion-input>
+          <ion-input type="password" clearInput [ngModel]="password" (ngModelChange)="password = $event"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -73,7 +73,7 @@
     <br/>
     <ion-row>
       <ion-col size="12">
-        <ion-button shape="round" expand="block" color="danger">
+        <ion-button shape="round" expand="block" color="danger" (click) ="clickLogin($event)">
           <ion-icon slot="start" name="log-in"></ion-icon>Đăng nhập
         </ion-button>
       </ion-col>

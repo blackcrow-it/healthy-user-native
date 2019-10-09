@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { LoginPage } from './login.page';
 
+import { HttpClientModule } from '@angular/common/http';
+import { callApiService } from '../../services/callapi.service'
+
 const routes: Routes = [
   {
     path: '',
@@ -19,8 +22,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    HttpClientModule
   ],
-  declarations: [LoginPage]
+  declarations: [LoginPage],
+  providers: [callApiService]
 })
 export class LoginPageModule {}
