@@ -11,10 +11,14 @@ const routes: Routes = [
   { path: 'result', loadChildren: './first/result/result.module#ResultPageModule' },
   { 
     path: 'tabs',
-    // canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService],
     loadChildren: './tabs/tabs.module#TabsPageModule'
   },
-  { path: 'food', loadChildren: './food/food.module#FoodPageModule' },
+  { 
+    path: 'food/:id', 
+    canActivate: [AuthGuardService],
+    loadChildren: './food/food.module#FoodPageModule' 
+  },
   { path: 'more', loadChildren: './more/more.module#MorePageModule' },
   { path: 'shop', loadChildren: './shop/shop.module#ShopPageModule' },
   // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },

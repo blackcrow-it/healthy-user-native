@@ -8,7 +8,7 @@ import { Chart } from "chart.js";
 })
 export class ProgressPage implements OnInit {
 
-  @ViewChild("lineCanvas", {static: true}) lineCanvas: ElementRef;
+  @ViewChild("lineCanvas", { static: true }) lineCanvas: ElementRef;
 
   private lineChart: Chart;
 
@@ -44,7 +44,7 @@ export class ProgressPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data.sort((a,b) => a.x.localeCompare(b.x))
+    this.data.sort((a, b) => a.x.localeCompare(b.x))
 
     let list_day = []
     let list_weight = []
@@ -67,63 +67,63 @@ export class ProgressPage implements OnInit {
     }
 
     var config = {
-      type:    'line',
-      data:    {
-          datasets: [
-              {
-                  label: "Cân nặng",
-                  data: this.data,
-                  fill: false,
-                  lineTension: 0.1,
-                  backgroundColor: "#f04141",
-                  borderColor: "#f04141",
-                  borderDash: [],
-                  borderDashOffset: 0.0,
-                  pointBorderColor: "#f04141",
-                  pointBackgroundColor: "#fff",
-                  pointBorderWidth: 1,
-                  pointHoverRadius: 5,
-                  pointHoverBackgroundColor: "#f04141",
-                  pointHoverBorderColor: "rgba(220,220,220,1)",
-                  pointHoverBorderWidth: 2,
-                  pointRadius: 1,
-                  pointHitRadius: 10,
-              }
-          ]
+      type: 'line',
+      data: {
+        datasets: [
+          {
+            label: "Cân nặng",
+            data: this.data,
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "#f04141",
+            borderColor: "#f04141",
+            borderDash: [],
+            borderDashOffset: 0.0,
+            pointBorderColor: "#f04141",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "#f04141",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+          }
+        ]
       },
       options: {
-          responsive: true,
-          title:      {
-              display: true,
-              text:    "Biểu đồ cân nặng"
-          },
-          legend: {
+        responsive: true,
+        title: {
+          display: true,
+          text: "Biểu đồ cân nặng"
+        },
+        legend: {
+          display: false,
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+            time: {
+              displayFormats: {
+                'day': 'DD/MM'
+              },
+              format: timeFormat,
+              tooltipFormat: 'll'
+            },
+            scaleLabel: {
               display: false,
-          },
-          scales:     {
-              xAxes: [{
-                  type:       "time",
-                  time:       {
-                      displayFormats: {
-                          'day': 'DD/MM'
-                      }, 
-                      format: timeFormat,
-                      tooltipFormat: 'll'
-                  },
-                  scaleLabel: {
-                      display:     false,
-                      labelString: 'day'
-                  }
-              }],
-              yAxes: [{
-                  scaleLabel: {
-                      display:     false,
-                      labelString: 'weight'
-                  }
-              }]
-          }
+              labelString: 'day'
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'weight'
+            }
+          }]
+        }
       }
-  };
+    };
 
     for (let item of this.data) {
       list_day.push(item['day'])
@@ -132,7 +132,7 @@ export class ProgressPage implements OnInit {
 
     this.lineChart = new Chart(this.lineCanvas.nativeElement, config)
 
-    
+
 
     for (let item of this.data) {
       console.log(item['day'])
