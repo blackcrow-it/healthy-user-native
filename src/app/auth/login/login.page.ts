@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { callApiService } from '../../services/callapi.service'
 import { Identities } from 'src/app/models/identities';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +16,10 @@ export class LoginPage implements OnInit {
   password = "cityslicka"
 
   constructor(
-    private _callApiService: callApiService, 
-    private router: Router, 
-    private authService: AuthenticationService, 
-    private toastController: ToastController,
-    private loadingController: LoadingController
+    private _callApiService: callApiService,
+    private authService: AuthenticationService,
+    private loadingController: LoadingController,
+    public navCtrl: NavController
   ) { }
 
   async clickLogin() {
@@ -52,6 +50,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  clickRegister() {
+    // this.navCtrl.navigateBack(['info']);
+    this.navCtrl.navigateForward(['register']);
   }
 
 }

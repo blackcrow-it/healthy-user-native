@@ -55,13 +55,13 @@
             <ion-col size="12">
               <ion-item class="input-custom">
                 <ion-icon class="dark-red-text" name="person" slot="start"></ion-icon>
-                <ion-input placeholder="Họ và tên" clearInput></ion-input>
+                <ion-input placeholder="Họ và tên" clearInput [(ngModel)]="fullname"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label>Giới tính</ion-label>
-                <ion-select>
+                <ion-label position="floating">Giới tính</ion-label>
+                <ion-select [(ngModel)]="gender">
                   <ion-select-option value="male">Nam</ion-select-option>
                   <ion-select-option value="female">Nữ</ion-select-option>
                 </ion-select>
@@ -69,20 +69,21 @@
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label>Ngày sinh</ion-label>
-                <ion-datetime></ion-datetime>
+                <ion-label position="floating">Ngày sinh</ion-label>
+                <ion-datetime [(ngModel)]="birthday" displayFormat="DD - MM - YYYY" min="{{ minYear }}" max="{{ maxYear }}"></ion-datetime>
               </ion-item>
             </ion-col>
-            <ion-col size="12">
+            <!-- <ion-col size="12">
               <ion-item>
-                <ion-label position="fixed">Email</ion-label>
-                <ion-input inputmode="email" clearInput></ion-input>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input inputmode="email" clearInput [(ngModel)]="email"></ion-input>
               </ion-item>
-            </ion-col>
+            </ion-col> -->
             <ion-col size="12">
               <ion-item>
-                <ion-label position="fixed">Số điện thoại</ion-label>
-                <ion-input type="tel" clearInput></ion-input>
+                <ion-label position="floating">Số điện thoại (+84)</ion-label>
+                <!-- <ion-label position="fixed">+84</ion-label> -->
+                <ion-input type="number" clearInput [(ngModel)]="phone"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -101,13 +102,15 @@
     <ion-col size="12">
       <ion-card class="background-white">
         <ion-card-content>
-          <ion-item (click)="showWeightPicker()">
+          <ion-item>
             <ion-label>Cân nặng</ion-label>
-            <ion-label slot="end">{{ weight }}</ion-label>
+            <ion-input type="number" [(ngModel)]="weight" style="text-align: right"></ion-input>
+            <ion-note slot="end">kg</ion-note>
           </ion-item>
-          <ion-item (click)="showHeightPicker()">
+          <ion-item>
             <ion-label>Chiều cao</ion-label>
-            <ion-label slot="end">{{ height }}</ion-label>
+            <ion-input type="number" [(ngModel)]="height" style="text-align: right"></ion-input>
+            <ion-note slot="end">m</ion-note>
           </ion-item>
         </ion-card-content>
       </ion-card>
@@ -117,7 +120,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar class="white-text color-toolbar">
+  <ion-toolbar class="white-text color-toolbar" (click)="clickTarget()">
     <ion-title style="text-align: center;">Tiếp tục</ion-title>
   </ion-toolbar>
 </ion-footer>

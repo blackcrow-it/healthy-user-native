@@ -1,0 +1,56 @@
+<style>
+
+.white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+</style>
+
+<ion-header>
+  <ion-toolbar class="color-toolbar white-text">
+      <ion-buttons slot="start">
+          <ion-back-button defaultHref="login"></ion-back-button>
+        </ion-buttons>
+    <ion-title>Đăng ký</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background-main ">
+  <ion-card class="background-white">
+    <!-- <ion-card-header>
+      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+      <ion-card-title>Card Title</ion-card-title>
+    </ion-card-header> -->
+
+    <ion-card-content>
+
+      <ion-item>
+        <ion-label position="floating">Email *</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Mật khẩu *</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nhập lại mật khẩu *</ion-label>
+        <ion-input type="password"></ion-input>
+      </ion-item>
+      <br/>
+      <ion-button expand="full">Đăng ký</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

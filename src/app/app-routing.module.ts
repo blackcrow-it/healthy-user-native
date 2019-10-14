@@ -21,6 +21,11 @@ const routes: Routes = [
   },
   { path: 'more', loadChildren: './more/more.module#MorePageModule' },
   { path: 'shop', loadChildren: './shop/shop.module#ShopPageModule' },
+  { path: 'register', loadChildren: './auth/register/register.module#RegisterPageModule' },
+  { path: 'admin-foods', loadChildren: './search-foods/admin-foods/admin-foods.module#AdminFoodsPageModule' },
+  { path: 'tabs-search', loadChildren: './search-foods/tabs-search/tabs-search.module#TabsSearchPageModule' },
+  { path: 'user-foods', loadChildren: './search-foods/user-foods/user-foods.module#UserFoodsPageModule' },
+  { path: 'shop-foods', loadChildren: './search-foods/shop-foods/shop-foods.module#ShopFoodsPageModule' },
   // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
 ];
 

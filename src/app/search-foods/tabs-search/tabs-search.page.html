@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tìm kiếm thức ăn</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeSearch()">
+        <ion-icon slot="icon-only" name="arrow-down"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="admin-foods">
+        <ion-label>TẤT CẢ</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="shop-foods">
+        <ion-label>NHÀ HÀNG</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button tab="user-foods">
+        <ion-label>CỦA BẠN</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

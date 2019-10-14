@@ -1,0 +1,38 @@
+<style>
+  .background-main {
+    --background: #f9f9f9;
+  }
+</style>
+<ion-content class="background-main">
+  <ion-searchbar [(ngModel)]="textSearch" (ionBlur)="changeSearch($event)"></ion-searchbar>
+  <br />
+  <div *ngIf="searchValue">
+    <ion-title>Kết quả tìm kiếm cho: {{ searchValue }}</ion-title>
+
+    <div *ngIf="spinner" style="text-align: center">
+      <ion-spinner name="dots"></ion-spinner>
+    </div>
+
+    <div *ngIf="data.length > 0">
+      <ion-card *ngFor="let item of data">
+        <ion-item (click)="clickFood(item['id'])">
+          <ion-avatar slot="start">
+            <img [src]="item.picture.thumbnail" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ item.name?.first }} {{ item.name?.last }}</h2>
+            <p>{{ item.name?.title }}</p>
+          </ion-label>
+          <ion-note slot="end" style="font-size: 16px;">
+            {{ item.dob?.age }}
+          </ion-note>
+        </ion-item>
+      </ion-card>
+    </div>
+    <ion-infinite-scroll threshold="2%" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="dots" loadingText="Xem thêm thức ăn">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+
+</ion-content>

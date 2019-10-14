@@ -9,6 +9,6 @@ export class callApiService {
     constructor(private httpclient: HttpClient) { }
     
     login(identity:Identities): Observable<any> {
-        return this.httpclient.post(environment.DOMAIN + environment.API_LOGIN, identity, { observe: 'response' });
+        return this.httpclient.post("https://reqres.in/api/login", identity, { observe: 'response' });
     }
 }

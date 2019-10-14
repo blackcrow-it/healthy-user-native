@@ -36,6 +36,57 @@
   .dark-red-text {
     color: #5b0d0d;
   }
+
+  .line-bmi {
+    border-top: solid 1px #dddddd;
+    width: 95%; 
+    margin: auto; 
+    font-size: 10px;
+    position: relative;
+    display: block;
+    padding-bottom: 6px;
+  }
+
+  .line-bmi::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background-color: #ffffff;
+    border: solid 1px #dddddd;
+    display: block;
+    position: absolute;
+    top: -6px;
+    left: 0;
+    border-radius: 100%;
+  }
+
+  .line-bmi span {
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+    color: #2d2d2d;
+    position: relative;
+    margin-top: 5px;
+  }
+
+  .line-bmi span::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    background-color: #ffffff;
+    border: solid 1px #dddddd;
+    position: absolute;
+    top: -11px;
+    right: 0;
+    border-radius: 100%;
+  }
+  .active-line {
+    width: 95%; 
+    margin: auto; 
+    font-size: 10px;
+    position: relative;
+    display: block;
+  }
 </style>
 <ion-header>
   <ion-toolbar class="white-text color-toolbar">
@@ -48,9 +99,27 @@
 
 <ion-content class="background-main">
   <ion-row>
-    <ion-col size="12">
-      <h1 style="text-align: center">Chỉ số BMI của bạn là 18.4</h1>
-      <h6 style="text-align: center">Thể trạng bình thường</h6>
+    <ion-col size="12" style="text-align: center">
+      <h2>Chỉ số BMI của bạn là {{ bmi }}</h2>
+      <!-- <h6 style="text-align: center">Thể trạng bình thường</h6> -->
+      <div class="active-line" style="width: 95%; margin: auto;">
+        <div [ngStyle]="setMyStyles()"></div>
+      </div>
+      <div class="line-bmi">
+        <span class="point" style="width: 21.4%; display: inline-block;">Nhẹ cân</span>
+        <span class="point" style="width: 21.0%; display: inline-block;">Khỏe mạnh</span>
+        <span class="point" style="width: 9.5%; display: inline-block;">Thừa</span>
+        <span class="point" style="width: 23.8%; display: inline-block;">Béo phì (I)</span>
+        <span class="point" style="width: 24.3%; display: inline-block;">Béo phì (II)</span>
+        <!-- <span class="point" style="width: 24.3%; display: inline-block;">Béo phì độ 3</span> -->
+      </div>
+      <div style="
+      background-image: linear-gradient(to right, #2b95ff, #009a96 15%, #00a12b 25%, #fed205 50%, #dc1900, #dc1900); 
+      border-radius: 100px; 
+      width: 95%; 
+      height: 5px;
+      margin: auto">
+      </div>
     </ion-col>
   </ion-row>
   <ion-row>
@@ -67,9 +136,9 @@
             <ion-col size="4">Tối đa</ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="4">55.0 kg</ion-col>
-            <ion-col size="4">60.0 kg</ion-col>
-            <ion-col size="4">65.0 kg</ion-col>
+            <ion-col size="4">{{ minWeight }} kg</ion-col>
+            <ion-col size="4">{{ normalWeight }} kg</ion-col>
+            <ion-col size="4">{{ maxWeight }} kg</ion-col>
           </ion-row>
         </ion-card-content>
       </ion-card>
@@ -82,13 +151,14 @@
           <ion-card-title>Mục tiêu</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-item (click)="showWeightPicker()">
+          <ion-item>
             <ion-label>Cân nặng đạt</ion-label>
-            <ion-label slot="end">{{ weight }}</ion-label>
+            <ion-input type="number" [(ngModel)]="weightFinal" style="text-align: right"></ion-input>
+            <ion-note slot="end">kg</ion-note>
           </ion-item>
-          <ion-item (click)="showWeightPicker()">
+          <ion-item>
             <ion-label>Thời gian</ion-label>
-            <ion-input style="text-align: right" slot="end" type="number" placeholder="1"></ion-input>
+            <ion-input style="text-align: right" slot="end" min="0" type="number" placeholder="1" [(ngModel)]="time"></ion-input>
             <ion-select slot="end" value="month">
               <ion-select-option value="month">Tháng</ion-select-option>
               <ion-select-option value="year">Năm</ion-select-option>
@@ -111,7 +181,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar class="white-text color-toolbar">
+  <ion-toolbar class="white-text color-toolbar" (click)="clickResult()">
     <ion-title style="text-align: center;">Tiếp tục</ion-title>
   </ion-toolbar>
 </ion-footer>

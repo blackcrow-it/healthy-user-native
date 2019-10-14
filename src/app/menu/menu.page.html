@@ -21,9 +21,9 @@
         </ion-button>
       </ion-col>
       <ion-col size="6" style="text-align: center;">
-        <ion-datetime [value]="date" placeholder="Select Date"
-          dayShortNames="Thứ hai, Thứ ba, Thứ tư, Thứ năm, Thứ sáu, Thứ bảy, Chủ nhật " displayFormat="DDD, DD/MM/YYYY"
-          style="margin-top: 6px;">
+        <ion-datetime [(ngModel)]="date" placeholder="Select Date"
+          dayShortNames="Chủ nhật, Thứ hai, Thứ ba, Thứ tư, Thứ năm, Thứ sáu, Thứ bảy" displayFormat="DDD, DD/MM/YYYY"
+          style="margin-top: 6px;" (ngModelChange)="changeDate($event)">
         </ion-datetime>
       </ion-col>
       <ion-col size="3" style="text-align: left;">
@@ -100,7 +100,7 @@
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-        <ion-button color="danger" fill="clear">
+        <ion-button color="danger" fill="clear" (click)="addFoods()">
           Thêm đồ ăn
           <ion-icon slot="start" name="add-circle-outline"></ion-icon>
         </ion-button>

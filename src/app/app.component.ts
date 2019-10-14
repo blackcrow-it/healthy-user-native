@@ -37,7 +37,7 @@ export class AppComponent {
         console.log(state)
         if (state) {
           // this.router.navigate(['tabs']);
-          this.navCtrl.navigateForward(['tabs']);
+          this.navCtrl.navigateForward(['tabs-search']);
         } else {
           // this.router.navigate(['login']);
           this.navCtrl.navigateBack(['login']);

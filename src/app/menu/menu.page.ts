@@ -229,9 +229,19 @@ export class MenuPage implements OnInit {
     this.navCtrl.navigateForward(['food/' + food_id]);
   }
 
+  public addFoods() {
+    this.navCtrl.navigateForward(['tabs-search']);
+  }
+
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+  async changeDate() {
+    this.isLoaded = false;
+    await this.sleep(1000);
+    this.isLoaded = true;
+  } 
 
   async preDay() {
     this.today.setDate(this.today.getDate()-1);

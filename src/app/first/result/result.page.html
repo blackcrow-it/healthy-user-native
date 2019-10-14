@@ -40,9 +40,9 @@
 <ion-header>
   <ion-toolbar class="white-text color-toolbar">
     <ion-title>Kết quả</ion-title>
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-back-button defaultHref="target" class="white-text"></ion-back-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -89,7 +89,7 @@
       </ion-col>
     </ion-row>
 <ion-footer>
-  <ion-toolbar class="white-text color-toolbar">
+  <ion-toolbar class="white-text color-toolbar" (click)="clickSuccess()">
     <ion-title style="text-align: center;">Hoàn thành</ion-title>
   </ion-toolbar>
 </ion-footer>
