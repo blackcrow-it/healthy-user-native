@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from "chart.js";
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-progress',
@@ -41,7 +42,7 @@ export class ProgressPage implements OnInit {
 
   history_weigth = []
 
-  constructor() { }
+  constructor(public navCtrl: NavController) { }
 
   ngOnInit() {
     this.data.sort((a, b) => a.x.localeCompare(b.x))
@@ -139,4 +140,7 @@ export class ProgressPage implements OnInit {
     }
   }
 
+  onAddWeight() {
+    this.navCtrl.navigateForward(['add-weight']);
+  }
 }

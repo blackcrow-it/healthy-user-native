@@ -26,6 +26,9 @@ const routes: Routes = [
   { path: 'tabs-search', loadChildren: './search-foods/tabs-search/tabs-search.module#TabsSearchPageModule' },
   { path: 'user-foods', loadChildren: './search-foods/user-foods/user-foods.module#UserFoodsPageModule' },
   { path: 'shop-foods', loadChildren: './search-foods/shop-foods/shop-foods.module#ShopFoodsPageModule' },
+  { path: 'add-weight', loadChildren: './progress/add-weight/add-weight.module#AddWeightPageModule' },
+  { path: 'profile', loadChildren: './more/profile/profile.module#ProfilePageModule' },
+  { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },
   // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
 ];
 

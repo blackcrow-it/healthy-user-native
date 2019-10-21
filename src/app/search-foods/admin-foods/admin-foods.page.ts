@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin-foods',
@@ -22,7 +22,7 @@ export class AdminFoodsPage implements OnInit {
   events = null;
   
 
-  constructor(private httpclient: HttpClient) { }
+  constructor(private httpclient: HttpClient, public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -67,6 +67,10 @@ export class AdminFoodsPage implements OnInit {
       this.loadData();
       this.spinner = false;
     }
+  }
+
+  public clickFood(food_id) {
+    this.navCtrl.navigateForward(['food/' + food_id]);
   }
 
 }

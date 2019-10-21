@@ -4,7 +4,7 @@
   }
 </style>
 <ion-content class="background-main">
-  <ion-searchbar [(ngModel)]="textSearch" (ionBlur)="changeSearch($event)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="textSearch" (keydown.enter)="changeSearch($event)"></ion-searchbar>
   <br />
   <div *ngIf="searchValue">
     <ion-title>Kết quả tìm kiếm cho: {{ searchValue }}</ion-title>

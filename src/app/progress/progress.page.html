@@ -20,7 +20,12 @@
 </style>
 <ion-header>
   <ion-toolbar>
-    <ion-title>progress</ion-title>
+    <ion-title>Tiến triển</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="onAddWeight()">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -67,7 +72,6 @@
       <canvas #lineCanvas></canvas>
     </ion-card-content>
   </ion-card>
-
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lịch sử</ion-card-title>

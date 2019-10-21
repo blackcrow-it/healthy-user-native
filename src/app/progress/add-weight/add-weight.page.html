@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Thêm cân nặng</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="onClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSaveWeight()">
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Cân nặng</ion-label>
+        <ion-input type="number" [placeholder]="weightLast" [(ngModel)]="weight" style="text-align: right"></ion-input>
+        <ion-label slot="end">kg</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ngày</ion-label>
+      <ion-datetime [(ngModel)]="date" placeholder="Select Date"
+          dayShortNames="Chủ nhật, Thứ hai, Thứ ba, Thứ tư, Thứ năm, Thứ sáu, Thứ bảy" displayFormat="DDD, DD/MM/YYYY"
+          style="margin-top: 6px;" (ngModelChange)="changeDate($event)">
+        </ion-datetime>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

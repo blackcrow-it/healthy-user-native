@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mục tiêu</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/progess" class="white-text"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Cân nặng bắt đầu</ion-label>
+          <ion-label slot="end" style="text-align: right">{{ info.weightStart }}kg <span style="font-size: 14px;">{{ info.dateStart }}</span></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cân nặng hiện tại</ion-label>
+          <ion-input type="number" [(ngModel)]="info.weight" style="text-align: right"></ion-input>
+          <ion-label slot="end">kg</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cân nặng cần đạt</ion-label>
+          <ion-input type="number" [(ngModel)]="info.goal" style="text-align: right"></ion-input>
+          <ion-label slot="end">kg</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Thời gian</ion-label>
+          <ion-input style="text-align: right" slot="end" min="0" type="number" placeholder="1" [(ngModel)]="info.timeGoal">
+          </ion-input>
+          <ion-select slot="end" [(ngModel)]="info.typeTimeGoal">
+            <ion-select-option value="month">Tháng</ion-select-option>
+            <ion-select-option value="year">Năm</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mức độ hoạt động</ion-label>
+          <ion-select [(ngModel)]="info.activity">
+            <ion-select-option value="low">Nhẹ</ion-select-option>
+            <ion-select-option value="normal">Trung bình</ion-select-option>
+            <ion-select-option value="high">Nặng</ion-select-option>
+            <ion-select-option value="special">Đặc biệt</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

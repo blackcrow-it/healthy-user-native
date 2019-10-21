@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
+import { NavController, ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -8,88 +9,71 @@ import { Chart } from 'chart.js';
   styleUrls: ['./food.page.scss'],
 })
 export class FoodPage implements OnInit {
-  @ViewChild("doughnutCanvas", {static: true}) doughnutCanvas: ElementRef;
+  @ViewChild("doughnutCanvas", { static: true }) doughnutCanvas: ElementRef;
 
   private doughnutChart: Chart;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
-      type: "doughnut",
-      data: {
-        labels: ["Carbs", "Fat", "Protein"],
-        datasets: [
-          {
-            label: "# of Votes",
-            data: [2, 62, 36],
-            backgroundColor: [
-              "#3171e0",
-              "#f04141",
-              "#28e070"
-            ]
-          }
-        ]
-      },
-      options: {
-          responsive: true,
-          legend: {
-              display: false,
-          }
-      },
-      centerText: {
-          display: true,
-          text: "280"
-      }
-    });
-
-    Chart.pluginService.register({
-      beforeDraw: function(chart) {
-        var width = chart.chart.width,
-            height = chart.chart.height,
-            ctx = chart.chart.ctx;
-    
-        ctx.restore();
-        var fontSize = (height / 114).toFixed(2);
-        ctx.font = fontSize + "em sans-serif";
-        ctx.textBaseline = "middle";
-        var cal = "72",
-            textX = Math.round((width - ctx.measureText(cal).width) / 2),
-            textY = height / 2;
-    
-        ctx.fillText(cal, textX, textY - 10);
-        ctx.fillText("cal", Math.round((width - ctx.measureText("cal").width) / 2), textY + 10);
-        ctx.save();
-      }
-    });
-    
-
-    Chart.defaults.RoundedDoughnut = Chart.helpers.clone(Chart.defaults.doughnut);
-    Chart.controllers.RoundedDoughnut = Chart.controllers.doughnut.extend({
-        draw: function (ease) {
-            var ctx = this.chart.chart.ctx;
-            
-            var easingDecimal = ease || 1;
-            Chart.helpers.each(this.getDataset().metaData, function (arc, index) {
-                arc.transition(easingDecimal).draw();
-
-                var vm = arc._view;
-                var radius = (vm.outerRadius + vm.innerRadius) / 2;
-                var thickness = (vm.outerRadius - vm.innerRadius) / 2;
-                var angle = Math.PI - vm.endAngle - Math.PI / 2;
-                
-                ctx.save();
-                ctx.fillStyle = vm.backgroundColor;
-                ctx.translate(vm.x, vm.y);
-                ctx.beginPath();
-                ctx.arc(radius * Math.sin(angle), radius * Math.cos(angle), thickness, 0, 2 * Math.PI);
-                ctx.arc(radius * Math.sin(Math.PI), radius * Math.cos(Math.PI), thickness, 0, 2 * Math.PI);
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            });
-        },
-    });
+  food = {
+    "id": "a",
+    "avt": "https://a57.foxnews.com/media2.foxnews.com/BrightCove/694940094001/2019/03/15/931/524/694940094001_6014490250001_6014489408001-vs.jpg?ve=1&tl=1",
+    "name": "Trứng",
+    "quantity": 1,
+    "unit": "quả to",
+    "kcal": 72,
+    "carbs": 0.4,
+    "fat": 4.8,
+    "protein": 6.3
   }
 
+  carbs = 0;
+  fat = 0;
+  protein = 0;
+  kcal = 0;
+
+  percentCarbs = 0;
+  percentFat = 0;
+  percentProtein = 0;
+  percentTotal = 0;
+
+  constructor(public navCtrl: NavController, public toastController: ToastController) { }
+
+  ngOnInit() {
+
+    this.carbs = this.food.carbs;
+    this.fat = this.food.fat;
+    this.protein = this.food.protein;
+    this.kcal = this.food.kcal;
+
+    this.percentTotal = 100 / (this.carbs * 4 + this.fat * 9 + this.protein * 4);
+    this.percentCarbs = Math.round((this.carbs * 4) * this.percentTotal * 1) / 1;
+    this.percentFat = Math.round((this.fat * 9) * this.percentTotal * 1) / 1;
+    this.percentProtein = Math.round((this.protein * 4) * this.percentTotal * 1) / 1;
+  }
+
+  onChangeQuantity(event: any) {
+    this.carbs = Math.round((this.food.carbs * event.target.value) * 1000) / 1000;
+    this.fat = Math.round((this.food.fat * event.target.value) * 1000) / 1000;
+    this.protein = Math.round((this.food.protein * event.target.value) * 1000) / 1000;
+    this.kcal = Math.round((this.food.kcal * event.target.value) * 1000) / 1000;
+
+    if (this.carbs, this.fat, this.protein == 0) {
+      this.percentCarbs = 0;
+      this.percentFat = 0;
+      this.percentProtein = 0;
+    } else {
+      this.percentTotal = 100 / (this.carbs * 4 + this.fat * 9 + this.protein * 4);
+      this.percentCarbs = Math.round((this.carbs * 4) * this.percentTotal * 1) / 1;
+      this.percentFat = Math.round((this.fat * 9) * this.percentTotal * 1) / 1;
+      this.percentProtein = Math.round((this.protein * 4) * this.percentTotal * 1) / 1;
+    }
+  }
+
+  async onSaveFood() {
+    this.navCtrl.navigateBack(['tabs/menu']);
+    const toast = await this.toastController.create({
+      message: 'Đã thêm món ăn.',
+      duration: 1000
+    });
+    toast.present();
+  }
 }
