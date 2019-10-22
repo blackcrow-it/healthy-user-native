@@ -20,6 +20,9 @@
 	npm install chart.js --save
 	npm install ng-circle-progress --save
 
+	ionic cordova plugin add cordova-plugin-local-notification
+	npm install @ionic-native/local-notifications
+
 ------------ run app   ------------
 
 	ionic serve

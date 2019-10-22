@@ -28,7 +28,8 @@ const routes: Routes = [
   { path: 'shop-foods', loadChildren: './search-foods/shop-foods/shop-foods.module#ShopFoodsPageModule' },
   { path: 'add-weight', loadChildren: './progress/add-weight/add-weight.module#AddWeightPageModule' },
   { path: 'profile', loadChildren: './more/profile/profile.module#ProfilePageModule' },
-  { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },
+  { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },  { path: 'notification', loadChildren: './more/notification/notification.module#NotificationPageModule' },
+
   // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
 ];
 
