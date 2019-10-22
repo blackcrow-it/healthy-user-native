@@ -65,6 +65,7 @@ Kết quả:
 
 Chạy lệnh run app thành android:
 
+	ionic cordova platform add android
 	ionic cordova run android --save
 
 Trường hợp lỗi:
