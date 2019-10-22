@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { callApiService } from '../../services/callapi.service'
-import { Identities } from 'src/app/models/identities';
-import { AuthenticationService } from 'src/app/services/authentication.service';
+import { Identities } from '../../models/identities';
+import { AuthenticationService } from '../../services/authentication.service';
 import { LoadingController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 

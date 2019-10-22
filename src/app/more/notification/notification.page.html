@@ -1,21 +1,62 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Nhắc nhở</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/progess" class="white-text"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-button expand="block" (click)="scheduleNotification()">Schedule</ion-button>
-  <ion-button expand="block" (click)="recurringNotification()">Every Minute</ion-button>
-  <ion-button expand="block" (click)="repeatingDaily()">Daily</ion-button>
-  <ion-button expand="block" (click)="getAll()">Get All</ion-button>
-
   <ion-list>
-    <ion-item *ngFor="let n of scheduled">
-      <ion-label text-wrap>
-        {{ n.id }} - {{ n.title }}
-        <p>Trigger: {{ n.trigger | json }}</p>
+
+    <ion-item>
+      <ion-label>
+        Bữa sáng <br />
+        <ion-note>
+          <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="breakfastTime"
+            (ionChange)="breakfastChange()"></ion-datetime>
+        </ion-note>
       </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="breakfastStatus" (ionChange)="breakfastChangeStatus()" color="success">
+      </ion-toggle>
     </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Bữa trưa <br />
+        <ion-note>
+          <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="lunchTime"
+            (ionChange)="lunchChange()"></ion-datetime>
+        </ion-note>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="lunchStatus" (ionChange)="lunchChangeStatus()" color="success">
+      </ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Bữa tối <br />
+        <ion-note>
+          <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="dinnerTime"
+            (ionChange)="dinnerChange()"></ion-datetime>
+        </ion-note>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="dinnerStatus" (ionChange)="dinnerChangeStatus()" color="success">
+      </ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Bữa phụ <br />
+        <ion-note>
+          <ion-datetime display-format="h:mm A" picker-format="h:mm A" [(ngModel)]="snackTime"
+            (ionChange)="snackChange()"></ion-datetime>
+        </ion-note>
+      </ion-label>
+      <ion-toggle slot="end" [(ngModel)]="snackStatus" (ionChange)="snackChangeStatus()" color="success">
+      </ion-toggle>
+    </ion-item>
+
   </ion-list>
 </ion-content>

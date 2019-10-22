@@ -28,6 +28,10 @@ export class MorePage implements OnInit {
     this.navCtrl.navigateForward(['goals']);
   }
 
+  onClickRemind() {
+    this.navCtrl.navigateForward(['notification']);
+  }
+
   async presentToast() {
     const toast = await this.toastController.create({
       message: 'Tính năng này đang phát triển.',
