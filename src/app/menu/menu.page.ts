@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavController, IonSelect } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -7,6 +7,10 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./menu.page.scss'],
 })
 export class MenuPage implements OnInit {
+  @ViewChild('optionDashboard', {static: false}) selectRef: IonSelect;
+
+  optionStatus = "calorie"
+
   progressText = "g";
   progressCalo = "cal";
   progress = 0;
@@ -15,6 +19,7 @@ export class MenuPage implements OnInit {
   titleFat = "";
   titleProtein = "";
   titleCalo = "";
+  titleExercise = "";
 
   perCarbs = 0;
   perFat = 0;
@@ -61,7 +66,8 @@ export class MenuPage implements OnInit {
           "protein": 5.5
         }
       ],
-      "title": "Bữa sáng"
+      "title": "Bữa sáng",
+      "key": "breakfast"
     },
     {
       "data": [
@@ -96,7 +102,8 @@ export class MenuPage implements OnInit {
           "protein": 5.5
         }
       ],
-      "title": "Bữa trưa"
+      "title": "Bữa trưa",
+      "key": "lunch"
     },
     {
       "data": [
@@ -131,7 +138,8 @@ export class MenuPage implements OnInit {
           "protein": 5.5
         }
       ],
-      "title": "Bữa tối"
+      "title": "Bữa tối",
+      "key": "dinner"
     },
     {
       "data": [
@@ -166,7 +174,8 @@ export class MenuPage implements OnInit {
           "protein": 5.5
         }
       ],
-      "title": "Bữa phụ"
+      "title": "Bữa phụ",
+      "key": "snack"
     }
   ]
 
@@ -175,6 +184,22 @@ export class MenuPage implements OnInit {
     "fat": 200,
     "protein": 300,
     "calo": 3000
+  }
+
+  execise = [
+    {
+      name: "Đẩy tạ",
+      detail: {
+        set : 1,
+        reps : 10,
+        weight : 4.5,
+      },
+      burn : 100
+    }
+  ]
+
+  showOption() {
+    this.selectRef.open();
   }
 
   sum_cal(data) {
@@ -191,6 +216,7 @@ export class MenuPage implements OnInit {
     let total_carbs = 0;
     let total_fat = 0;
     let total_protein = 0;
+    let total_exercise = 0;
     this.foods.forEach(food => {
       food['data'].forEach(element => {
         let cal = element['quantity'] * element['kcal']
@@ -203,7 +229,6 @@ export class MenuPage implements OnInit {
         total_protein += protein
       });
     });
-
     this.titleCalo = (Math.round(total_cal * 100) / 100).toString()
     this.perCalo = (total_cal / this.target['calo']) * 100
 
@@ -215,6 +240,11 @@ export class MenuPage implements OnInit {
 
     this.titleProtein = (Math.round(total_protein * 100) / 100).toString()
     this.perProtein = (total_protein / this.target['protein']) * 100
+
+    this.execise.forEach(element => {
+      total_exercise += element.burn
+    })
+    this.titleExercise = total_exercise.toString()
   }
 
   constructor(public navCtrl: NavController) { }

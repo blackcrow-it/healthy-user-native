@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: 'add-weight', loadChildren: './progress/add-weight/add-weight.module#AddWeightPageModule' },
   { path: 'profile', loadChildren: './more/profile/profile.module#ProfilePageModule' },
   { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },  { path: 'notification', loadChildren: './more/notification/notification.module#NotificationPageModule' },
+  { path: 'excercise', loadChildren: './excercise/excercise.module#ExcercisePageModule' },
 
   // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
 ];
