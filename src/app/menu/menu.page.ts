@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController, IonSelect } from '@ionic/angular';
+import { CallApiService } from '../services/callapi.service'
 
 @Component({
   selector: 'app-menu',
@@ -247,12 +248,15 @@ export class MenuPage implements OnInit {
     this.titleExercise = total_exercise.toString()
   }
 
-  constructor(public navCtrl: NavController) { }
+  constructor(public navCtrl: NavController, private callApi: CallApiService) { }
 
   async ngOnInit() {
     this.total()
     await this.sleep(2000);
     this.isLoaded = true;
+    this.callApi.getMenu().subscribe(res => {
+      console.log(res)
+    })
   }
 
   public clickFood(food_id) {

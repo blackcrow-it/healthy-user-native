@@ -4,9 +4,12 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment.prod';
 // import { Router } from '@angular/router';
 
 import { NavController } from '@ionic/angular';
+import { CallApiService } from './services/callapi.service';
 // import { NavigationExtras } from '@angular/router';
 
 
@@ -23,9 +26,15 @@ export class AppComponent {
     private statusBar: StatusBar,
     private authService: AuthenticationService,
     // private router: Router,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private httpclient: HttpClient,
+    private callApi: CallApiService
   ) {
     this.initializeApp();
+  }
+
+  index(){
+    return this.httpclient.get(environment.URL_API + "/account/index");
   }
   
   initializeApp() {
@@ -36,10 +45,15 @@ export class AppComponent {
       this.authService.authenticationState.subscribe(state => {
         console.log(state)
         if (state) {
-          // this.router.navigate(['tabs']);
+          // this.callApi.index().subscribe(res => {
+          //   if (res['data']['userProfile']){
+          //     this.navCtrl.navigateForward(['tabs']);
+          //   } else {
+          //     this.navCtrl.navigateForward(['info']);
+          //   }
+          // })
           this.navCtrl.navigateForward(['tabs']);
         } else {
-          // this.router.navigate(['login']);
           this.navCtrl.navigateBack(['login']);
         }
       });

@@ -17,8 +17,8 @@ export class AuthenticationService {
     })
   }
 
-  login() {
-    return this.storage.set(TOKEN_KEY, 'B123456').then(res => {
+  login(token: string) {
+    return this.storage.set(TOKEN_KEY, token).then(res => {
       this.authenticationState.next(true);
     });
   }

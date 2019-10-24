@@ -8,7 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPage } from './login.page';
 
 import { HttpClientModule } from '@angular/common/http';
-import { callApiService } from '../../services/callapi.service'
+import { CallApiService } from '../../services/callapi.service'
 
 const routes: Routes = [
   {
@@ -26,6 +26,6 @@ const routes: Routes = [
     HttpClientModule
   ],
   declarations: [LoginPage],
-  providers: [callApiService]
+  providers: [CallApiService]
 })
 export class LoginPageModule {}

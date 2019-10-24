@@ -1,4 +1,4 @@
 export class Identities {
-    username: string;
+    email: string;
     password: string
 }

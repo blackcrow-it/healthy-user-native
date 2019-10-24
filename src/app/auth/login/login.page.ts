@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { callApiService } from '../../services/callapi.service'
+import { CallApiService } from '../../services/callapi.service'
 import { Identities } from '../../models/identities';
 import { AuthenticationService } from '../../services/authentication.service';
 import { LoadingController } from '@ionic/angular';
@@ -12,11 +12,11 @@ import { NavController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  username = "eve.holt@reqres.in"
-  password = "cityslicka"
+  email: string;
+  password: string;
 
   constructor(
-    private _callApiService: callApiService,
+    private _callApiService: CallApiService,
     private authService: AuthenticationService,
     private loadingController: LoadingController,
     public navCtrl: NavController
@@ -26,9 +26,9 @@ export class LoginPage implements OnInit {
 
     var identity = new Identities();
 
-    identity.username = this.username
+    identity.email = this.email
     identity.password = this.password
-    console.log(this.username);
+    console.log(this.email);
 
     const loading = await this.loadingController.create({
       message: 'Đang đăng nhập ...'
@@ -40,7 +40,8 @@ export class LoginPage implements OnInit {
         resp => {
           console.log(resp.status)
           if (resp.status == 200) {
-            this.authService.login();
+            // console.log(resp.body.token)
+            this.authService.login(resp.body.token);
             loading.dismiss();
             // this.router.navigate(['tabs']);
           }
@@ -49,7 +50,8 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.email = "quanghungleo@gmail.com";
+    this.password = "123456"
   }
 
   clickRegister() {
