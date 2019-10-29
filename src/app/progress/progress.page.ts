@@ -16,10 +16,6 @@ export class ProgressPage implements OnInit {
 
   data = [
     {
-      "x": "01/09/2019",
-      "y": 55
-    },
-    {
       "x": "03/09/2019",
       "y": 53
     },
@@ -28,16 +24,8 @@ export class ProgressPage implements OnInit {
       "y": 54
     },
     {
-      "x": "04/09/2019",
-      "y": 54.3
-    },
-    {
-      "x": "05/09/2019",
-      "y": 57
-    },
-    {
       "x": "08/09/2019",
-      "y": 56
+      "y": 50
     },
   ]
 
@@ -49,14 +37,28 @@ export class ProgressPage implements OnInit {
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     // 1 tuần trước
-    var weekAgo = today.setDate(today.getDate() - 1);
+    var weekAgo = today.setDate(today.getDate() - 7);
 
-    for (let item of this.data.reverse()) {
-      this.history_weigth.push({
-        "date": convert_date_to_vi(item['x']),
-        "weigth": item['y']
+    // history
+    this.weightAPI.getWeight(0, (new Date()).getTime()/1000).then(ob => {
+      ob.subscribe(res => {
+        for (let item of res.data.reverse()) {
+          this.history_weigth.push({
+            "date": convert_date_to_vi(this.convertTimestampToString(item['date'])),
+            "weigth": item['weight']
+          })
+        }
+      }, error => {
+        for (let item of this.data.reverse()) {
+          this.history_weigth.push({
+            "date": convert_date_to_vi(item['x']),
+            "weigth": item['y']
+          })
+        }
       })
-    }
+    })
+
+    
 
     function convert_date_to_vi(date_origin) {
       var date_split = date_origin.split("/")
@@ -66,18 +68,19 @@ export class ProgressPage implements OnInit {
       return date + " tháng " + month + " năm " + year
     }
 
-    this.bindData(1);
+    this.bindData(weekAgo/1000);
   }
 
   onAddWeight() {
     this.navCtrl.navigateForward(['add-weight']);
   }
 
-  async bindData(endDate: number) {
+  async bindData(startDate: number) {
+    console.log(startDate)
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     var dataWeight = [];
-    await this.weightAPI.getWeight(today.getTime() / 1000, endDate).then(ob => {
+    await this.weightAPI.getWeight(startDate, today.getTime() / 1000).then(ob => {
       ob.subscribe(res => {
         if (res.data) {
           res.data.forEach(item => {
@@ -90,7 +93,7 @@ export class ProgressPage implements OnInit {
       })
     })
 
-    if (dataWeight) {
+    if (await dataWeight.length != 0) {
       dataWeight.sort((a, b) => a.x.localeCompare(b.x))
 
       let list_day = []
@@ -104,7 +107,7 @@ export class ProgressPage implements OnInit {
           datasets: [
             {
               label: "Cân nặng",
-              data: this.data,
+              data: dataWeight,
               fill: false,
               lineTension: 0.1,
               backgroundColor: "#f04141",
@@ -158,12 +161,89 @@ export class ProgressPage implements OnInit {
       };
 
       for (let item of dataWeight) {
+        console.log(item)
         list_day.push(item['day'])
         list_weight.push(item['weight'])
       }
 
       this.lineChart = new Chart(this.lineCanvas.nativeElement, config)
 
+    } else {
+      console.log(true);
+      dataWeight = this.data;
+      dataWeight.sort((a, b) => a.x.localeCompare(b.x))
+
+      let list_day = []
+      let list_weight = []
+
+      var timeFormat = 'DD/MM/YYYY';
+
+      var config = {
+        type: 'line',
+        data: {
+          datasets: [
+            {
+              label: "Cân nặng",
+              data: dataWeight,
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "#f04141",
+              borderColor: "#f04141",
+              borderDash: [],
+              borderDashOffset: 0.0,
+              pointBorderColor: "#f04141",
+              pointBackgroundColor: "#fff",
+              pointBorderWidth: 1,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: "#f04141",
+              pointHoverBorderColor: "rgba(220,220,220,1)",
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Biểu đồ cân nặng"
+          },
+          legend: {
+            display: false,
+          },
+          scales: {
+            xAxes: [{
+              type: "time",
+              time: {
+                displayFormats: {
+                  'day': 'DD/MM'
+                },
+                format: timeFormat,
+                tooltipFormat: 'll'
+              },
+              scaleLabel: {
+                display: false,
+                labelString: 'day'
+              }
+            }],
+            yAxes: [{
+              scaleLabel: {
+                display: false,
+                labelString: 'weight'
+              }
+            }]
+          }
+        }
+      };
+
+      for (let item of dataWeight) {
+        console.log(item)
+        list_day.push(item['day'])
+        list_weight.push(item['weight'])
+      }
+
+      this.lineChart = new Chart(this.lineCanvas.nativeElement, config)
     }
   }
 
@@ -209,7 +289,7 @@ export class ProgressPage implements OnInit {
       newToday.setHours(0, 0, 0, 0);
       startDate = newToday.setFullYear(newToday.getFullYear() - 1);
     }
-    console.log(startDate / 1000);
-    console.log(endDate / 1000);
+
+    this.bindData(startDate/1000);
   }
 }
