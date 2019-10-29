@@ -252,7 +252,6 @@ export class MenuPage implements OnInit {
 
   async ngOnInit() {
     this.total()
-    await this.sleep(2000);
     this.isLoaded = true;
     this.callApi.getMenu().subscribe(res => {
       console.log(res)

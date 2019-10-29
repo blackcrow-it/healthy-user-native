@@ -55,7 +55,7 @@
       <ion-item>
         <ion-icon name="calendar" slot="start"></ion-icon>
         <ion-label>Khoảng ngày</ion-label>
-        <ion-select value="one-week" okText="Chọn" cancelText="Thoát" slot="end">
+        <ion-select value="one-week" okText="Chọn" cancelText="Thoát" slot="end" (ionChange)="selectTime($event)">
           <ion-select-option value="one-week">1 Tuần</ion-select-option>
           <ion-select-option value="one-month">1 Tháng</ion-select-option>
           <ion-select-option value="two-months">2 Tháng</ion-select-option>

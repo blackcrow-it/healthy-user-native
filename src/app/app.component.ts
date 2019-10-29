@@ -39,6 +39,7 @@ export class AppComponent {
   
   initializeApp() {
     this.platform.ready().then(() => {
+      // this.authService.login("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoZWFsdGh5IiwianRpIjoicXVhbmdodW5nbGVvQGdtYWlsLmNvbSJ9.l2va3rfGmNQF-dkCQ_orzWR6TLAKJ_rfpVRnWaD2Lns");
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 

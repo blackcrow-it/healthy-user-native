@@ -1,9 +1,63 @@
+<style>
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
+
+  .background-main {
+    --background: #f9f9f9;
+  }
+
+  .background-white {
+    --background: #ffffff;
+  }
+</style>
+
 <ion-header>
-  <ion-toolbar>
-    <ion-title>excercise</ion-title>
+  <ion-toolbar class="color-toolbar white-text">
+    <ion-title>Bài tập</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/menu" class="white-text"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSaveFood()">
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="background-main">
 
+  <ion-card fullscreen class="background-white">
+    <iframe width="100%" src="https://youtube.com/embed/kKKuzmkLtv0" frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <ion-card-header>
+      <ion-card-subtitle>Strength</ion-card-subtitle>
+      <ion-card-title>Banch Press</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label stacked>Số hiệp</ion-label>
+          <ion-input style="text-align: right;"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Số lần/hiệp</ion-label>
+          <ion-input style="text-align: right;"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Cân nặng</ion-label>
+          <ion-input style="text-align: right;"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Năng lượng đốt</ion-label>
+          <ion-input style="text-align: right;" readonly></ion-input>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

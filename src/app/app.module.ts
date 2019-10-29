@@ -14,6 +14,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage'
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,7 +24,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     IonicModule.forRoot(), 
     AppRoutingModule, 
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,

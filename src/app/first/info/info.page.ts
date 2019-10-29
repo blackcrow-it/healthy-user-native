@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
+import { CallApiService } from 'src/app/services/callapi.service';
+import { Profile } from '../../models/profile';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-info',
@@ -8,16 +11,15 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./info.page.scss'],
 })
 export class InfoPage implements OnInit {
-  weight = null;
-  height = null;
+  weight = 56;
+  height = 1.69;
 
   validPhone = false;
 
-  gender = "";
+  gender = "male";
   birthday = "";
-  fullname = "";
-  email = "";
-  phone = "";
+  fullname = "Nguyen Quang Hung";
+  phone = "0866531360";
 
   inputFullname = document.getElementById('fullname')
 
@@ -33,15 +35,10 @@ export class InfoPage implements OnInit {
     return year + '-' + (monthIndex + 1) + '-' + day;
   }
 
-  constructor(public navCtrl: NavController, public toastController: ToastController) { }
+  constructor(public navCtrl: NavController, public toastController: ToastController, private _callApiService: CallApiService,) { }
 
   ngOnInit() {
   }
-
-  // validateEmail(email) {
-  //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   return re.test(String(email).toLowerCase());
-  // }
 
   validatePhone(number) {
     var re = /((9|3|7|8|5|849|843|847|848|845)+([0-9]{8})\b)/g;
@@ -49,23 +46,18 @@ export class InfoPage implements OnInit {
   }
 
   async clickTarget() {
-    // if (this.validateEmail(this.email)) {
-    //   this.validEmail = true
-    // } else {
-    //   this.validEmail = false
-    // }
 
     if (this.validatePhone(this.phone)) {
       this.validPhone = true
     } else {
       this.validPhone = false
     }
-    this.navCtrl.navigateForward(['target']);
 
 
-    console.log(this.phone)
+    console.log(uuid.v4())
+    console.log(typeof(uuid.v4()))
 
-    if (this.fullname && this.birthday && this.email && this.phone && this.weight && this.height) {
+    if (this.fullname && this.birthday && this.phone && this.weight && this.height && this.gender) {
       if (!this.validPhone) {
         const toast = await this.toastController.create({
           message: 'Số điện thoại chưa hợp lệ.',
@@ -79,7 +71,21 @@ export class InfoPage implements OnInit {
         });
         toast.present();
       } else {
-        this.navCtrl.navigateForward(['target']);
+        var profile = new Profile();
+        profile.avatar_url = "https://api.adorable.io/avatars/285/"+ uuid.v4() +".png";
+        profile.date_of_birth = Math.round(new Date(this.birthday).getTime()/1000);
+        profile.full_name = this.fullname;
+        profile.gender = this.gender;
+        profile.height = this.height*100;
+        profile.weight = this.weight;
+        profile.phone = this.phone;
+
+        this._callApiService.createProfile(profile).subscribe(res => {
+          console.log(res);
+        }, error => {
+          console.log(error)
+        })
+        // this.navCtrl.navigateForward(['target']);
         console.log("success")
       }
     } else {
