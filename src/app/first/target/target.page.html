@@ -91,17 +91,13 @@
 <ion-header>
   <ion-toolbar class="white-text color-toolbar">
     <ion-title>Mục tiêu</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="info" class="white-text"></ion-back-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="background-main">
-  <ion-row>
+  <!-- <ion-row>
     <ion-col size="12" style="text-align: center">
       <h2>Chỉ số BMI của bạn là {{ bmi }}</h2>
-      <!-- <h6 style="text-align: center">Thể trạng bình thường</h6> -->
       <div class="active-line" style="width: 95%; margin: auto;">
         <div [ngStyle]="setMyStyles()"></div>
       </div>
@@ -111,7 +107,6 @@
         <span class="point" style="width: 9.5%; display: inline-block;">Thừa</span>
         <span class="point" style="width: 23.8%; display: inline-block;">Béo phì (I)</span>
         <span class="point" style="width: 24.3%; display: inline-block;">Béo phì (II)</span>
-        <!-- <span class="point" style="width: 24.3%; display: inline-block;">Béo phì độ 3</span> -->
       </div>
       <div style="
       background-image: linear-gradient(to right, #2b95ff, #009a96 15%, #00a12b 25%, #fed205 50%, #dc1900, #dc1900); 
@@ -121,7 +116,7 @@
       margin: auto">
       </div>
     </ion-col>
-  </ion-row>
+  </ion-row> -->
   <ion-row>
     <ion-col size="12">
       <ion-card class="background-white">
@@ -161,16 +156,16 @@
             <ion-input style="text-align: right" slot="end" min="0" type="number" placeholder="1" [(ngModel)]="time"></ion-input>
             <ion-select slot="end" value="month">
               <ion-select-option value="month">Tháng</ion-select-option>
-              <ion-select-option value="year">Năm</ion-select-option>
+              <!-- <ion-select-option value="year">Năm</ion-select-option> -->
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>Mức độ hoạt động</ion-label>
-            <ion-select value="normal">
-              <ion-select-option value="low">Nhẹ</ion-select-option>
-              <ion-select-option value="normal">Trung bình</ion-select-option>
-              <ion-select-option value="high">Nặng</ion-select-option>
-              <ion-select-option value="special">Đặc biệt</ion-select-option>
+            <ion-select [(ngModel)]="activity">
+              <ion-select-option value="1">Nhẹ</ion-select-option>
+              <ion-select-option value="2">Trung bình</ion-select-option>
+              <ion-select-option value="3">Nặng</ion-select-option>
+              <ion-select-option value="4">Đặc biệt</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-card-content>

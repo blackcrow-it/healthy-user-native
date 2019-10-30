@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PickerController } from '@ionic/angular';
-import { PickerOptions } from '@ionic/core';
 import { NavController, AlertController } from '@ionic/angular';
+import { ProfileService } from '../../services/api/profile.service';
+import { WeightApi } from '../../services/api/weight.service';
+import { NutritionApi } from '../../services/api/nutrition.service';
+import { Nutrition } from 'src/app/models/nutrition';
+import { Storage } from '@ionic/storage';
+
+const STEP = 'step';
 
 @Component({
   selector: 'app-target',
@@ -9,19 +14,32 @@ import { NavController, AlertController } from '@ionic/angular';
   styleUrls: ['./target.page.scss'],
 })
 export class TargetPage implements OnInit {
-  weight = 56;
-  height = 1.63;
-  weightFinal = null;
+  weight = 0;
+  height = 0;
+  weightFinal: number;
 
-  bmi = Math.round(this.weight/(this.height*this.height) * 10) / 10;
+  time: number;
+
+  bmi = 0;
   
-  percentLine = (this.bmi - 14)/0.27
+  percentLine = 0
 
-  maxWeight = this.height * 100 - 100;
-  minWeight = Math.round(this.maxWeight * 8 / 10 * 10) / 10;
-  normalWeight = Math.round(this.maxWeight * 9 / 10 * 10) / 10;
+  maxWeight = 0;
+  minWeight = 0;
+  normalWeight = 0;
 
-  constructor(public navCtrl: NavController, public alertController: AlertController) { }
+  activity: string;
+
+  constructor(
+    public navCtrl: NavController,
+    public alertController: AlertController,
+    public profileApi: ProfileService,
+    public weightApi: WeightApi,
+    public nutritionApi: NutritionApi,
+    private storage: Storage,
+  ) {
+    
+  }
 
   setMyStyles() {
     if (this.bmi <= 14) {
@@ -45,12 +63,31 @@ export class TargetPage implements OnInit {
     return styles;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.targetWeight()
+    this.bmi = await Math.round(this.weight/(this.height*this.height) * 10) / 10;
+    this.percentLine = await (this.bmi - 14)/0.27
+  }
+
+  async targetWeight(){
+
+    await this.profileApi.getProfile().then(ob => {
+      ob.subscribe(res => {
+        this.height = res.data.height/100
+      })
+    })
+
+    await this.weightApi.getWeight(0, (new Date().getTime())/1000).then(ob => {
+      ob.subscribe(async res => {
+        this.weight = res.data[0].weight
+        this.maxWeight = await this.height * 100 - 100;
+        this.minWeight = await Math.round(this.maxWeight * 8 / 10 * 10) / 10;
+        this.normalWeight = await Math.round(this.maxWeight * 9 / 10 * 10) / 10;
+      })
+    })
+
+
     console.log(this.bmi)
-    if (this.bmi) {
-      
-    }
-    
   }
 
   async presentAlertConfirm() {
@@ -68,7 +105,17 @@ export class TargetPage implements OnInit {
         }, {
           text: 'Đồng ý',
           handler: () => {
-            this.navCtrl.navigateForward(['result']);
+            var nutrition = new Nutrition();
+            nutrition.weight = Math.abs(this.weight - this.weightFinal)
+            nutrition.month = this.time
+            nutrition.activityLevel = parseInt(this.activity)
+            nutrition.type = 1
+            this.nutritionApi.createNutrition(nutrition).then(ob => {
+              ob.subscribe(res => {
+                this.navCtrl.navigateForward(['result']);
+                this.storage.set(STEP, 3)
+              })
+            })
             console.log('Confirm Okay');
           }
         }

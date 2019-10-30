@@ -5,6 +5,11 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../../services/api/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Storage } from '@ionic/storage';
+import { NutritionApi } from '../../services/api/nutrition.service'
+
+const TOKEN_KEY = 'auth-token';
+const STEP = 'step';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +22,14 @@ export class LoginPage implements OnInit {
   regexEmail = "[a-zA-Z0-9.-]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{3,}"
 
   constructor(
-    private _callApiService: AuthService,
+    private authAPI: AuthService,
     private authService: AuthenticationService,
     private loadingController: LoadingController,
     public navCtrl: NavController,
     public alertController: AlertController,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private storage: Storage,
+    private nutritionApi: NutritionApi
   ) { }
 
   async onSubmit() {
@@ -35,11 +42,25 @@ export class LoginPage implements OnInit {
       message: 'Đang đăng nhập ...'
     });
     await loading.present();
-    
-    this._callApiService.login(identity)
+    var check = false;
+    await this.authAPI.login(identity) 
       .subscribe(
-        resp => {
-          this.authService.login(resp.token);
+        async resp => {
+          if (resp.information) {
+            await this.nutritionApi.getNutrition(resp.token).then(ob => {
+              ob.subscribe(async res => {
+                check = true;
+                await this.storage.set(STEP, 3)
+              })
+            })
+          } else {
+            await this.storage.set(STEP, 1)
+            check = true;
+          }
+          if (check == false) {
+            await this.storage.set(STEP, 2)
+          }
+          await this.authService.login(resp.token);
           loading.dismiss();
         }, error => {
           loading.dismiss();

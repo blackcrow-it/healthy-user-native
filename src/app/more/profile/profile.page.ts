@@ -9,33 +9,16 @@ import { ActionSheetController, ToastController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-  info = {
-    email: "quanghungleo@gmail.com",
-    height: "1.63",
-    gender: "male",
-    birthday: "1999-08-11",
-    phoneNumber: "866531360"
-  }
+  data = {}
 
-  data = {
-    "user_profile_id": 1,
-    "full_name": "Nguy?n Quang H?ng",
-    "gender": "male",
-    "date_of_birth": 934329600,
-    "phone": "0866531360",
-    "height": 163.0,
-    "avatar_url": "https://hacked.com/wp-content/uploads/2016/01/Anonymous-mask_white-bg.jpg"
-  }
-
-  birthday = this.formatDate(new Date(this.data.date_of_birth*1000))
-
+  birthday = ""
   constructor(private profileApi: ProfileService, public actionSheetController: ActionSheetController, public toastController: ToastController) { }
 
   ngOnInit() {
     this.profileApi.getProfile().then(ob => {
       ob.subscribe(res => {
         this.data = res.data
-        this.birthday = this.formatDate(new Date(this.data.date_of_birth*1000))
+        this.birthday = this.formatDate(new Date(this.data['date_of_birth']*1000))
       }, error => {
         console.log(error)
       })

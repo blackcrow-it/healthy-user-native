@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
 
 const TOKEN_KEY = 'auth-token';
+const STEP = 'step';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,14 @@ export class AuthenticationService {
   }
 
   login(token: string) {
-    return this.storage.set(TOKEN_KEY, token).then(res => {
+    return this.storage.set(TOKEN_KEY, token).then(async res => {
       this.authenticationState.next(true);
     });
   }
 
   logout() {
-    console.log("click logout");
     return this.storage.remove(TOKEN_KEY).then(() => {
+      this.storage.remove(STEP)
       this.authenticationState.next(false);
     });
   }
@@ -37,7 +38,6 @@ export class AuthenticationService {
   checkToken() {
     return this.storage.get(TOKEN_KEY).then(res => {
       if (res) {
-        console.log(res)
         this.authenticationState.next(true);
       }
     });

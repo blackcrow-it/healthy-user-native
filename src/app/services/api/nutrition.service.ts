@@ -3,34 +3,38 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { Storage } from '@ionic/storage';
-import { Profile } from '../../models/profile';
+import { Nutrition } from '../../models/nutrition';
 
 const TOKEN_KEY = 'auth-token';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class NutritionApi {
 
   constructor(private httpclient: HttpClient, private storage: Storage) { }
 
-  async getProfile(): Promise<Observable<any>> {
+  async getNutrition(token?): Promise<Observable<any>> {
     
     let headers = new HttpHeaders();
-    await this.storage.get(TOKEN_KEY).then(res => {
+    if (token != null) {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-      headers = headers.set('Authorization', 'Bearer ' + res);
-    });
-    return await this.httpclient.get(environment.URL_API + "/api/user-profiles", { headers: headers });
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    } else {
+      await this.storage.get(TOKEN_KEY).then(res => {
+        headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+        headers = headers.set('Authorization', 'Bearer ' + res);
+      });
+    }
+    return await this.httpclient.get(environment.URL_API + `/api/my-goal`, { headers: headers});
   }
 
-  async createProfile(profile:Profile): Promise<Observable<any>> {
+  async createNutrition(nutrition:Nutrition): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
-    return await this.httpclient.post(environment.URL_API + "/api/user-profiles/create", profile, { headers: headers });
+    return await this.httpclient.post(environment.URL_API + "/api/nutrition", nutrition, { headers: headers });
   }
-
 }

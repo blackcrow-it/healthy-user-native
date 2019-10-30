@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-import { CallApiService } from 'src/app/services/callapi.service';
+import { ProfileService } from 'src/app/services/api/profile.service';
+import { WeightApi } from 'src/app/services/api/weight.service';
 import { Profile } from '../../models/profile';
+import { Storage } from '@ionic/storage';
 import * as uuid from 'uuid';
+
+const STEP = 'step';
 
 @Component({
   selector: 'app-info',
@@ -35,7 +39,13 @@ export class InfoPage implements OnInit {
     return year + '-' + (monthIndex + 1) + '-' + day;
   }
 
-  constructor(public navCtrl: NavController, public toastController: ToastController, private _callApiService: CallApiService,) { }
+  constructor(
+    public navCtrl: NavController,
+    public toastController: ToastController,
+    private profileAPI: ProfileService,
+    private storage: Storage,
+    private weightAPI: WeightApi
+  ) { }
 
   ngOnInit() {
   }
@@ -52,8 +62,6 @@ export class InfoPage implements OnInit {
     } else {
       this.validPhone = false
     }
-
-
     console.log(uuid.v4())
     console.log(typeof(uuid.v4()))
 
@@ -80,16 +88,24 @@ export class InfoPage implements OnInit {
         profile.weight = this.weight;
         profile.phone = this.phone;
 
-        this._callApiService.createProfile(profile).subscribe(res => {
-          console.log(res);
-        }, error => {
-          console.log(error)
+        this.profileAPI.createProfile(profile).then(ob => {
+          ob.subscribe(res => {
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+            this.weightAPI.updateWeight(profile.weight, today.getTime()/1000).then(ob => {
+              ob.subscribe(res => {
+                console.log(res)
+              })
+            })
+            this.navCtrl.navigateForward(['target']);
+            this.storage.set(STEP, 2)
+            console.log(res);
+          }, error => {
+            console.log(error)
+          })
         })
-        // this.navCtrl.navigateForward(['target']);
-        console.log("success")
       }
     } else {
-      console.log("fail")
       const toast = await this.toastController.create({
         message: 'Hãy điền đủ thông tin.',
         duration: 2000,

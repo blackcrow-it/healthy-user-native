@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavController, IonSelect } from '@ionic/angular';
-import { CallApiService } from '../services/callapi.service'
+import { FoodMenuApi } from '../services/api/food-menu.service'
+import { NutritionApi } from '../services/api/nutrition.service'
+import { WeightApi } from '../services/api/weight.service';
 
 @Component({
   selector: 'app-menu',
@@ -35,169 +37,35 @@ export class MenuPage implements OnInit {
 
   foods = [
     {
-      "data": [
-        {
-          "id": "a",
-          "name": "Trứng",
-          "quantity": 7,
-          "unit": "quả to",
-          "kcal": 72,
-          "carbs": 0.4,
-          "fat": 4.8,
-          "protein": 6.3
-        },
-        {
-          "id": "b",
-          "name": "Thịt",
-          "quantity": 10,
-          "unit": "gram",
-          "kcal": 2,
-          "carbs": 0,
-          "fat": 0.2,
-          "protein": 0.2
-        },
-        {
-          "id": "c",
-          "name": "Trứng",
-          "quantity": 7,
-          "unit": "quả vừa",
-          "kcal": 63,
-          "carbs": 0.3,
-          "fat": 4.2,
-          "protein": 5.5
-        }
-      ],
+      "data": [],
       "title": "Bữa sáng",
-      "key": "breakfast"
+      "key": "break_fast"
     },
     {
-      "data": [
-        {
-          "id": "a",
-          "name": "Trứng",
-          "quantity": 1,
-          "unit": "quả to",
-          "kcal": 72,
-          "carbs": 0.4,
-          "fat": 4.8,
-          "protein": 6.3
-        },
-        {
-          "id": "b",
-          "name": "Thịt",
-          "quantity": 5,
-          "unit": "gram",
-          "kcal": 2,
-          "carbs": 0,
-          "fat": 0.2,
-          "protein": 0.2
-        },
-        {
-          "id": "c",
-          "name": "Trứng",
-          "quantity": 3,
-          "unit": "quả vừa",
-          "kcal": 63,
-          "carbs": 0.3,
-          "fat": 4.2,
-          "protein": 5.5
-        }
-      ],
+      "data": [],
       "title": "Bữa trưa",
       "key": "lunch"
     },
     {
-      "data": [
-        {
-          "id": "a",
-          "name": "Trứng",
-          "quantity": 2,
-          "unit": "quả to",
-          "kcal": 72,
-          "carbs": 0.4,
-          "fat": 4.8,
-          "protein": 6.3
-        },
-        {
-          "id": "b",
-          "name": "Thịt",
-          "quantity": 1,
-          "unit": "gram",
-          "kcal": 2,
-          "carbs": 0,
-          "fat": 0.2,
-          "protein": 0.2
-        },
-        {
-          "id": "c",
-          "name": "Trứng",
-          "quantity": 4,
-          "unit": "quả vừa",
-          "kcal": 63,
-          "carbs": 0.3,
-          "fat": 4.2,
-          "protein": 5.5
-        }
-      ],
+      "data": [],
       "title": "Bữa tối",
       "key": "dinner"
     },
     {
-      "data": [
-        {
-          "id": "a",
-          "name": "Trứng",
-          "quantity": 6,
-          "unit": "quả to",
-          "kcal": 72,
-          "carbs": 0.4,
-          "fat": 4.8,
-          "protein": 6.3
-        },
-        {
-          "id": "b",
-          "name": "Thịt",
-          "quantity": 9,
-          "unit": "gram",
-          "kcal": 2,
-          "carbs": 0,
-          "fat": 0.2,
-          "protein": 0.2
-        },
-        {
-          "id": "c",
-          "name": "Trứng",
-          "quantity": 7,
-          "unit": "quả vừa",
-          "kcal": 63,
-          "carbs": 0.3,
-          "fat": 4.2,
-          "protein": 5.5
-        }
-      ],
+      "data": [],
       "title": "Bữa phụ",
-      "key": "snack"
+      "key": "snacks"
     }
   ]
 
   target = {
-    "carbs": 60,
-    "fat": 200,
-    "protein": 300,
-    "calo": 3000
+    "carbs": 0,
+    "fat": 0,
+    "protein": 0,
+    "calo": 0
   }
 
-  execise = [
-    {
-      name: "Đẩy tạ",
-      detail: {
-        set : 1,
-        reps : 10,
-        weight : 4.5,
-      },
-      burn : 100
-    }
-  ]
+  execise = []
 
   showOption() {
     this.selectRef.open();
@@ -206,10 +74,66 @@ export class MenuPage implements OnInit {
   sum_cal(data) {
     let sum = 0;
     data.forEach(element => {
-      let value = element['quantity'] * element['kcal']
+      let value = element['meal_quantity'] / element['quantity'] * element['calories']
       sum += value
     });
     return sum
+  }
+
+  constructor(public navCtrl: NavController, private menuAPI: FoodMenuApi, private nutritionAPI: NutritionApi, private weightAPI: WeightApi) { }
+
+  async ngOnInit() {
+    await this.nutritionAPI.getNutrition().then(ob => {
+      ob.subscribe(res => {
+        console.log(res)
+        this.target.calo = Math.round(res['calories']);
+        this.target.carbs = res['carbon'];
+        this.target.fat = res['fat'];
+        this.target.protein = res['proteins'];
+      }, error => {
+
+      })
+    })
+    await this.getDataMenu();
+    this.isLoaded = true;
+  }
+
+  async getDataMenu() {
+    var day = parseInt(this.date.split('-')[2])
+    var month = parseInt(this.date.split('-')[1])
+    var year = parseInt(this.date.split('-')[0])
+    this.isLoaded = false;
+    await this.menuAPI.getMenu().then(ob => {
+      var foodDay = (new Date(year, month - 1, day)).getTime()/1000;
+      ob.subscribe(res => {
+        var data = res['data'];
+        var count = 0;
+        for(var i in data){
+          if(data[i].date == foodDay){
+            for (var item in this.foods ) {
+              var meal = this.foods[item].key
+              this.foods[item].data = data[i][meal]['foods']
+            }
+            if(data[i]['exercise']){
+              this.execise = data[i]['exercise']['exercise_details']
+              console.log(data[i]['exercise'])
+            }
+            count += 1;
+            break;
+          }
+        }
+        if(count == 0){
+          for (var item in this.foods ) {
+            var meal = this.foods[item].key
+            this.foods[item].data = []
+          }
+        }
+        this.total()
+        this.isLoaded = true;
+      }, error =>{
+        this.isLoaded = true;
+      })
+    })
   }
 
   total() {
@@ -218,15 +142,16 @@ export class MenuPage implements OnInit {
     let total_fat = 0;
     let total_protein = 0;
     let total_exercise = 0;
+    
     this.foods.forEach(food => {
       food['data'].forEach(element => {
-        let cal = element['quantity'] * element['kcal']
+        let cal = element['meal_quantity'] / element['quantity'] * element['calories']
         total_cal += cal
-        let carbs = element['quantity'] * element['carbs']
+        let carbs = element['meal_quantity'] / element['quantity'] * element['carbs']
         total_carbs += carbs
-        let fat = element['quantity'] * element['fat']
+        let fat = element['meal_quantity'] / element['quantity'] * element['fat']
         total_fat += fat
-        let protein = element['quantity'] * element['protein']
+        let protein = element['meal_quantity'] / element['quantity'] * element['proteins']
         total_protein += protein
       });
     });
@@ -243,19 +168,9 @@ export class MenuPage implements OnInit {
     this.perProtein = (total_protein / this.target['protein']) * 100
 
     this.execise.forEach(element => {
-      total_exercise += element.burn
+      total_exercise += element.calories_burn
     })
     this.titleExercise = total_exercise.toString()
-  }
-
-  constructor(public navCtrl: NavController, private callApi: CallApiService) { }
-
-  async ngOnInit() {
-    this.total()
-    this.isLoaded = true;
-    this.callApi.getMenu().subscribe(res => {
-      console.log(res)
-    })
   }
 
   public clickFood(food_id) {
@@ -271,24 +186,18 @@ export class MenuPage implements OnInit {
   }
 
   async changeDate() {
-    this.isLoaded = false;
-    await this.sleep(1000);
-    this.isLoaded = true;
+    this.getDataMenu();
   } 
 
   async preDay() {
     this.today.setDate(this.today.getDate()-1);
     this.date = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
-    this.isLoaded = false;
-    await this.sleep(1000);
-    this.isLoaded = true;
+    this.getDataMenu();
   }
 
   async nextDay() {
     this.today.setDate(this.today.getDate()+1);
     this.date = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
-    this.isLoaded = false;
-    await this.sleep(1000);
-    this.isLoaded = true;
+    this.getDataMenu();
   }
 }

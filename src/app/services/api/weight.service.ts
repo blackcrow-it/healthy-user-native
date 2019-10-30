@@ -22,7 +22,7 @@ export class WeightApi {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
-    return await this.httpclient.get(environment.URL_API + "/api/weight", { headers: headers });
+    return await this.httpclient.get(environment.URL_API + `/api/weights?startDate=${Math.round(startDate)}&endDate=${Math.round(endDate)}`, { headers: headers});
   }
 
   async updateWeight(weight: number, time: number): Promise<Observable<any>> {
@@ -31,7 +31,7 @@ export class WeightApi {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
-    return await this.httpclient.post(environment.URL_API + "/api/weights", { weight: weight, date: time}, { headers: headers });
+    return await this.httpclient.post(environment.URL_API + "/api/weight", { weight: weight, date: time}, { headers: headers });
   }
 
 }
