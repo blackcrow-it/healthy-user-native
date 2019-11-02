@@ -42,20 +42,21 @@ export class LoginPage implements OnInit {
       message: 'Đang đăng nhập ...'
     });
     await loading.present();
-    var check = false;
+    var check = await false;
     await this.authAPI.login(identity) 
       .subscribe(
         async resp => {
           if (resp.information) {
             await this.nutritionApi.getNutrition(resp.token).then(ob => {
               ob.subscribe(async res => {
-                check = true;
+                console.log(res)
+                check = await true;
                 await this.storage.set(STEP, 3)
               })
             })
           } else {
             await this.storage.set(STEP, 1)
-            check = true;
+            check = await true;
           }
           if (check == false) {
             await this.storage.set(STEP, 2)

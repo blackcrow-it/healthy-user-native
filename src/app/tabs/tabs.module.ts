@@ -11,7 +11,7 @@ import { SearchPageModule } from '../search/search.module'
 const routes: Routes = [
   {
     path:'',
-    redirectTo:'menu',
+    redirectTo:'progress',
     pathMatch:'full'
   },
   {

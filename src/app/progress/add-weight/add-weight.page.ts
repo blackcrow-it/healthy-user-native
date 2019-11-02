@@ -29,6 +29,7 @@ export class AddWeightPage implements OnInit {
     if(this.weight){
       this.weightAPI.updateWeight(this.weight, choseTime).then(ob => {
         ob.subscribe(res => {
+          console.log(res)
           this.presentToast('Cập nhật cân nặng thành công.');
           this.navCtrl.navigateBack(['tabs/progress']);
         }, error => {
@@ -56,7 +57,7 @@ export class AddWeightPage implements OnInit {
     var date = date_split[2]
     var month = date_split[1]
     var year = date_split[0]
-    var dateTimestamp = (new Date(parseInt(year), parseInt(month), parseInt(date))).getTime();
-    return dateTimestamp
+    var dateTimestamp = (new Date(parseInt(year), parseInt(month) - 1, parseInt(date))).getTime();
+    return dateTimestamp/1000
   }
 }

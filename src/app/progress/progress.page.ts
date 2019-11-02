@@ -84,7 +84,7 @@ export class ProgressPage implements OnInit {
             console.log(item)
             dataWeight.push({
               x: this.convertTimestampToString(item['date']),
-              y: item['height']
+              y: item['weight']
             })
           });
           dataWeight.sort((a, b) => a.x.localeCompare(b.x))

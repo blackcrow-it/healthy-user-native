@@ -33,10 +33,17 @@ export class InfoPage implements OnInit {
 
   formatDate(date) {
     var day = date.getDate();
-    var monthIndex = date.getMonth();
+    var month = date.getMonth() + 1;
     var year = date.getFullYear();
+    if (day < 10){
+      day = '0' + day
+    }
+    if (month < 10){
+      month = '0' + month
+    }
 
-    return year + '-' + (monthIndex + 1) + '-' + day;
+
+    return year + '-' + (month) + '-' + day;
   }
 
   constructor(
@@ -48,6 +55,7 @@ export class InfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.minYear)
   }
 
   validatePhone(number) {
@@ -81,7 +89,9 @@ export class InfoPage implements OnInit {
       } else {
         var profile = new Profile();
         profile.avatar_url = "https://api.adorable.io/avatars/285/"+ uuid.v4() +".png";
-        profile.date_of_birth = Math.round(new Date(this.birthday).getTime()/1000);
+        var timeStampBirth = new Date(this.birthday);
+        timeStampBirth.setHours(0, 0, 0, 0);
+        profile.date_of_birth = Math.round(timeStampBirth.getTime()/1000);
         profile.full_name = this.fullname;
         profile.gender = this.gender;
         profile.height = this.height*100;
