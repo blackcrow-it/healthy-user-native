@@ -91,7 +91,7 @@ export class InfoPage implements OnInit {
         profile.avatar_url = "https://api.adorable.io/avatars/285/"+ uuid.v4() +".png";
         var timeStampBirth = new Date(this.birthday);
         timeStampBirth.setHours(0, 0, 0, 0);
-        profile.date_of_birth = Math.round(timeStampBirth.getTime()/1000);
+        profile.date_of_birth = Math.round(timeStampBirth.getTime());
         profile.full_name = this.fullname;
         profile.gender = this.gender;
         profile.height = this.height*100;
@@ -102,7 +102,7 @@ export class InfoPage implements OnInit {
           ob.subscribe(res => {
             var today = new Date();
             today.setHours(0, 0, 0, 0);
-            this.weightAPI.updateWeight(profile.weight, today.getTime()/1000).then(ob => {
+            this.weightAPI.updateWeight(profile.weight, today.getTime()).then(ob => {
               ob.subscribe(res => {
                 console.log(res)
               })

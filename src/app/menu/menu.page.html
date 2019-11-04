@@ -12,17 +12,24 @@
     top: 20%;
     transform: translateY(-20%);
   }
+
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
 </style>
 
 <ion-header>
   <!-- <ion-toolbar>
     <ion-title>menu</ion-title>
   </ion-toolbar> -->
-  <ion-toolbar>
-
+  <ion-toolbar class="color-toolbar white-text">
     <ion-row>
       <ion-col size="3" style="text-align: right;">
-        <ion-button color="danger" fill="clear" (click)="preDay($event)">
+        <ion-button color="light" fill="clear" (click)="preDay($event)">
           <ion-icon slot="icon-only" name="arrow-dropleft"></ion-icon>
         </ion-button>
       </ion-col>
@@ -33,12 +40,12 @@
         </ion-datetime>
       </ion-col>
       <ion-col size="3" style="text-align: left;">
-        <ion-button color="danger" fill="clear" (click)="nextDay($event)">
+        <ion-button color="light" fill="clear" (click)="nextDay($event)">
           <ion-icon slot="icon-only" name="arrow-dropright"></ion-icon>
         </ion-button>
       </ion-col>
       <ion-col size="1">
-        <ion-button (click)="showOption()" style="float: right" fill="clear">
+        <ion-button color="light" (click)="showOption()" style="float: right" fill="clear">
           <ion-icon slot="icon-only" name="more"></ion-icon>
         </ion-button>
       </ion-col>
@@ -191,7 +198,7 @@
             <ion-item-sliding *ngFor="let item of execise" [id]="item['exercise_id']">
               <ion-item>
                 <ion-label>
-                  <h2>{{ item['thumbnail_url'] }}</h2>
+                  <h2>{{ item['exercise_name'] }}</h2>
                   <p>set {{ item['index_of_sets'] }}, reps {{ item['repetitions'] }}, {{ item['weight_per_set'] }} kg</p>
                 </ion-label>
                 <ion-note slot="end" style="font-size: 16px;">
@@ -208,7 +215,7 @@
           </ion-list>
         </ion-card-content>
         <ion-row class="cardfooter">
-          <ion-button color="danger" fill="clear" (click)="addFoods()">
+          <ion-button color="danger" fill="clear" (click)="addFoods('exercise')">
             Thêm bài tập
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
           </ion-button>

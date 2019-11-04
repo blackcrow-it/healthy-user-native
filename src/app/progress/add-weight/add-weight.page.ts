@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController } from '@ionic/angular';
-import { WeightApi } from 'src/app/services/api/weight.service';
+import { ToastController } from '@ionic/angular';
+import { WeightApi } from '../../services/api/weight.service';
+import { DataService } from '../../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-weight',
@@ -9,19 +11,41 @@ import { WeightApi } from 'src/app/services/api/weight.service';
 })
 export class AddWeightPage implements OnInit {
   today = new Date();
-  tomorrow = new Date();
   date = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
   weight: number;
 
   weightLast = 55;
 
-  constructor(public navCtrl: NavController, private weightAPI: WeightApi, private toastController: ToastController) { }
+  constructor(
+    private weightAPI: WeightApi,
+    private toastController: ToastController,
+    private navService: DataService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
+    this.today.setHours(0, 0, 0, 0)
+    if (this.navService.get('date')) {
+      this.today = new Date(this.navService.get('date'));
+      this.date = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
+    }
+    this.weightAPI.getWeight(this.today.getTime(), this.today.getTime()).then(ob => {
+      ob.subscribe(res => {
+        console.log(res)
+        this.weight = res.data[0].weight
+      })
+    })
+    this.weightAPI.getWeight(0, (new Date()).getTime()).then(ob => {
+      ob.subscribe(res => {
+        console.log(res)
+        this.weightLast = res.data[0].weight
+      })
+    })
   }
 
   onClose() {
-    this.navCtrl.navigateBack(['tabs/progress']);
+    // this.router.initialNavigation();
+    this.navService.push('tabs/progress', {status: 'no'});
   }
   
   onSaveWeight() {
@@ -31,7 +55,11 @@ export class AddWeightPage implements OnInit {
         ob.subscribe(res => {
           console.log(res)
           this.presentToast('Cập nhật cân nặng thành công.');
-          this.navCtrl.navigateBack(['tabs/progress']);
+          if (res.message.includes("Save")) {
+            this.navService.push('tabs/progress', {status: 'edit'});
+          } else {
+            this.navService.push('tabs/progress', {status: 'add'});
+          }
         }, error => {
           this.presentToast('Chưa cập nhật được cân nặng.');
         })
@@ -58,6 +86,6 @@ export class AddWeightPage implements OnInit {
     var month = date_split[1]
     var year = date_split[0]
     var dateTimestamp = (new Date(parseInt(year), parseInt(month) - 1, parseInt(date))).getTime();
-    return dateTimestamp/1000
+    return dateTimestamp
   }
 }

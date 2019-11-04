@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IonInfiniteScroll, NavController } from '@ionic/angular';
-import { SearchApi } from '../../services/api/search.service'
+import { SearchApi } from '../../services/api/search.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-admin-foods',
@@ -21,11 +22,14 @@ export class AdminFoodsPage implements OnInit {
   lastText = null;
 
   events = null;
+
+  type: string;
   
 
-  constructor(private httpclient: HttpClient, public navCtrl: NavController, private searchApi: SearchApi) { }
+  constructor(private httpclient: HttpClient, public navCtrl: NavController, private searchApi: SearchApi, private navService: DataService) { }
 
   ngOnInit() {
+    this.type = this.navService.get('type');
   }
 
   sleep(ms) {
@@ -33,36 +37,22 @@ export class AdminFoodsPage implements OnInit {
   }
 
   loadData(event, value) {
-    this.searchApi.findFood(value).then(ob => {
-      ob.subscribe(res => {
-        this.data = this.data.concat(res['data']);
-        console.log(res)
+    if(this.type == 'exercise') {
+      this.searchApi.findExercise(value).then(ob => {
+        ob.subscribe(res => {
+          this.data = this.data.concat(res['data']);
+          console.log(this.data)
+        })
       })
-    })
-    // this.httpclient.get(`https://randomuser.me/api/?results=10&page=${this.page}`, { observe: 'response' })
-    // .subscribe(resp => {
-    //   this.data = this.data.concat(resp['body']['results']);
-
-    //   if (this.page == 0) {
-    //     this.infiniteScroll.disabled = false;
-    //   }
-
-    //   if (event) {
-    //     event.target.complete();
-    //     console.log("loaddata")
-
-    //   }
-    // })
+    } else {
+      this.searchApi.findFood(value).then(ob => {
+        ob.subscribe(res => {
+          this.data = this.data.concat(res['data']);
+          console.log(res)
+        })
+      })
+    }
   }
-
-  // async loadMore(event) {
-  //   this.page++;
-  //   this.loadData(event);
-
-  //   if (this.page === this.maxinumPages) {
-  //     event.target.disabled = true;
-  //   }
-  // }
 
   async changeSearch(event){
     this.page = 0;
@@ -77,6 +67,10 @@ export class AdminFoodsPage implements OnInit {
 
   public clickFood(food_id) {
     this.navCtrl.navigateForward(['food/' + food_id]);
+  }
+
+  public clickExercise(exercise_id) {
+    this.navService.push(`exercise/${exercise_id}`, {'exercise_id': exercise_id});
   }
 
 }

@@ -17,15 +17,23 @@
     text-transform: uppercase;
     font-size: 12px;
   }
+
+  .white-text {
+    color: #ffffff;
+  }
+
+  .color-toolbar {
+    --background: #f04141;
+  }
 </style>
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="color-toolbar white-text">
     <ion-title>Tiến triển</ion-title>
     <ion-buttons slot="end">
-        <ion-button (click)="onAddWeight()">
-          <ion-icon slot="icon-only" name="add"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-button (click)="onAddWeight()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -33,19 +41,28 @@
   <ion-card>
     <ion-card-content>
       <ion-row style="text-align: center">
-        <ion-col size="4" style="text-align: left">
-          <p class="weight-text-detail">55 kg</p>
+        <ion-col size="3" style="text-align: left">
+          <p class="weight-text-detail">{{ start_weight }} kg</p>
           <p class="title-text-detail">BẮT ĐẦU</p>
         </ion-col>
-        <ion-col size="4">
-          <p class="weight-text-detail">52 kg</p>
+        <ion-col size="3">
+          <p class="weight-text-detail">{{ current_weight }} kg</p>
           <p class="title-text-detail">HIỆN TẠI</p>
         </ion-col>
-        <ion-col size="4" style="text-align: right">
-          <p class="weight-text-detail">
-            <ion-icon name="trending-down"></ion-icon> 3 kg
+        <ion-col size="3" style="text-align: right">
+          <p class="weight-text-detail">{{ finish_weight }} kg</p>
+          <p class="title-text-detail">MỤC TIÊU</p>
+        </ion-col>
+        <ion-col size="3" style="text-align: right">
+          <p class="weight-text-detail" *ngIf="change_weight >= 0;else downWeight">
+            <ion-icon name="trending-up" [color] = "(finish_weight - start_weight) > 0 && current_weight < finish_weight ? 'success' : 'danger'"></ion-icon> {{ change_weight }} kg
           </p>
-          <p class="title-text-detail">THAY ĐỔI (-5.5%)</p>
+          <ng-template #downWeight>
+            <p class="weight-text-detail">
+              <ion-icon name="trending-down" [color] = "(finish_weight - start_weight) < 0 && current_weight > finish_weight ? 'success' : 'danger'"></ion-icon> {{ change_weight * (-1) }} kg
+            </p>
+          </ng-template>
+          <p class="title-text-detail">({{ perchange_weight }}%)</p>
         </ion-col>
       </ion-row>
     </ion-card-content>
@@ -55,7 +72,7 @@
       <ion-item>
         <ion-icon name="calendar" slot="start"></ion-icon>
         <ion-label>Khoảng ngày</ion-label>
-        <ion-select value="one-week" okText="Chọn" cancelText="Thoát" slot="end" (ionChange)="selectTime($event)">
+        <ion-select [(ngModel)]="select_time" okText="Chọn" cancelText="Thoát" slot="end" (ionChange)="selectTime($event)">
           <ion-select-option value="one-week">1 Tuần</ion-select-option>
           <ion-select-option value="one-month">1 Tháng</ion-select-option>
           <ion-select-option value="two-months">2 Tháng</ion-select-option>
@@ -84,10 +101,12 @@
               <h3>{{ item['weigth'] }} kg</h3>
               <p>{{ item['date'] }}</p>
             </ion-label>
-              <ion-icon name="create" slot="end"></ion-icon>
+            <ion-button fill="clear" (click)="editWeight(item['weigth'], item['time'])">
+                <ion-icon name="create" slot="icon-only"></ion-icon>
+            </ion-button>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option color="danger">
+            <ion-item-option color="danger" (click)="deleteWeight(item['time'], item['date'])">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>

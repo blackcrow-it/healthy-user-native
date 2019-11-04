@@ -13,7 +13,7 @@
       <ion-spinner name="dots"></ion-spinner>
     </div>
 
-    <div *ngIf="data.length > 0">
+    <div *ngIf="data.length > 0 && type != 'exercise'">
       <ion-card *ngFor="let item of data">
         <ion-item (click)="clickFood(item['food_id'])">
           <!-- <ion-avatar slot="start">
@@ -29,6 +29,23 @@
         </ion-item>
       </ion-card>
     </div>
+
+    <div *ngIf="data.length > 0 && type == 'exercise'">
+        <ion-card *ngFor="let item of data">
+          <ion-item (click)="clickExercise(item['exercise_id'])">
+            <!-- <ion-avatar slot="start">
+              <img [src]="item.description" />
+            </ion-avatar> -->
+            <ion-label>
+                <h2>{{ item['exercise_name'] }}</h2>
+                <p>set {{ item['index_of_sets'] }}, reps {{ item['repetitions'] }}, {{ item['weight_per_set'] }} kg</p>
+            </ion-label>
+            <ion-note slot="end" style="font-size: 16px;">
+                {{ item['calories_burn'] }}
+            </ion-note>
+          </ion-item>
+        </ion-card>
+      </div>
     <!-- <ion-infinite-scroll threshold="2%" (ionInfinite)="loadMore($event)">
       <ion-infinite-scroll-content loadingSpinner="dots" loadingText="Xem thêm thức ăn">
       </ion-infinite-scroll-content>

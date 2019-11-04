@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-tabs-search',
@@ -8,13 +9,16 @@ import { NavController } from '@ionic/angular';
 })
 export class TabsSearchPage implements OnInit {
 
-  constructor(public navCtrl: NavController) { }
+  type: string;
+
+  constructor(public navCtrl: NavController, private navService: DataService) { }
 
   ngOnInit() {
+    this.type = this.navService.get('type');
   }
 
   closeSearch() {
-    this.navCtrl.navigateBack(['tabs'])
+    this.navCtrl.navigateBack(['tabs/menu'])
   }
 
 }

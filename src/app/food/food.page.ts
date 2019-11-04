@@ -5,8 +5,7 @@ import { SearchApi } from '../services/api/search.service';
 import { FoodApi } from '../services/api/food.service';
 import { FoodMenuApi } from '../services/api/food-menu.service';
 import { Storage } from '@ionic/storage';
-import { FoodInMeal } from '../models/meal'
-import { type } from 'os';
+import { FoodInMeal } from '../models/meal';
 
 
 const SELECT_MENU = 'select';
@@ -105,50 +104,23 @@ export class FoodPage implements OnInit {
   }
 
   async onSaveFood() {
-    // this.navCtrl.navigateBack(['tabs/menu']);
-    var menuId;
     var meal;
-    await this.storage.get(SELECT_MENU).then(res => {
-      menuId = res
-    })
     await this.storage.get(SELECT_MEAL).then(res => {
       meal = res
     })
-    if(menuId == null){
-      await this.storage.get(SELECT_TIME).then(async res => {
-        var foodInMeal = new FoodInMeal();
-        foodInMeal.food_id = await this.food.food_id;
-        foodInMeal.quantity = this.quantity;
-        foodInMeal.type = meal;
-        this.menuApi.createMenu(res, foodInMeal).then(ob => {
-          ob.subscribe(async res => {
-            const toast = await this.toastController.create({
-              message: 'Đã thêm thức ăn.',
-              duration: 1000
-            });
-            toast.present();
-            this.navCtrl.navigateBack(['tab/menu'])
-          }, async err => {
-            const toast = await this.toastController.create({
-              message: 'Thức ăn chưa được thêm.',
-              duration: 1000
-            });
-            toast.present();
-          })
-        })
-      })
-    } else {
+
+    await this.storage.get(SELECT_TIME).then(async res => {
       if(meal == "break_fast"){
         meal = "breakfast"
       }
-      this.menuApi.addOneFoodToMenu(menuId, this.food.food_id, this.quantity, meal).then(ob => {
+      this.menuApi.addOneFoodToMenu(res, this.food.food_id, this.quantity, meal).then(ob => {
         ob.subscribe(async res => {
           const toast = await this.toastController.create({
             message: 'Đã thêm thức ăn.',
             duration: 1000
           });
         toast.present();
-        this.navCtrl.navigateBack(['tab/menu'])
+        this.navCtrl.navigateBack(['tabs/menu'])
         }, async err => {
           const toast = await this.toastController.create({
             message: 'Thức ăn chưa được thêm.',
@@ -157,6 +129,6 @@ export class FoodPage implements OnInit {
           toast.present();
         })
       })
-    }
+    })
   }
 }

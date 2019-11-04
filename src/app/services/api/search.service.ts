@@ -14,16 +14,20 @@ export class SearchApi {
   constructor(private httpclient: HttpClient, private storage: Storage) { }
 
   async findFood(foodName?: string): Promise<Observable<any>> {
-    // if (foodName) {
-    //   foodName = foodName
-    // } else {
-    //   foodName = ''
-    // }
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
     return await this.httpclient.get(environment.URL_API + `/api/foods/search?foodName=${foodName}`, { headers: headers});
+  }
+
+  async findExercise(exerciseName?: string): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.get(environment.URL_API + `/api/exercises/?exerciseName=${exerciseName}`, { headers: headers});
   }
 }

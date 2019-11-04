@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NutritionApi } from '../../services/api/nutrition.service';
 
 @Component({
   selector: 'app-goals',
@@ -14,12 +15,22 @@ export class GoalsPage implements OnInit {
     goal: "60",
     timeGoal: "2",
     typeTimeGoal: "month",
-    activity: "high"
+    activity: 3
   }
 
-  constructor() { }
+  constructor(private nutritionAPI: NutritionApi) { }
 
   ngOnInit() {
+    this.nutritionAPI.getNutrition().then(ob => {
+      ob.subscribe(res => {
+        if (res) {
+          this.info.weightStart = res.weightStart
+          this.info.timeGoal = res.month
+          this.info.activity = res.activityLevel
+        }
+        console.log(res)
+      })
+    })
   }
 
 }

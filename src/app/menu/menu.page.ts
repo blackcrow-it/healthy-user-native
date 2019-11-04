@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavController, IonSelect } from '@ionic/angular';
 import { FoodMenuApi } from '../services/api/food-menu.service'
 import { NutritionApi } from '../services/api/nutrition.service'
 import { WeightApi } from '../services/api/weight.service';
 import { Storage } from '@ionic/storage';
+import { ActivatedRoute } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 const SELECT_MENU = 'select';
 const SELECT_TIME = 'selecttime';
@@ -87,8 +89,23 @@ export class MenuPage implements OnInit {
     return sum
   }
 
-  constructor(public navCtrl: NavController, private menuAPI: FoodMenuApi, private nutritionAPI: NutritionApi, private weightAPI: WeightApi, private storage: Storage) { }
-
+  constructor(
+    public navCtrl: NavController,
+    private menuAPI: FoodMenuApi,
+    private nutritionAPI: NutritionApi,
+    private weightAPI: WeightApi,
+    private storage: Storage,
+    private activeRoute: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef,
+    private navService: DataService
+  ) {
+    this.activeRoute.params.subscribe(() => {
+      this.isLoaded = false;
+      this.getDataMenu();
+      this.isLoaded = true;
+      this.changeDetector.detectChanges();
+    })
+  }
   async ngOnInit() {
     await this.nutritionAPI.getNutrition().then(ob => {
       ob.subscribe(res => {
@@ -109,7 +126,7 @@ export class MenuPage implements OnInit {
     var day = parseInt(this.date.split('-')[2])
     var month = parseInt(this.date.split('-')[1])
     var year = parseInt(this.date.split('-')[0])
-    var dateTimestamp = (new Date(year, month - 1, day)).getTime() / 1000
+    var dateTimestamp = (new Date(year, month - 1, day)).getTime()
     this.isLoaded = false;
 
     this.menuAPI.getMenubyDate(dateTimestamp).then(ob => {
@@ -133,9 +150,9 @@ export class MenuPage implements OnInit {
         if (data && data.exercise) {
           this.execise = data['exercise']['exercise_details']
           console.log(data['exercise'])
+        } else {
+          this.execise = []
         }
-        console.log(res)
-        console.log(this.menu_id)
         this.total()
         this.isLoaded = true;
       }, error => {
@@ -189,11 +206,12 @@ export class MenuPage implements OnInit {
     var day = parseInt(this.date.split('-')[2])
     var month = parseInt(this.date.split('-')[1])
     var year = parseInt(this.date.split('-')[0])
-    var dateTimestamp = (new Date(year, month - 1, day)).getTime() / 1000
+    var dateTimestamp = (new Date(year, month - 1, day)).getTime()
     this.storage.set(SELECT_MEAL, type)
     this.storage.set(SELECT_MENU, this.menu_id)
     this.storage.set(SELECT_TIME, dateTimestamp)
     this.navCtrl.navigateForward(['tabs-search']);
+    this.navService.push('tabs-search', {'type': type})
   }
 
   sleep(ms) {
@@ -221,7 +239,7 @@ export class MenuPage implements OnInit {
     var month = parseInt(this.date.split('-')[1])
     var year = parseInt(this.date.split('-')[0])
     await this.menuAPI.getMenu().then(ob => {
-      var foodDay = (new Date(year, month - 1, day)).getTime() / 1000;
+      var foodDay = (new Date(year, month - 1, day)).getTime();
       ob.subscribe(res => {
         console.log(res);
       })

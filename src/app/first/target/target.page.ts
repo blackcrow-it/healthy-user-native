@@ -72,22 +72,14 @@ export class TargetPage implements OnInit {
   async targetWeight(){
 
     await this.profileApi.getProfile().then(ob => {
-      ob.subscribe(res => {
-        this.height = res.data.height/100
-      })
-    })
-
-    await this.weightApi.getWeight(0, (new Date().getTime())/1000).then(ob => {
       ob.subscribe(async res => {
-        this.weight = res.data[0].weight
+        this.height = res.data.height/100
+        this.weight = res.data.weight
         this.maxWeight = await this.height * 100 - 100;
         this.minWeight = await Math.round(this.maxWeight * 8 / 10 * 10) / 10;
         this.normalWeight = await Math.round(this.maxWeight * 9 / 10 * 10) / 10;
       })
-    })
-
-
-    console.log(this.bmi)
+    })    
   }
 
   async presentAlertConfirm() {

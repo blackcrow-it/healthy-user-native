@@ -50,7 +50,7 @@
   <ion-row>
     <ion-col size="12">
       <h6 style="text-align: center">Lượng calories cần nạp mỗi ngày</h6>
-      <h1 style="text-align: center">2500 kcal</h1>
+      <h1 style="text-align: center">{{ calories }} kcal</h1>
     </ion-col>
   </ion-row>
   <ion-row>
@@ -67,9 +67,9 @@
             <ion-col size="4">Fat</ion-col>
           </ion-row>
           <ion-row>
-            <ion-col size="4">174 g</ion-col>
-            <ion-col size="4">115.8 g</ion-col>
-            <ion-col size="4">34 g</ion-col>
+            <ion-col size="4">{{ proteins }} g</ion-col>
+            <ion-col size="4">{{ carbon }} g</ion-col>
+            <ion-col size="4">{{ fat }} g</ion-col>
           </ion-row>
           <br/>
         </ion-card-content>
@@ -78,8 +78,10 @@
   </ion-row>
   <ion-row>
     <ion-col size="12">
-      <h6 style="text-align: center">* Với lượng dinh dưỡng này cùng với chế độ hoạt động điều độ, trong vòng <b>2 tháng</b> bạn sẽ giảm
-        được <b>2 kg</b>.</h6>
+      <h6 style="text-align: center" *ngIf="type && type < 0;">* Với lượng dinh dưỡng này cùng với chế độ hoạt động điều độ, trong vòng <b>{{ month }} tháng</b> bạn sẽ giảm
+        được <b>{{ weight }} kg</b>.</h6>
+        <h6 style="text-align: center" *ngIf="type && type >= 0;">* Với lượng dinh dưỡng này cùng với chế độ hoạt động điều độ, trong vòng <b>{{ month }} tháng</b> bạn sẽ tăng
+          được <b>{{ weight }} kg</b>.</h6>
     </ion-col>
   </ion-row>
 </ion-content>

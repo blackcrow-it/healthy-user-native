@@ -26,12 +26,21 @@ const routes: Routes = [
   { path: 'tabs-search', loadChildren: './search-foods/tabs-search/tabs-search.module#TabsSearchPageModule' },
   { path: 'user-foods', loadChildren: './search-foods/user-foods/user-foods.module#UserFoodsPageModule' },
   { path: 'shop-foods', loadChildren: './search-foods/shop-foods/shop-foods.module#ShopFoodsPageModule' },
-  { path: 'add-weight', loadChildren: './progress/add-weight/add-weight.module#AddWeightPageModule' },
+  { path: 'tabs/progress/add-weight', loadChildren: './progress/add-weight/add-weight.module#AddWeightPageModule' },
   { path: 'profile', loadChildren: './more/profile/profile.module#ProfilePageModule' },
-  { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },  { path: 'notification', loadChildren: './more/notification/notification.module#NotificationPageModule' },
-  { path: 'excercise', loadChildren: './excercise/excercise.module#ExcercisePageModule' },
+  { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },
+  { path: 'notification', loadChildren: './more/notification/notification.module#NotificationPageModule' },
+  { 
+    path: 'exercise/:id', 
+    canActivate: [AuthGuardService],
+    loadChildren: './excercise/excercise.module#ExcercisePageModule' 
+  },
+  { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsPageModule' },
 
-  // { path: 'progress', loadChildren: './progress/progress.module#ProgressPageModule' },
+  { path: 'tabs/progress', loadChildren: './progress/progress.module#ProgressPageModule' },
+  { path: 'tabs-search', loadChildren: './search-exercises/tabs-search/tabs-search.module#TabsSearchPageModule' },
+  { path: 'user-exercises', loadChildren: './search-foods/user-exercises/user-exercises.module#UserExercisesPageModule' },
+
 ];
 
 @NgModule({

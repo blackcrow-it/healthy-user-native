@@ -10,15 +10,6 @@
   .color-toolbar {
     --background: #f04141;
   }
-
-  ion-button ion-badge {
-    position: absolute;
-    opacity: 0.9;
-    top: 0.1rem;
-    right: 0.2rem;
-    /* & ~ ion-icon {
-        margin-right: 1.2rem; */
-  }
 </style>
 <!-- <ion-header>
   <ion-toolbar class="white-text color-toolbar">
@@ -35,21 +26,18 @@
 </ion-header> -->
 <ion-tabs>
   <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="progress">
+      <ion-icon name="podium"></ion-icon>
+      <ion-label>Tiến triển</ion-label>
+    </ion-tab-button>
     <ion-tab-button tab="menu">
       <ion-icon name="home"></ion-icon>
       <ion-label>Thực đơn</ion-label>
     </ion-tab-button>
-    <!-- <ion-tab-button tab="shop">
-      <ion-icon name="basket"></ion-icon>
-      <ion-label>Cửa hàng</ion-label>
-    </ion-tab-button> -->
-    <ion-tab-button tab="excercise">
-      <ion-icon name="fitness"></ion-icon>
-      <ion-label>Bài tập</ion-label>
-    </ion-tab-button>
-    <ion-tab-button tab="progress">
-      <ion-icon name="podium"></ion-icon>
-      <ion-label>Tiến triển</ion-label>
+    <ion-tab-button tab="notifications">
+      <ion-icon name="notifications"></ion-icon>
+      <ion-badge color="danger">99</ion-badge>
+      <ion-label>Thông báo</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="more">
       <ion-icon name="menu"></ion-icon>

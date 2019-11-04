@@ -18,7 +18,7 @@ export class ProfilePage implements OnInit {
     this.profileApi.getProfile().then(ob => {
       ob.subscribe(res => {
         this.data = res.data
-        this.birthday = this.formatDate(new Date(this.data['date_of_birth']*1000))
+        this.birthday = this.formatDate(new Date(this.data['date_of_birth']))
       }, error => {
         console.log(error)
       })

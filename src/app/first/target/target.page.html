@@ -148,12 +148,12 @@
         <ion-card-content>
           <ion-item>
             <ion-label>Cân nặng đạt</ion-label>
-            <ion-input type="number" [(ngModel)]="weightFinal" style="text-align: right"></ion-input>
+            <ion-input type="number" [(ngModel)]="weightFinal" style="text-align: right" min="{{ minWeight }}" max="{{ maxWeight }}" required="true"></ion-input>
             <ion-note slot="end">kg</ion-note>
           </ion-item>
           <ion-item>
             <ion-label>Thời gian</ion-label>
-            <ion-input style="text-align: right" slot="end" min="0" type="number" placeholder="1" [(ngModel)]="time"></ion-input>
+            <ion-input style="text-align: right" slot="end" min="0" type="number" placeholder="1" [(ngModel)]="time" required="true"></ion-input>
             <ion-select slot="end" value="month">
               <ion-select-option value="month">Tháng</ion-select-option>
               <!-- <ion-select-option value="year">Năm</ion-select-option> -->

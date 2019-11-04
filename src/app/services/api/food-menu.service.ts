@@ -55,7 +55,7 @@ export class FoodMenuApi {
     return await this.httpclient.post(environment.URL_API + `/api/menu/create`, data, { headers: headers });
   }
 
-  async addOneFoodToMenu(menuId, foodId, quantity, meal): Promise<Observable<any>> {
+  async addOneFoodToMenu(time, foodId, quantity, meal): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
@@ -70,6 +70,23 @@ export class FoodMenuApi {
       ],
       "type": meal
     }
-    return await this.httpclient.put(environment.URL_API + `/api/menu/${menuId}`, food, { headers: headers });
+    return await this.httpclient.put(environment.URL_API + `/api/menu/${time}`, food, { headers: headers });
+  }
+
+  async addOneExerciseToMenu(time, exerciseId): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    let exercise = {
+      "exercises": [
+        {
+          "exercise_id": exerciseId
+        }
+      ],
+      "type": 'exercise'
+    }
+    return await this.httpclient.put(environment.URL_API + `/api/menu/${time}`, exercise, { headers: headers });
   }
 }

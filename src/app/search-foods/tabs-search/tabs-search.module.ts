@@ -20,6 +20,7 @@ const routes: Routes = [
         { path: 'admin-foods', loadChildren: '../../search-foods/admin-foods/admin-foods.module#AdminFoodsPageModule' },
         { path: 'user-foods', loadChildren: '../../search-foods/user-foods/user-foods.module#UserFoodsPageModule' },
         { path: 'shop-foods', loadChildren: '../../search-foods/shop-foods/shop-foods.module#ShopFoodsPageModule' },
+        { path: 'user-exercises', loadChildren: '../../search-foods/user-exercises/user-exercises.module#UserExercisesPageModule' },
     ]
   }
 ];
