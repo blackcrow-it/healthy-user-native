@@ -61,6 +61,9 @@ export class FoodMenuApi {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
+    if(meal == 'break_fast'){
+      meal = 'breakfast'
+    } 
     let food = {
       "meals": [
         {
@@ -70,7 +73,26 @@ export class FoodMenuApi {
       ],
       "type": meal
     }
+    console.log(food)
     return await this.httpclient.put(environment.URL_API + `/api/menu/${time}`, food, { headers: headers });
+  }
+
+  async editOneFoodToMenu(meal_detail_id, quantity): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.put(environment.URL_API + `/api/menu/meal/${meal_detail_id}?quantity=${quantity}`, null, { headers: headers });
+  }
+
+  async removeOneFoodToMenu(meal_detail_id): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.delete(environment.URL_API + `/api/menu/food/${meal_detail_id}`, { headers: headers });
   }
 
   async addOneExerciseToMenu(time, exerciseId): Promise<Observable<any>> {
@@ -88,5 +110,14 @@ export class FoodMenuApi {
       "type": 'exercise'
     }
     return await this.httpclient.put(environment.URL_API + `/api/menu/${time}`, exercise, { headers: headers });
+  }
+
+  async removeOneExerciseToMenu(exercise_detail_id): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.delete(environment.URL_API + `/api/menu/exercise/${exercise_detail_id}`, { headers: headers });
   }
 }

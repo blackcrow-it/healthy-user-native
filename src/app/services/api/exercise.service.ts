@@ -23,4 +23,12 @@ export class ExerciseService {
     return await this.httpclient.get(environment.URL_API + `/api/exercises/${exerciseId}`, { headers: headers });
   }
   
+  async createExercise(food:Food): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.post(environment.URL_API + `/api/foods/create`, food, { headers: headers });
+  }
 }

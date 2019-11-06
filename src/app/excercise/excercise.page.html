@@ -22,7 +22,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/menu" class="white-text"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="type != 'edit'">
       <ion-button (click)="onSaveExercise()">
         <ion-icon slot="icon-only" name="checkmark"></ion-icon>
       </ion-button>
@@ -33,8 +33,7 @@
 <ion-content class="background-main">
 
   <ion-card fullscreen class="background-white">
-    <iframe width="100%" src="" frameborder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width="100%" [src]="video_url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <ion-card-header>
       <!-- <ion-card-subtitle>Strength</ion-card-subtitle> -->
       <ion-card-title>{{ data.exercise_name }}</ion-card-title>
@@ -43,19 +42,19 @@
       <ion-list>
         <ion-item>
           <ion-label stacked>Số hiệp</ion-label>
-          <ion-input style="text-align: right;" readonly>{{ data.repetitions }}</ion-input>
+          <ion-input style="text-align: right;" readonly [(ngModel)]="data.index_of_sets"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label stacked>Số lần/hiệp</ion-label>
-          <ion-input style="text-align: right;" readonly>{{ data.index_of_sets }}</ion-input>
+          <ion-input style="text-align: right;" readonly [(ngModel)]="data.repetitions"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label stacked>Cân nặng</ion-label>
-          <ion-input style="text-align: right;" readonly>{{ data.weight_per_set }}</ion-input>
+          <ion-input style="text-align: right;" readonly [(ngModel)]="data.weight_per_set"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label stacked>Năng lượng đốt</ion-label>
-          <ion-input style="text-align: right;" readonly>{{ data.calories_burn }}</ion-input>
+          <ion-input style="text-align: right;" readonly [(ngModel)]="data.calories_burn"></ion-input>
         </ion-item>
       </ion-list>
     </ion-card-content>

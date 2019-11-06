@@ -4,6 +4,7 @@ import { DataService } from '../services/data.service';
 import { Storage } from '@ionic/storage';
 import { FoodMenuApi } from '../services/api/food-menu.service';
 import { ToastController, NavController } from '@ionic/angular';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 const SELECT_TIME = 'selecttime';
 const SELECT_MEAL = 'meal';
@@ -14,7 +15,8 @@ const SELECT_MEAL = 'meal';
   styleUrls: ['./excercise.page.scss'],
 })
 export class ExcercisePage implements OnInit {
-  video_url: "https://www.youtube.com/embed/7kP8Qnu2TJ8?list=RDEMTeD5S482iCxsXK7AGnkQ1g"
+  video_url : SafeUrl;
+  
   data = {
     calories_burn: 0,
     exercise_detail_id: 4,
@@ -26,10 +28,22 @@ export class ExcercisePage implements OnInit {
     weight_per_set: 40
   }
 
-  constructor(private exerciseAPI: ExerciseService, private navService: DataService, private storage: Storage, private menuApi: FoodMenuApi, private toastController: ToastController, public navCtrl: NavController) { }
+  type = 'create'
 
-  ngOnInit() {
-    this.getExercise(this.navService.get('exercise_id'))
+  constructor(
+    private exerciseAPI: ExerciseService, 
+    private navService: DataService, 
+    private storage: Storage, 
+    private menuApi: FoodMenuApi, 
+    private toastController: ToastController, 
+    public navCtrl: NavController,
+    private sanitizer: DomSanitizer
+    ) { }
+
+  async ngOnInit() {
+    await this.getExercise(this.navService.get('exercise_id'));
+    this.type = this.navService.get('type');
+    this.video_url = await this.sanitizer.bypassSecurityTrustResourceUrl(this.data.video_url);
   }
 
   getExercise(id){

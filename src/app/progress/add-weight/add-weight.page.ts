@@ -45,7 +45,7 @@ export class AddWeightPage implements OnInit {
 
   onClose() {
     // this.router.initialNavigation();
-    this.navService.push('tabs/progress', {status: 'no'});
+    this.navService.pop('tabs/progress', {status: 'no'});
   }
   
   onSaveWeight() {
@@ -56,9 +56,9 @@ export class AddWeightPage implements OnInit {
           console.log(res)
           this.presentToast('Cập nhật cân nặng thành công.');
           if (res.message.includes("Save")) {
-            this.navService.push('tabs/progress', {status: 'edit'});
+            this.navService.pop('tabs/progress', {status: 'edit'});
           } else {
-            this.navService.push('tabs/progress', {status: 'add'});
+            this.navService.pop('tabs/progress', {status: 'add'});
           }
         }, error => {
           this.presentToast('Chưa cập nhật được cân nặng.');

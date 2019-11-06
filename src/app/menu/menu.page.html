@@ -124,8 +124,8 @@
 </ion-header>
 
 <ion-content class="background-main">
-
   <div *ngIf="isLoaded">
+    <ion-datetime  #datePicker displayFormat="DDD, DD/MM/YYYY" [(ngModel)]="dateCopy" style="display: none;" [pickerOptions]="customOptions"></ion-datetime>
     <ion-card *ngFor="let food of foods">
       <ion-card-header data-toggle="collapse" attr.data-target="#{{food['key']}}">
         <ion-card-title>
@@ -145,7 +145,7 @@
         <ion-list>
           <!-- Multi-line sliding item with icon options on both sides -->
           <ion-item-sliding *ngFor="let item of food['data']" id="{{ item['food_id'] }}">
-            <ion-item (click)="clickFood(item['food_id'])">
+            <ion-item (click)="clickFood(item['food_id'], item['meal_detail_id'], item['meal_quantity'])">
               <ion-label>
                 <h2>{{ item['food_name'] }}</h2>
                 <p>{{ item['meal_quantity'] }} {{ item['unit'] }}</p>
@@ -156,7 +156,7 @@
             </ion-item>
 
             <ion-item-options side="end">
-              <ion-item-option color="danger">
+              <ion-item-option color="danger" (click)="removeFoodInMenu(item['meal_detail_id'], food['key'])">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-item-option>
             </ion-item-options>
@@ -196,7 +196,7 @@
           <ion-list>
             <!-- Multi-line sliding item with icon options on both sides -->
             <ion-item-sliding *ngFor="let item of execise" [id]="item['exercise_id']">
-              <ion-item>
+              <ion-item (click)="clickExercise(item['exercise_id'])">
                 <ion-label>
                   <h2>{{ item['exercise_name'] }}</h2>
                   <p>set {{ item['index_of_sets'] }}, reps {{ item['repetitions'] }}, {{ item['weight_per_set'] }} kg</p>
@@ -207,7 +207,7 @@
               </ion-item>
   
               <ion-item-options side="end">
-                <ion-item-option color="danger">
+                <ion-item-option color="danger" (click)="removeExerciseInMenu(item['exercise_detail_id'])">
                   <ion-icon slot="icon-only" name="trash"></ion-icon>
                 </ion-item-option>
               </ion-item-options>

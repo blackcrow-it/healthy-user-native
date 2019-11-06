@@ -31,8 +31,7 @@ const routes: Routes = [
   { path: 'goals', loadChildren: './more/goals/goals.module#GoalsPageModule' },
   { path: 'notification', loadChildren: './more/notification/notification.module#NotificationPageModule' },
   { 
-    path: 'exercise/:id', 
-    canActivate: [AuthGuardService],
+    path: 'exercise',
     loadChildren: './excercise/excercise.module#ExcercisePageModule' 
   },
   { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsPageModule' },

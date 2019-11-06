@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, IonSelect } from '@ionic/angular';
+import { NavController, IonSelect, IonDatetime, ToastController } from '@ionic/angular';
 import { FoodMenuApi } from '../services/api/food-menu.service'
 import { NutritionApi } from '../services/api/nutrition.service'
 import { WeightApi } from '../services/api/weight.service';
@@ -18,6 +18,8 @@ const SELECT_MEAL = 'meal';
 })
 export class MenuPage implements OnInit {
   @ViewChild('optionDashboard', { static: false }) selectRef: IonSelect;
+  @ViewChild('datepicker', { static: false }) pickerRef: IonDatetime;
+  @ViewChild('datePicker', { static: false }) datePicker;
 
   optionStatus = "calorie"
 
@@ -76,6 +78,10 @@ export class MenuPage implements OnInit {
 
   execise = []
 
+  dateCopy = null;
+
+  activeMeal: string;
+
   showOption() {
     this.selectRef.open();
   }
@@ -97,7 +103,8 @@ export class MenuPage implements OnInit {
     private storage: Storage,
     private activeRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
-    private navService: DataService
+    private navService: DataService,
+    public toastController: ToastController
   ) {
     this.activeRoute.params.subscribe(() => {
       this.isLoaded = false;
@@ -134,8 +141,8 @@ export class MenuPage implements OnInit {
         var data = res['data']
         for (var item in this.foods) {
           var meal = this.foods[item].key
-          if(data) {
-            try{
+          if (data) {
+            try {
               this.foods[item].data = data[meal]['foods']
             }
             catch {
@@ -198,8 +205,14 @@ export class MenuPage implements OnInit {
     this.titleExercise = total_exercise.toString()
   }
 
-  public clickFood(food_id) {
-    this.navCtrl.navigateForward(['food/' + food_id]);
+  public clickFood(food_id, meal_detail_id, meal_quantity) {
+    // this.navCtrl.navigateForward(['food/' + food_id]);
+    this.navService.push(`/food/${food_id}`, { type: 'edit', meal_detail_id: meal_detail_id, meal_quantity: meal_quantity })
+  }
+
+  clickExercise(exercise_id) {
+    console.log(this.execise)
+    this.navService.push(`/exercise`, { type: 'edit', exercise_id: exercise_id })
   }
 
   public addFoods(type: string) {
@@ -211,7 +224,7 @@ export class MenuPage implements OnInit {
     this.storage.set(SELECT_MENU, this.menu_id)
     this.storage.set(SELECT_TIME, dateTimestamp)
     this.navCtrl.navigateForward(['tabs-search']);
-    this.navService.push('tabs-search', {'type': type})
+    this.navService.push('tabs-search', { 'type': type })
   }
 
   sleep(ms) {
@@ -238,11 +251,106 @@ export class MenuPage implements OnInit {
     var day = parseInt(this.date.split('-')[2])
     var month = parseInt(this.date.split('-')[1])
     var year = parseInt(this.date.split('-')[0])
-    await this.menuAPI.getMenu().then(ob => {
-      var foodDay = (new Date(year, month - 1, day)).getTime();
+    // await this.menuAPI.getMenu().then(ob => {
+    //   var foodDay = (new Date(year, month - 1, day)).getTime();
+    //   ob.subscribe(res => {
+    //     console.log(res);
+    //   })
+    // })
+    this.activeMeal = type;
+    this.datePicker.open()
+  }
+
+  removeFoodInMenu(meal_detail_id, meal) {
+    this.menuAPI.removeOneFoodToMenu(meal_detail_id).then(ob => {
       ob.subscribe(res => {
-        console.log(res);
+        this.foods.forEach(element => {
+          if (element.key == meal) {
+            element.data.forEach(food => {
+              if (food.meal_detail_id == meal_detail_id) {
+                var index = element.data.indexOf(food)
+                if (index > -1) {
+                  element.data.splice(index, 1);
+                }
+              }
+            });
+            this.total();
+          }
+        });
       })
     })
+  }
+
+  removeExerciseInMenu(exercise_detail_id) {
+    this.menuAPI.removeOneExerciseToMenu(exercise_detail_id).then(ob => {
+      ob.subscribe(res => {
+        this.execise.forEach(item => {
+          if (item.exercise_detail_id == exercise_detail_id) {
+            var index = this.execise.indexOf(item)
+            if (index > -1) {
+              this.execise.splice(index, 1);
+            }
+            this.total();
+          }
+        });
+      })
+    })
+  }
+
+  public customOptions: any = {
+    buttons: [
+      {
+        text: 'Hủy',
+        role: 'cancel'
+      },
+      {
+        text: 'Chọn',
+        handler: (value) => {
+          var time = (new Date(value.year.value, value.month.value - 1, value.day.value)).getTime()
+          var day = parseInt(this.date.split('-')[2])
+          var month = parseInt(this.date.split('-')[1])
+          var year = parseInt(this.date.split('-')[0])
+          var dateTimestamp = (new Date(year, month - 1, day)).getTime()
+          console.log(value)
+          this.menuAPI.getMenubyDate(time).then(ob => {
+            ob.subscribe(async res => {
+              console.log(res)
+              var meal = this.activeMeal;
+              if(res.data && res.data[meal]) {
+                res.data[meal].foods.forEach(async item => {
+                  this.menuAPI.addOneFoodToMenu(dateTimestamp, item.food_id, item.meal_quantity, meal).then(ob => {
+                    var detail_meal: string;
+                    console.log(meal)
+                    ob.subscribe(async res => {
+                      if (meal == 'break_fast') {
+                        detail_meal = 'bữa sáng';
+                      } else if (meal == 'lunch') {
+                        detail_meal = 'bữa trưa';
+                      } else if (meal == 'dinner') {
+                        detail_meal = 'bữa tối';
+                      } else {
+                        detail_meal = 'bữa phụ';
+                      }
+                      this.getDataMenu();
+                    })
+                  })
+                  const toast = await this.toastController.create({
+                    message: `Đã sao chép vào ${meal} thành công.`,
+                    duration: 2000
+                  });
+                  toast.present();
+                });
+              } else {
+                const toast = await this.toastController.create({
+                  message: 'Ngày bạn muốn sao chép chưa có thực đơn.',
+                  duration: 2000
+                });
+                toast.present();
+              }
+            })
+          })
+        }
+      },
+    ]
   }
 }

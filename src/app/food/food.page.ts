@@ -6,6 +6,7 @@ import { FoodApi } from '../services/api/food.service';
 import { FoodMenuApi } from '../services/api/food-menu.service';
 import { Storage } from '@ionic/storage';
 import { FoodInMeal } from '../models/meal';
+import { DataService } from '../services/data.service';
 
 
 const SELECT_MENU = 'select';
@@ -25,10 +26,10 @@ export class FoodPage implements OnInit {
 
   food = {
     "food_id": 1,
-    "description": "https://a57.foxnews.com/media2.foxnews.com/BrightCove/694940094001/2019/03/15/931/524/694940094001_6014490250001_6014489408001-vs.jpg?ve=1&tl=1",
-    "food_name": "Trứng",
+    "description": "",
+    "food_name": "",
     "quantity": 1,
-    "unit": "quả to",
+    "unit": "",
     "calories": 72,
     "carbs": 0.4,
     "fat": 4.8,
@@ -46,14 +47,17 @@ export class FoodPage implements OnInit {
   percentProtein = 0;
   percentTotal = 0;
 
+  type: string;
+
   constructor(
     public navCtrl: NavController,
     public toastController: ToastController,
     public searchApi: SearchApi,
     private foodApi: FoodApi,
     private menuApi: FoodMenuApi,
-    private storage: Storage
-    ) { }
+    private storage: Storage,
+    private navService: DataService
+  ) { }
 
   async ngOnInit() {
     var existImage = false;
@@ -63,10 +67,10 @@ export class FoodPage implements OnInit {
       ob.subscribe(async res => {
         var img = document.createElement('img');
         img.src = res.data.description;
-        img.onload = function(e){
+        img.onload = function (e) {
           existImage = true;
         };
-        img.onerror = function(e) {
+        img.onerror = function (e) {
           existImage = false;
         };
 
@@ -75,12 +79,18 @@ export class FoodPage implements OnInit {
         this.fat = await this.food.fat;
         this.protein = await this.food.proteins;
         this.kcal = await this.food.calories;
-        this.quantity = await this.food.quantity;
-    
+        if (this.navService.get('type') == 'edit') {
+          this.quantity = await this.navService.get('meal_quantity')
+        } else {
+          this.quantity = await this.food.quantity;
+        }
+
         this.percentTotal = await 100 / (this.carbs * 4 + this.fat * 9 + this.protein * 4);
         this.percentCarbs = await Math.round((this.carbs * 4) * this.percentTotal * 1) / 1;
         this.percentFat = await Math.round((this.fat * 9) * this.percentTotal * 1) / 1;
         this.percentProtein = await Math.round((this.protein * 4) * this.percentTotal * 1) / 1;
+
+        this.navService.get('meal_quantity')
       })
     })
   }
@@ -104,31 +114,45 @@ export class FoodPage implements OnInit {
   }
 
   async onSaveFood() {
-    var meal;
-    await this.storage.get(SELECT_MEAL).then(res => {
-      meal = res
-    })
-
-    await this.storage.get(SELECT_TIME).then(async res => {
-      if(meal == "break_fast"){
-        meal = "breakfast"
-      }
-      this.menuApi.addOneFoodToMenu(res, this.food.food_id, this.quantity, meal).then(ob => {
+    if (this.navService.get('type') == 'edit') {
+      this.menuApi.editOneFoodToMenu(this.navService.get('meal_detail_id'), this.quantity).then(ob => {
         ob.subscribe(async res => {
+          console.log(res)
           const toast = await this.toastController.create({
-            message: 'Đã thêm thức ăn.',
-            duration: 1000
-          });
-        toast.present();
-        this.navCtrl.navigateBack(['tabs/menu'])
-        }, async err => {
-          const toast = await this.toastController.create({
-            message: 'Thức ăn chưa được thêm.',
+            message: `Đã sửa số lượng của ${this.food.food_name}.`,
             duration: 1000
           });
           toast.present();
+          this.navCtrl.navigateBack(['tabs/menu'])
         })
       })
-    })
+    } else {
+      var meal;
+      await this.storage.get(SELECT_MEAL).then(res => {
+        meal = res
+      })
+
+      await this.storage.get(SELECT_TIME).then(async res => {
+        if (meal == "break_fast") {
+          meal = "breakfast"
+        }
+        this.menuApi.addOneFoodToMenu(res, this.food.food_id, this.quantity, meal).then(ob => {
+          ob.subscribe(async res => {
+            const toast = await this.toastController.create({
+              message: 'Đã thêm thức ăn.',
+              duration: 1000
+            });
+            toast.present();
+            this.navCtrl.navigateBack(['tabs/menu'])
+          }, async err => {
+            const toast = await this.toastController.create({
+              message: 'Thức ăn chưa được thêm.',
+              duration: 1000
+            });
+            toast.present();
+          })
+        })
+      })
+    }
   }
 }
