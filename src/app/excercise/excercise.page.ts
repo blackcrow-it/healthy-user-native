@@ -19,13 +19,13 @@ export class ExcercisePage implements OnInit {
   
   data = {
     calories_burn: 0,
-    exercise_detail_id: 4,
-    exercise_id: 1,
+    exercise_detail_id: 0,
+    exercise_id: 0,
     exercise_name: "SQUART",
-    index_of_sets: 12,
-    repetitions: 3,
-    video_url: "https://www.youtube.com/embed/7kP8Qnu2TJ8?list=RDEMTeD5S482iCxsXK7AGnkQ1g",
-    weight_per_set: 40
+    index_of_sets: 0,
+    repetitions: 0,
+    video_url: "",
+    weight_per_set: 0
   }
 
   type = 'create'
@@ -42,8 +42,10 @@ export class ExcercisePage implements OnInit {
 
   async ngOnInit() {
     await this.getExercise(this.navService.get('exercise_id'));
-    this.type = this.navService.get('type');
-    this.video_url = await this.sanitizer.bypassSecurityTrustResourceUrl(this.data.video_url);
+    this.type = this.navService.get('type_exercise');
+    if(this.data.video_url){
+      this.video_url = await this.sanitizer.bypassSecurityTrustResourceUrl(this.data.video_url);
+    } 
   }
 
   getExercise(id){

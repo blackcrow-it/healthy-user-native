@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-more',
@@ -9,10 +9,29 @@ import { NavController } from '@ionic/angular';
 })
 export class MorePage implements OnInit {
 
-  constructor(private authService: AuthenticationService, public navCtrl: NavController) { }
+  constructor(private authService: AuthenticationService, public navCtrl: NavController, private alertController: AlertController) { }
 
-  clickLogout() {
-    this.authService.logout();
+  async clickLogout() {
+    const alert = await this.alertController.create({
+      header: 'Đăng xuất!',
+      message: 'Bạn muốn đăng xuất?',
+      buttons: [
+        {
+          text: 'Không',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Đồng ý',
+          handler: () => {
+            this.authService.logout();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   ngOnInit() {

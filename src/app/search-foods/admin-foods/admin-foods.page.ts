@@ -70,7 +70,7 @@ export class AdminFoodsPage implements OnInit {
   }
 
   public clickExercise(exercise_id) {
-    this.navService.push(`exercise/${exercise_id}`, {'exercise_id': exercise_id});
+    this.navService.push(`exercise`, {'exercise_id': exercise_id, type_exercise: 'add'});
   }
 
 }

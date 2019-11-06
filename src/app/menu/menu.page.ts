@@ -212,7 +212,7 @@ export class MenuPage implements OnInit {
 
   clickExercise(exercise_id) {
     console.log(this.execise)
-    this.navService.push(`/exercise`, { type: 'edit', exercise_id: exercise_id })
+    this.navService.push(`/exercise`, { type_exercise: 'edit', exercise_id: exercise_id })
   }
 
   public addFoods(type: string) {

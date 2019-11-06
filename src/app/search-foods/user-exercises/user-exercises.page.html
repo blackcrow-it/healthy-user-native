@@ -5,5 +5,36 @@
 </ion-header>
 
 <ion-content>
-
+    <ion-card>
+        <ion-card-content>
+          <ion-item>
+            <ion-label>Tên bài tập</ion-label>
+            <ion-input [(ngModel)]="exercise_name" type="text" placeholder="" style="text-align: right"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Số hiệp</ion-label>
+            <ion-input [(ngModel)]="index_of_sets" type="number" placeholder="1" style="text-align: right"></ion-input>
+            <ion-label slot="end">set</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Số lần mỗi hiệp</ion-label>
+            <ion-input [(ngModel)]="repetitions" type="number" placeholder="12" style="text-align: right"></ion-input>
+            <ion-label slot="end">reps</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Mức cân nặng của tạ</ion-label>
+            <ion-input [(ngModel)]="weight_per_set" type="number" placeholder="20" style="text-align: right"></ion-input>
+            <ion-label slot="end">kg</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>Năng lượng đốt</ion-label>
+            <ion-input [(ngModel)]="calories_burn" type="number" placeholder="1.1" style="text-align: right"></ion-input>
+            <ion-label slot="end">kcal</ion-label>
+          </ion-item>
+          <ion-button (click)="createExercise()">
+            <ion-icon slot="start" name="add"></ion-icon>
+            Tạo
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
 </ion-content>

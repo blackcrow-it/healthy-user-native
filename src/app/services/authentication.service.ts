@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Platform } from '@ionic/angular';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 const TOKEN_KEY = 'auth-token';
 const STEP = 'step';
@@ -12,7 +13,7 @@ const STEP = 'step';
 export class AuthenticationService {
   authenticationState = new BehaviorSubject(false);
 
-  constructor(private storage: Storage, private plt: Platform) {
+  constructor(private storage: Storage, private plt: Platform, private oneSignal: OneSignal) {
     this.plt.ready().then(() => {
       this.checkToken();
     })
@@ -25,6 +26,9 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.oneSignal.getIds().then((id) => {
+      console.log(id);
+    });
     return this.storage.remove(TOKEN_KEY).then(() => {
       this.storage.remove(STEP)
       this.authenticationState.next(false);

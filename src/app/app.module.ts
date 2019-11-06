@@ -16,6 +16,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { OneSignal } from '@ionic-native/onesignal/ngx'
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -32,7 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    LocalNotifications
+    LocalNotifications,
+    OneSignal
   ],
   bootstrap: [AppComponent]
 })

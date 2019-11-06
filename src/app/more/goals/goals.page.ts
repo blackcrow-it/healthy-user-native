@@ -15,7 +15,7 @@ export class GoalsPage implements OnInit {
     goal: "60",
     timeGoal: "2",
     typeTimeGoal: "month",
-    activity: 3
+    activity: "3"
   }
 
   constructor(private nutritionAPI: NutritionApi) { }
@@ -26,7 +26,8 @@ export class GoalsPage implements OnInit {
         if (res) {
           this.info.weightStart = res.weightStart
           this.info.timeGoal = res.month
-          this.info.activity = res.activityLevel
+          this.info.goal = res.weightFinish
+          this.info.activity = res.activityLevel.toString()
         }
         console.log(res)
       })

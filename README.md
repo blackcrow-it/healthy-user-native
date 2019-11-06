@@ -21,6 +21,9 @@
 	npm install ng-circle-progress --save
 	npm install uuid
 
+	ionic cordova plugin add onesignal-cordova-plugin
+	npm install @ionic-native/onesignal
+
 	ionic cordova plugin add cordova-plugin-local-notification
 	npm install @ionic-native/local-notifications
 
