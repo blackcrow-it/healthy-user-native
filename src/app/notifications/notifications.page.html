@@ -33,21 +33,21 @@
 </ion-header>
 
 <ion-content class="background-main">
-  <h1 style="text-align: center; color: #969696; margin-top: 50%">Chưa có thông báo</h1>
-  <!-- <ion-card *ngFor="let item of [0,1,2,3,4]">
-    <ion-card-header>
-      <ion-card-subtitle>
-        <ion-icon name="notifications" style="background-color: #f04141; border-radius: 50%; padding: 5px; color: #ffffff"></ion-icon>
-        1 phút trước
-      </ion-card-subtitle>
-      <ion-card-title>
-        Tiêu đề
-      </ion-card-title>
-    </ion-card-header>
+  <h1 style="text-align: center; color: #969696; margin-top: 50%" *ngIf="isEmpty">Chưa có thông báo</h1>
+  <div *ngIf="!isEmpty">
+    <ion-card *ngFor="let item of data">
+      <ion-card-header>
+        <!-- <ion-card-subtitle>
+          1 phút trước
+        </ion-card-subtitle> -->
+        <ion-card-title>
+          <ion-icon name="notifications" style="background-color: #f04141; border-radius: 50%; padding: 5px; color: #ffffff"></ion-icon> {{ item.title }}
+        </ion-card-title>
+      </ion-card-header>
 
-    <ion-card-content>
-      Keep close to Nature's heart... and break clear away, once in awhile,
-      and climb a mountain or spend a week in the woods. Wash your spirit clean.
-    </ion-card-content>
-  </ion-card> -->
+      <ion-card-content>
+        {{ item.message }}
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

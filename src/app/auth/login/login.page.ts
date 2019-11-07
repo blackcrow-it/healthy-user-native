@@ -7,6 +7,7 @@ import { AuthService } from '../../services/api/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { NutritionApi } from '../../services/api/nutrition.service'
+import { NotifyService } from '../../services/api/notify.service'
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 const TOKEN_KEY = 'auth-token';
@@ -31,7 +32,8 @@ export class LoginPage implements OnInit {
     public formBuilder: FormBuilder,
     private storage: Storage,
     private oneSignal: OneSignal,
-    private nutritionApi: NutritionApi
+    private nutritionApi: NutritionApi,
+    private notifyApi: NotifyService
   ) { }
 
   async onSubmit() {
@@ -66,7 +68,11 @@ export class LoginPage implements OnInit {
           await this.authService.login(resp.token);
           loading.dismiss();
           this.oneSignal.getIds().then((id) => {
-            console.log(id, resp.token);
+            this.notifyApi.addSegment(id.userId, resp.token).then(ob => {
+              ob.subscribe(res => {
+                console.log(res);
+              })
+            })
           });
         }, error => {
           loading.dismiss();
@@ -84,6 +90,9 @@ export class LoginPage implements OnInit {
   }
 
   clickRegister() {
+    // this.oneSignal.getIds().then(value => {
+    //   this.alertError(value.userId);
+    // });
     this.navCtrl.navigateForward(['register']);
   }
 

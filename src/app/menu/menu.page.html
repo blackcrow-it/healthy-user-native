@@ -127,7 +127,7 @@
   <div *ngIf="isLoaded">
     <ion-datetime  #datePicker displayFormat="DDD, DD/MM/YYYY" [(ngModel)]="dateCopy" style="display: none;" [pickerOptions]="customOptions"></ion-datetime>
     <ion-card *ngFor="let food of foods">
-      <ion-card-header data-toggle="collapse" attr.data-target="#{{food['key']}}">
+      <ion-card-header attr.data-target="#{{food['key']}}">
         <ion-card-title>
           <!-- Bữa sáng -->
           <span item-left style="font-weight: bold">
@@ -141,7 +141,7 @@
           </span>
         </ion-card-title>
       </ion-card-header>
-      <ion-card-content [id]="food['key']" class="collapse">
+      <ion-card-content [id]="food['key']">
         <ion-list>
           <!-- Multi-line sliding item with icon options on both sides -->
           <ion-item-sliding *ngFor="let item of food['data']" id="{{ item['food_id'] }}">
