@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -16,7 +17,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { OneSignal } from '@ionic-native/onesignal/ngx'
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +30,8 @@ import { OneSignal } from '@ionic-native/onesignal/ngx'
     HttpClientModule,
     IonicStorageModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     StatusBar,

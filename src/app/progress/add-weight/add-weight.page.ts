@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController, LoadingController } from '@ionic/angular';
 import { WeightApi } from '../../services/api/weight.service';
 import { DataService } from '../../services/data.service';
 import { Router } from '@angular/router';
@@ -20,10 +20,16 @@ export class AddWeightPage implements OnInit {
     private weightAPI: WeightApi,
     private toastController: ToastController,
     private navService: DataService,
-    private router: Router
+    private navCtrl: NavController,
+    private router: Router,
+    public loadingController: LoadingController
     ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     this.today.setHours(0, 0, 0, 0)
     if (this.navService.get('date')) {
       this.today = new Date(this.navService.get('date'));
@@ -41,11 +47,11 @@ export class AddWeightPage implements OnInit {
         this.weightLast = res.data[0].weight
       })
     })
+    await loading.dismiss();
   }
 
   onClose() {
-    // this.router.initialNavigation();
-    this.navService.pop('tabs/progress', {status: 'no'});
+    this.navCtrl.back();
   }
   
   onSaveWeight() {

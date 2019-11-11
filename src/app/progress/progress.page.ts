@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Chart } from "chart.js";
-import { AlertController, ToastController, NavController } from '@ionic/angular';
+import { AlertController, ToastController, NavController, LoadingController } from '@ionic/angular';
 import { WeightApi } from '../services/api/weight.service';
 import { NutritionApi } from '../services/api/nutrition.service';
 import { DataService } from '../services/data.service';
@@ -58,7 +58,8 @@ export class ProgressPage implements OnInit {
     private toastController: ToastController,
     private navService: DataService,
     private activeRoute: ActivatedRoute,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private loadingController: LoadingController
   ) {
     this.activeRoute.params.subscribe(data => {
       this.ngOnInit();
@@ -67,6 +68,10 @@ export class ProgressPage implements OnInit {
   }
 
   async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     // 1 tuần trước
@@ -88,6 +93,7 @@ export class ProgressPage implements OnInit {
       })
     })
     await this.bindData(weekAgo);
+    await loading.dismiss();
   }
 
   onAddWeight() {
@@ -210,9 +216,14 @@ export class ProgressPage implements OnInit {
     return format;
   }
 
-  selectTime(object) {
+  async selectTime(object) {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     var value = object.detail.value;
     this.appendDataToChart(value)
+    await loading.dismiss();
   }
 
   appendDataToChart(value) {

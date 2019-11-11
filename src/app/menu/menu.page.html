@@ -23,19 +23,24 @@
 </style>
 
 <ion-header>
-  <!-- <ion-toolbar>
+  <ion-toolbar>
     <ion-title>menu</ion-title>
-  </ion-toolbar> -->
+  </ion-toolbar>
   <ion-toolbar class="color-toolbar white-text">
     <ion-row>
+      <ion-col size="1" style="float: left;">
+        <ion-button color="light" (click)="showOption()" fill="clear">
+          <ion-icon slot="icon-only" name="more"></ion-icon>
+        </ion-button>
+      </ion-col>
       <ion-col size="3" style="text-align: right;">
         <ion-button color="light" fill="clear" (click)="preDay($event)">
           <ion-icon slot="icon-only" name="arrow-dropleft"></ion-icon>
         </ion-button>
       </ion-col>
-      <ion-col size="5" style="text-align: center;">
+      <ion-col size="4" style="text-align: center;">
         <ion-datetime [(ngModel)]="date" placeholder="Select Date"
-          dayShortNames="Chủ nhật, Thứ hai, Thứ ba, Thứ tư, Thứ năm, Thứ sáu, Thứ bảy" displayFormat="DDD, DD/MM/YYYY"
+          dayShortNames="Chủ nhật, Thứ hai, Thứ ba, Thứ tư, Thứ năm, Thứ sáu, Thứ bảy" displayFormat="DD/MM/YYYY"
           style="margin-top: 6px;" (ngModelChange)="changeDate($event)">
         </ion-datetime>
       </ion-col>
@@ -45,8 +50,8 @@
         </ion-button>
       </ion-col>
       <ion-col size="1">
-        <ion-button color="light" (click)="showOption()" style="float: right" fill="clear">
-          <ion-icon slot="icon-only" name="more"></ion-icon>
+        <ion-button color="light" (click)="checkAllFoods()" style="float: right" fill="clear">
+          <ion-icon slot="icon-only" name="done-all"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
@@ -55,8 +60,8 @@
         <ion-item>
           <ion-label>Giao diện chỉ số</ion-label>
           <ion-select [(ngModel)]="optionStatus" #optionDashboard>
-            <ion-select-option value="calorie">Calorie</ion-select-option>
-            <ion-select-option value="macro">Macronutrients</ion-select-option>
+            <ion-select-option value="calorie">Lượng calo</ion-select-option>
+            <ion-select-option value="macro">Lượng dinh dưỡng</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -65,49 +70,49 @@
     <ion-row style="text-align: center;" *ngIf="optionStatus == 'calorie' && isLoaded">
       <ion-col size="2">
         <h5 style="font-weight: bold">{{ target['calo'] }}</h5>
-        <p>Mục tiêu</p>
+        <p style="font-size: small;">Mục tiêu</p>
       </ion-col>
       <ion-col size="1">
         <h5 class="center-height">-</h5>
       </ion-col>
       <ion-col size="2">
         <h5 style="font-weight: bold">{{ titleCalo }}</h5>
-        <p>Đồ ăn</p>
+        <p style="font-size: small;">Đồ ăn</p>
       </ion-col>
       <ion-col size="1">
         <h5 class="center-height">+</h5>
       </ion-col>
       <ion-col size="2">
         <h5 style="font-weight: bold">{{ titleExercise }}</h5>
-        <p>Bài tập</p>
+        <p style="font-size: small;">Bài tập</p>
       </ion-col>
       <ion-col size="1">
         <h5 class="center-height">=</h5>
       </ion-col>
       <ion-col size="3">
         <h5 style="font-weight: bold">{{ 1*target['calo'] - 1*titleCalo + 1*titleExercise }}</h5>
-        <p>Còn lại</p>
+        <p style="font-size: small;">Còn lại</p>
       </ion-col>
     </ion-row>
     <!-- Style dashboard macro -->
     <ion-row style="text-align: center;" *ngIf="optionStatus == 'macro' && isLoaded">
       <ion-col size="3">
-        <ion-label>Carbs</ion-label>
+        <ion-label style="font-size: small;">Đường bột</ion-label>
         <circle-progress [percent]="perCarbs" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
           [title]="titleCarbs" [titleColor]="'#FFFFFF'"></circle-progress>
       </ion-col>
       <ion-col size="3">
-        <ion-label>Fat</ion-label>
+        <ion-label style="font-size: small;">Chất béo</ion-label>
         <circle-progress [percent]="perFat" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
           [title]="titleFat" [titleColor]="'#FFFFFF'"></circle-progress>
       </ion-col>
       <ion-col size="3">
-        <ion-label>Protein</ion-label>
+        <ion-label style="font-size: small;">Chất đạm</ion-label>
         <circle-progress [percent]="perProtein" [radius]="100" [showSubtitle]="true" [subtitle]="progressText"
           [title]="titleProtein" [titleColor]="'#FFFFFF'"></circle-progress>
       </ion-col>
       <ion-col size="3">
-        <ion-label>Calories</ion-label>
+        <ion-label style="font-size: small;">Năng lượng</ion-label>
         <circle-progress [percent]="perCalo" [radius]="100" [showSubtitle]="true" [subtitle]="progressCalo"
           [title]="titleCalo" [outerStrokeColor]="'#78C000'" [innerStrokeColor]="'#C7E596'" [animation]="true"
           [titleColor]="'#78C000'"></circle-progress>
@@ -119,7 +124,6 @@
         <ion-spinner name="crescent"></ion-spinner>
       </ion-col>
     </ion-row>
-    <br />
   </ion-toolbar>
 </ion-header>
 
@@ -147,7 +151,10 @@
           <ion-item-sliding *ngFor="let item of food['data']" id="{{ item['food_id'] }}">
             <ion-item (click)="clickFood(item['food_id'], item['meal_detail_id'], item['meal_quantity'])">
               <ion-label>
-                <h2>{{ item['food_name'] }}</h2>
+                <h2>
+                  <ion-icon color="success" name="checkmark-circle-outline" *ngIf="item['status'] && item['status'] == true"></ion-icon>
+                  <ion-icon name="checkmark-circle-outline" *ngIf="item['status'] == null || item['status'] == false"></ion-icon>
+                   {{ item['food_name'] }}</h2>
                 <p>{{ item['meal_quantity'] }} {{ item['unit'] }}</p>
               </ion-label>
               <ion-note slot="end" style="font-size: 16px;">
@@ -160,6 +167,11 @@
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-item-option>
             </ion-item-options>
+            <ion-item-options side="start">
+                <ion-item-option color="success" (click)="checkFoodInMenu(item['meal_detail_id'], food['key'])">
+                  <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
           </ion-item-sliding>
         </ion-list>
       </ion-card-content>

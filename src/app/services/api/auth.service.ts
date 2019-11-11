@@ -19,4 +19,8 @@ export class AuthService {
   register(identity:Identities): Observable<any> {
     return this.httpclient.post(environment.URL_API + "/account/register", identity);
   }
+
+  test(): Observable<any> {
+    return this.httpclient.get(`https://jsonplaceholder.typicode.com/todos/1`);
+  }
 }

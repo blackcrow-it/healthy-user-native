@@ -15,35 +15,36 @@
 </style>
 
 <ion-header>
-  <ion-toolbar class="color-toolbar white-text">
-    <ion-title>Cài đặt</ion-title>
+  <ion-toolbar class="">
+    <ion-title>Tài khoản</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen>
+  <ion-list>
+    <ion-item>
+      <ion-avatar slot="end">
+        <img [src]="avatar">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ fullname }}</h3>
+        <p>{{ email }}</p>
+        <p style="color: #3880ff" (click)="onClickProfile()">Quản lý tài khoản</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
   <ion-row>
     <ion-col size="12">
-      <ion-list>
-        <ion-item (click)="onClickProfile()">
-          <ion-icon name="person" slot="start"></ion-icon>
-          <ion-label>
-              Thông tin cá nhân
-          </ion-label>
-        </ion-item>
-
+      <ion-list lines="none">
         <ion-item (click)="onClickGoal()">
           <ion-icon name="flag" slot="start"></ion-icon>
           <ion-label>
             Mục tiêu
           </ion-label>
         </ion-item>
-
-        <!-- <ion-item>
-          <ion-icon name="pie" slot="start"></ion-icon>
-          <ion-label>
-            Dinh dưỡng
-          </ion-label>
-        </ion-item> -->
 
         <ion-item (click)="onClickRemind()">
           <ion-icon name="alarm" slot="start"></ion-icon>
@@ -52,11 +53,12 @@
           </ion-label>
         </ion-item>
 
-        <ion-item (click)="clickLogout()">
-          <ion-icon name="power" slot="start"></ion-icon>
+        <ion-item (click)="onAddFriend()">
+          <ion-icon name="person-add" slot="start"></ion-icon>
           <ion-label>
-            Đăng xuất
+            Lời mời kết bạn
           </ion-label>
+          <ion-badge *ngIf="countRequest > 0">{{ countRequest }}</ion-badge>
         </ion-item>
 
       </ion-list>
@@ -65,3 +67,10 @@
 
 
 </ion-content>
+
+<ion-footer style="text-align: center">
+  <ion-button (click)="clickLogout()" expand="full" color="danger" fill="clear">
+      <ion-icon slot="start" name="power"></ion-icon>
+      Đăng xuất
+    </ion-button>
+</ion-footer>

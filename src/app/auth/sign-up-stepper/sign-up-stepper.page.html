@@ -1,0 +1,244 @@
+<ion-header>
+  <ion-toolbar class="color-toolbar white-text">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Đăng ký</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <mat-vertical-stepper linear #stepper>
+
+    <mat-step [stepControl]="firstFormGroup">
+      <ng-template matStepLabel>Mục tiêu của bạn là gì?</ng-template>
+      <form class="example-container" [formGroup]="firstFormGroup">
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" formControlName="typeGoal" [(ngModel)]="typeGoal">
+        <mat-radio-button class="example-radio-button" value="1" color="warn">Giảm cân</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="2" color="warn">Giữ cân</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="3" color="warn">Tăng cân </mat-radio-button>
+      </mat-radio-group>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Tiếp theo</button>
+      </div>
+    </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup">
+      <ng-template matStepLabel>Mức độ hoạt động của bạn thế nào?</ng-template>
+      <form class="example-container" [formGroup]="secondFormGroup">
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="typeActive" formControlName="typeActive">
+        <mat-radio-button class="example-radio-button" value="1" color="warn">
+          <b>Hoạt động nhẹ</b>
+        </mat-radio-button>
+        <ion-note>
+          <p>(VD: NV hành chính, lao động trí óc, ...)</p>
+        </ion-note>
+        <mat-radio-button class="example-radio-button" value="2" color="warn">
+          <b>Hoạt động trung bình</b>
+        </mat-radio-button>
+        <ion-note>
+          <p>(VD: sinh viên, nông dân, ...)</p>
+        </ion-note>
+        <mat-radio-button class="example-radio-button" value="3" color="warn">
+          <b>Hoạt động nặng</b>
+        </mat-radio-button>
+        <ion-note>
+          <p>(VD: công nhân, người tập gym, bộ đội, ...)</p>
+        </ion-note>
+        <mat-radio-button class="example-radio-button" value="4" color="warn">
+          <b>Hoạt động đặc biệt</b>
+        </mat-radio-button>
+        <ion-note>
+          <p>(VD: công nhân rèn, vận động viên thi đấu, ...)</p>
+        </ion-note>
+      </mat-radio-group>
+      <div>
+        <button mat-raised-button mat-button matStepperPrevious>Trở lại</button> &nbsp;
+        <button mat-raised-button color="primary" mat-button matStepperNext>Tiếp theo</button>
+      </div>
+    </form>
+    </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup">
+      <ng-template matStepLabel>Thông tin cá nhân.</ng-template>
+      <form class="example-container" [formGroup]="thirdFormGroup">
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Tên của bạn là?</ion-label><br /><br />
+          <ion-input style="border: 1px solid #bdbdbd" placeholder="Họ và tên ..." clearInput [(ngModel)]="fullname" formControlName="fullName">
+          </ion-input>
+        </ion-col>
+        <ion-col size="12">
+          <br />
+          <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="gender" formControlName="gender">
+            <mat-radio-button class="example-radio-button" value="male" color="warn">Nam</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="female" color="warn">Nữ</mat-radio-button>
+          </mat-radio-group>
+        </ion-col>
+        <ion-col size="12">
+          <p>Bạn sinh khi nào?</p>
+          <ion-datetime style="border: 1px solid #bdbdbd" displayFormat="DD MMM, YYYY"
+            monthShortNames="tháng Một, tháng Hai, tháng Ba, tháng Tư, tháng Năm, tháng Sáu, tháng Bảy, tháng Tám, tháng Chín, tháng Muời, tháng Muời Một, tháng Mười Hai"
+            [min]="minYear" [max]="maxYear" formControlName="birthday" [(ngModel)]="birthday"></ion-datetime>
+        </ion-col>
+        <ion-col size="12">
+          <br />
+          <ion-label>Số điện thoại</ion-label><br /><br />
+          <ion-input style="border: 1px solid #bdbdbd" type="tel" placeholder="(+84)" clearInput [(ngModel)]="phonenumber" formControlName="phoneNumber">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+      <div>
+        <button mat-raised-button mat-button matStepperPrevious>Trở lại</button> &nbsp;
+        <button mat-raised-button color="primary" mat-button matStepperNext>Tiếp theo</button>
+      </div>
+    </form>
+    </mat-step>
+
+    <mat-step [stepControl]="fourFormGroup">
+      <ng-template matStepLabel>Chỉ số cơ thể.</ng-template>
+      <form class="example-container" [formGroup]="fourFormGroup">
+      <ion-row>
+        <ion-col size="12">
+          <ion-label>Bạn cao bao nhiêu? (cm)</ion-label><br /><br />
+          <ion-input style="border: 1px solid #bdbdbd" [(ngModel)]="height" clearInput (change)="changeHeight()"
+            type="number" formControlName="height">
+          </ion-input>
+        </ion-col>
+        <ion-col size="12">
+          <ion-label>Nặng bao nhiêu cân? (kg)</ion-label><br /><br />
+          <ion-input style="border: 1px solid #bdbdbd" placeholder="0.00" [(ngModel)]="weight" clearInput type="number" formControlName="weight" (keyup)="changeWeight()">
+          </ion-input>
+          <ion-note>(Có thể ước tính cân nặng, sau có thể cập nhật.)</ion-note>
+        </ion-col>
+        <ion-col size="12" *ngIf="typeGoal != 2">
+          <ion-label>Mục tiêu cân nặng đạt? (kg)</ion-label><br /><br />
+          <ion-input style="border: 1px solid #bdbdbd" placeholder="0.00" clearInput [(ngModel)]="weightGoal"
+            (keyup)="changeWeightGoal()" type="number" formControlName="weightGoal"> </ion-input>
+          <ion-note color="danger" style="font-size: small" *ngIf="statusError == -1">
+            Phạm vi cân nặng bình thường cho chiều cao của bạn là từ {{ minWeight }} kg đến {{ maxWeight }} kg. Bất kỳ
+            trọng lượng dưới {{ minWeight }} kg được phân loại là thiếu cân.
+          </ion-note>
+
+          <ion-note color="danger" style="font-size: small" *ngIf="statusError == 1">
+            Phạm vi cân nặng bình thường cho chiều cao của bạn là từ {{ minWeight }} kg đến {{ maxWeight }} kg. Bất kỳ
+            trọng lượng trên {{ maxWeight }} kg được phân loại là thừa cân.
+          </ion-note>
+
+        </ion-col>
+      </ion-row>
+      <div>
+        <button mat-raised-button mat-button matStepperPrevious>Trở lại</button> &nbsp;
+        <button mat-raised-button color="primary" mat-button matStepperNext>Tiếp theo</button>
+      </div>
+    </form>
+    </mat-step>
+
+    <mat-step [stepControl]="fiveFormGroup">
+      <ng-template matStepLabel>Mục tiêu hàng tuần của bạn là gì?</ng-template>
+      <form class="example-container" [formGroup]="fiveFormGroup">
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="weightPerWeek" formControlName="weightPerWeek"
+        *ngIf="(weight - weightGoal) > 0">
+        <mat-radio-button class="example-radio-button" value="0.2" color="warn">Giảm 0.2 kg trong một tuần
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="0.5" color="warn">Giảm 0.5 kg trong một tuần <ion-note>
+            (Gợi ý)</ion-note>
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="0.8" color="warn">Giảm 0.8 kg trong một tuần
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="1" color="warn">Giảm 1 kg trong một tuần
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="weightPerWeek" formControlName="weightPerWeek"
+        *ngIf="(weight - weightGoal) < 0">
+        <mat-radio-button class="example-radio-button" value="0.2" color="warn">Tăng 0.2 kg trong một tuần
+        </mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="0.5" color="warn">Tăng 0.5 kg trong một tuần
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <ion-label *ngIf="(weight - weightGoal) == 0">Vì bạn không thay đổi cân nặng nên mục tiêu hàng tuần của bạn sẽ
+        không cần chọn.</ion-label>
+
+      <div>
+        <button mat-raised-button mat-button matStepperPrevious>Trở lại</button> &nbsp;
+        <button mat-raised-button color="primary" mat-button matStepperNext>Tiếp theo</button>
+      </div>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Kết thúc</ng-template>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label position="floating">Email *</ion-label>
+          <ion-input formControlName="email" value="quanghungleo@gmail.com"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.email.errors">
+          <ion-note *ngIf="f.email.errors?.required" color="danger">Email không được để trống</ion-note>
+          <ion-note *ngIf="f.email.errors?.pattern" color="danger">Email không hợp lệ</ion-note>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Mật khẩu *</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.password.errors">
+          <ion-note *ngIf="f.password.errors?.required" color="danger">Mật khẩu không được để trống</ion-note>
+          <ion-note *ngIf="f.password.errors?.minlength" color="danger">Mật khẩu quá ngắn (dài hơn 6 ký tự)</ion-note>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Nhập lại mật khẩu *</ion-label>
+          <ion-input type="password" formControlName="confirmPassword"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.confirmPassword.errors">
+          <ion-note *ngIf="f.confirmPassword.errors?.required" color="danger">Không được để trống phần này</ion-note>
+          <ion-note *ngIf="f.confirmPassword.errors?.mustMatch" color="danger">Chưa khớp với mật khẩu</ion-note>
+        </div>
+        <br />
+        <button mat-raised-button matStepperPrevious>Trở lại</button>&nbsp;
+        <button mat-raised-button color="primary" type="submit">Đăng ký</button>
+      </form>
+      <div>
+      </div>
+    </mat-step>
+
+  </mat-vertical-stepper>
+
+  <!-- <mat-horizontal-stepper linear #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Fill out your name</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
+        <form [formGroup]="secondFormGroup">
+          <ng-template matStepLabel>Fill out your address</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Address" formControlName="secondCtrl" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        You are now done.
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper> -->
+</ion-content>

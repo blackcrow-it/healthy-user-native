@@ -52,20 +52,7 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.storage.get(STEP).then(result => {
-            console.log(result)
-            if (result == 1) {
-              this.navCtrl.navigateForward(['info']);
-            } else if (result == 2) {
-              this.navCtrl.navigateForward(['target']);
-            } else if (result == 3) {
-              this.navCtrl.navigateForward(['tabs']);
-            }
-            else {
-              this.navCtrl.navigateForward(['login']);
-            }
-          })
-
+          this.navCtrl.navigateForward(['tabs/progress']);
         } else {
           this.navCtrl.navigateBack(['login']);
         }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { ProfileService } from '../../services/api/profile.service';
 import { WeightApi } from '../../services/api/weight.service';
 import { NutritionApi } from '../../services/api/nutrition.service';
@@ -37,6 +37,7 @@ export class TargetPage implements OnInit {
     public weightApi: WeightApi,
     public nutritionApi: NutritionApi,
     private storage: Storage,
+    public loadingController: LoadingController
   ) {
     
   }
@@ -64,13 +65,17 @@ export class TargetPage implements OnInit {
   }
 
   async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     await this.targetWeight()
     this.bmi = await Math.round(this.weight/(this.height*this.height) * 10) / 10;
     this.percentLine = await (this.bmi - 14)/0.27
+    await loading.present();
   }
 
   async targetWeight(){
-
     await this.profileApi.getProfile().then(ob => {
       ob.subscribe(async res => {
         this.height = res.data.height/100

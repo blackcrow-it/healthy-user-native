@@ -54,13 +54,13 @@ export class AdminFoodsPage implements OnInit {
     }
   }
 
-  async changeSearch(event){
+  async changeSearch(event: any){
     this.page = 0;
     this.data = [];
-    this.searchValue = this.textSearch;
-    if (this.searchValue) {
+    this.searchValue = event.target.value;
+    if (event.target.value.replace(/\s+/g, '') != "") {
       this.spinner = true;
-      await this.loadData(event, this.searchValue);
+      await this.loadData(event, event.target.value);
       this.spinner = false;
     }
   }

@@ -28,7 +28,6 @@ export class WeightApi {
   async updateWeight(weight: number, time: number): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
-      console.log(res)
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });

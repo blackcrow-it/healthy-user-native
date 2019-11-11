@@ -33,8 +33,8 @@
 </ion-header>
 
 <ion-content class="background-main">
-  <h1 style="text-align: center; color: #969696; margin-top: 50%" *ngIf="isEmpty">Chưa có thông báo</h1>
-  <div *ngIf="!isEmpty">
+  <h1 style="text-align: center; color: #969696; margin-top: 50%" *ngIf="data.length == 0">Chưa có thông báo</h1>
+  <div *ngIf="data.length != 0">
     <ion-card *ngFor="let item of data">
       <ion-card-header>
         <!-- <ion-card-subtitle>
@@ -44,7 +44,6 @@
           <ion-icon name="notifications" style="background-color: #f04141; border-radius: 50%; padding: 5px; color: #ffffff"></ion-icon> {{ item.title }}
         </ion-card-title>
       </ion-card-header>
-
       <ion-card-content>
         {{ item.message }}
       </ion-card-content>

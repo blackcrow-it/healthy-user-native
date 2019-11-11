@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NotifyService } from '../services/api/notify.service'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-notifications',
@@ -8,9 +9,18 @@ import { NotifyService } from '../services/api/notify.service'
 })
 export class NotificationsPage implements OnInit {
   isEmpty = true;
-  data: any;
+  data = [];
 
-  constructor(private notifyApi: NotifyService) { }
+  constructor(
+    private notifyApi: NotifyService,
+    private activeRoute: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef,
+    ) {
+    this.activeRoute.params.subscribe(data => {
+      this.ngOnInit();
+      this.changeDetector.detectChanges();
+    })
+  }
 
   ngOnInit() {
     this.notifyApi.getNotify().then(ob => {

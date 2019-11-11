@@ -38,7 +38,11 @@ const routes: Routes = [
 
   { path: 'tabs/progress', loadChildren: './progress/progress.module#ProgressPageModule' },
   { path: 'tabs-search', loadChildren: './search-exercises/tabs-search/tabs-search.module#TabsSearchPageModule' },
-  { path: 'user-exercises', loadChildren: './search-foods/user-exercises/user-exercises.module#UserExercisesPageModule' },
+  { path: 'user-exercises', loadChildren: './search-foods/user-exercises/user-exercises.module#UserExercisesPageModule' },  { path: 'friend', loadChildren: './friend/friend.module#FriendPageModule' },
+  { path: 'add-friend', loadChildren: './friend/add-friend/add-friend.module#AddFriendPageModule' },
+  { path: 'goal', loadChildren: './infomation/goal/goal.module#GoalPageModule' },
+  { path: 'sign-up-stepper', loadChildren: './auth/sign-up-stepper/sign-up-stepper.module#SignUpStepperPageModule' },
+
 
 ];
 

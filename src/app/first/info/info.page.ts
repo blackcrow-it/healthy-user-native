@@ -41,8 +41,6 @@ export class InfoPage implements OnInit {
     if (month < 10){
       month = '0' + month
     }
-
-
     return year + '-' + (month) + '-' + day;
   }
 
@@ -55,7 +53,6 @@ export class InfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.minYear)
   }
 
   validatePhone(number) {
@@ -64,7 +61,6 @@ export class InfoPage implements OnInit {
   }
 
   async clickTarget() {
-
     if (this.validatePhone(this.phone)) {
       this.validPhone = true
     } else {
@@ -88,7 +84,8 @@ export class InfoPage implements OnInit {
         toast.present();
       } else {
         var profile = new Profile();
-        profile.avatar_url = "https://api.adorable.io/avatars/285/"+ uuid.v4() +".png";
+        // profile.avatar_url = "https://api.adorable.io/avatars/285/"+ uuid.v4() +".png";
+        profile.avatar_url = `https://gravatar.com/avatar/${uuid.v4()}?d=identicon&f=y`;
         var timeStampBirth = new Date(this.birthday);
         timeStampBirth.setHours(0, 0, 0, 0);
         profile.date_of_birth = Math.round(timeStampBirth.getTime());

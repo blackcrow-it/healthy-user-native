@@ -12,6 +12,7 @@ import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 const TOKEN_KEY = 'auth-token';
 const STEP = 'step';
+const EMAIL = 'email';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   regexEmail = "[a-zA-Z0-9.-]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{3,}"
+  msg: any;
 
   constructor(
     private authAPI: AuthService,
@@ -50,21 +52,7 @@ export class LoginPage implements OnInit {
     await this.authAPI.login(identity) 
       .subscribe(
         async resp => {
-          if (resp.information) {
-            await this.nutritionApi.getNutrition(resp.token).then(ob => {
-              ob.subscribe(async res => {
-                console.log(res)
-                check = await true;
-                await this.storage.set(STEP, 3)
-              })
-            })
-          } else {
-            await this.storage.set(STEP, 1)
-            check = await true;
-          }
-          if (check == false) {
-            await this.storage.set(STEP, 2)
-          }
+          this.storage.set(EMAIL, identity.email)
           await this.authService.login(resp.token);
           loading.dismiss();
           this.oneSignal.getIds().then((id) => {
@@ -87,13 +75,14 @@ export class LoginPage implements OnInit {
       email:[null , [Validators.required , Validators.pattern(this.regexEmail)]],
       password: [null, [Validators.required, Validators.minLength(6)]]
     });
+    // this.test()
   }
 
   clickRegister() {
     // this.oneSignal.getIds().then(value => {
     //   this.alertError(value.userId);
     // });
-    this.navCtrl.navigateForward(['register']);
+    this.navCtrl.navigateForward(['sign-up-stepper']);
   }
 
   async alertError(msg) {
@@ -105,4 +94,10 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
+  test() {
+    this.authAPI.test().subscribe(res => {
+      console.log(res)
+      this.msg = res.title
+    })
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController, ToastController, LoadingController } from '@ionic/angular';
 import { SearchApi } from '../services/api/search.service';
 import { FoodApi } from '../services/api/food.service';
 import { FoodMenuApi } from '../services/api/food-menu.service';
@@ -56,7 +56,8 @@ export class FoodPage implements OnInit {
     private foodApi: FoodApi,
     private menuApi: FoodMenuApi,
     private storage: Storage,
-    private navService: DataService
+    private navService: DataService,
+    private loadingController: LoadingController
   ) { }
 
   async ngOnInit() {
@@ -114,8 +115,13 @@ export class FoodPage implements OnInit {
   }
 
   async onSaveFood() {
+    const loading = await this.loadingController.create({
+      message: 'Đang xử lý',
+      duration: 2000
+    });
+    await loading.present();
     if (this.navService.get('type') == 'edit') {
-      this.menuApi.editOneFoodToMenu(this.navService.get('meal_detail_id'), this.quantity).then(ob => {
+      await this.menuApi.editOneFoodToMenu(this.navService.get('meal_detail_id'), this.quantity).then(ob => {
         ob.subscribe(async res => {
           console.log(res)
           const toast = await this.toastController.create({
@@ -136,7 +142,7 @@ export class FoodPage implements OnInit {
         if (meal == "break_fast") {
           meal = "breakfast"
         }
-        this.menuApi.addOneFoodToMenu(res, this.food.food_id, this.quantity, meal).then(ob => {
+        await this.menuApi.addOneFoodToMenu(res, this.food.food_id, this.quantity, meal).then(ob => {
           ob.subscribe(async res => {
             const toast = await this.toastController.create({
               message: 'Đã thêm thức ăn.',
@@ -154,5 +160,6 @@ export class FoodPage implements OnInit {
         })
       })
     }
+    await loading.dismiss();
   }
 }

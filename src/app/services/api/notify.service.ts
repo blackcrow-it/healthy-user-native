@@ -44,6 +44,6 @@ export class NotifyService {
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
-    return await this.httpclient.get(environment.URL_API + "/api/notify", { headers: headers });
+    return await this.httpclient.get(environment.URL_API + "/api/notify/", { headers: headers });
   }
 }

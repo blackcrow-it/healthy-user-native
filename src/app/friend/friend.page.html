@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>friend</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div style="display: inline">
+    <h2 style="display: inline-block; margin-top: 10px;">{{ countFriend }} người bạn</h2>
+    <ion-button color="danger" (click)="addFriend()" style="float: right; display: inline-block">
+      <ion-icon slot="start" name="add"></ion-icon>
+      Thêm bạn
+    </ion-button>
+  </div>
+  <br/>
+  <ion-chip (click)="getFriendByStatus(1)">
+    <ion-icon color="success" name="checkmark-circle-outline"></ion-icon>
+    <ion-label>Hoàn thành thực đơn ngày</ion-label>
+  </ion-chip>
+  <ion-chip (click)="getFriendByStatus(2)">
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
+    <ion-label>Đã chọn đủ cho thực đơn ngày</ion-label>
+  </ion-chip>
+  <ion-chip (click)="getFriendByStatus(3)">
+    <ion-icon name="radio-button-on"></ion-icon>
+    <ion-label>Thực đơn ngày chưa đủ dinh dưỡng</ion-label>
+  </ion-chip>
+  <ion-chip (click)="getFriendByStatus(4)">
+    <ion-icon name="radio-button-off"></ion-icon>
+    <ion-label>Chưa lên thực đơn</ion-label>
+  </ion-chip>
+  <ion-chip (click)="getFriend()">
+    <ion-label>Tất cả</ion-label>
+  </ion-chip>
+  <ion-searchbar animated placeholder="Tìm kiếm bạn bè" (keyup)="searchFriend($event)"></ion-searchbar>
+
+
+  <ion-list lines="none">
+      <ion-item no-lines *ngFor="let item of data">
+        <ion-avatar slot="start">
+          <img [src]="item.avatar_url">
+        </ion-avatar>
+        <ion-label>
+          <h3>{{ item.full_name }}</h3>
+          <ion-note>({{ item.email }})</ion-note><br/>
+          <ion-note>{{ pushMessage(item.weight_current, item.weight_start, item.weight_finish) }}</ion-note>
+        </ion-label>
+        <ion-icon slot="end" color="success" name="checkmark-circle-outline" *ngIf="item.stt_remaining == 1"></ion-icon>
+        <ion-icon slot="end" name="checkmark-circle-outline" *ngIf="item.stt_remaining == 2"></ion-icon>
+        <ion-icon slot="end" name="radio-button-on" *ngIf="item.stt_remaining == 3"></ion-icon>
+        <ion-icon slot="end" name="radio-button-off" *ngIf="item.stt_remaining == 4 || !item.stt_remaining"></ion-icon>
+      </ion-item>
+    <!-- <ion-item no-lines>
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>
+        <h3>Nguyễn Văn A</h3>
+        <ion-note>Đã giảm được 2 kg</ion-note>
+      </ion-label>
+      <ion-icon slot="end" color="success" name="checkmark-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7742?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>
+          <h3>Nguyễn Văn B</h3>
+          <ion-note>Bị hao mất 3 kg</ion-note>
+        </ion-label>
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7743?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>
+          <h3>Nguyễn Văn C</h3>
+          <ion-note>Đã tăng được 5 kg</ion-note>
+        </ion-label>
+      <ion-icon slot="end" name="radio-button-off"></ion-icon>
+    </ion-item>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7744?d=identicon&f=y">
+      </ion-avatar>
+      <ion-label>
+          <h3>Nguyễn Văn D</h3>
+          <ion-note>Bị tăng thêm 1 kg</ion-note>
+        </ion-label>
+      <ion-icon slot="end" name="radio-button-on"></ion-icon>
+    </ion-item> -->
+  </ion-list>
+</ion-content>

@@ -32,6 +32,9 @@ export class NutritionApi {
   async createNutrition(nutrition:Nutrition): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
+      console.log('In Nutrition')
+      console.log(res)
+      console.log(nutrition)
       headers = headers.set('Content-Type', 'application/json; charset=utf-8');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });

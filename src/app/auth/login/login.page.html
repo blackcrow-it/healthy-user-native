@@ -10,18 +10,20 @@
     float: right;
   }
 
-  .bg-image {
-    /* --background-color: #6DB3F2; */
+  /* .bg-image {
     --background:
       linear-gradient(rgba(0, 0, 0, 0.6),
         rgba(0, 0, 0, 0.6)),
       url('/assets/background-login.jpg') no-repeat center center fixed;
     background-size: cover;
-    /* --background: transparent; */
+  } */
+
+  .bg-image {
+    background: white;
   }
 
   .white-text {
-    color: white;
+    /* color: white; */
   }
 
   .transparent {
@@ -37,13 +39,15 @@
   }
 </style>
 <ion-content class="bg-image no-scroll" fullscreen="true">
-  <ion-grid>
+  <ion-grid style="padding-top: 30%;">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <ion-row>
       <ion-col size="12">
-        <img src="/assets/healthy-logo.png" class="center" />
+        <img src="/assets/logo-transparent.png" class="center" />
       </ion-col>
     </ion-row>
+    <br/><br/>
+    <br/><br/>
     <ion-row>
       <ion-col size="12">
         <!-- Inputs with labels -->
@@ -72,6 +76,7 @@
       </ion-col>
     </ion-row> -->
     <br/>
+    {{ msg }}
     <ion-row>
       <ion-col size="12">
         <ion-button shape="round" expand="block" color="danger" type="submit">

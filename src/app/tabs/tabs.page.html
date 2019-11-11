@@ -10,38 +10,73 @@
   .color-toolbar {
     --background: #f04141;
   }
+  :root {
+    --ion-safe-area-top: 20px;
+    --ion-safe-area-bottom: 22px;
+  }
+  ion-backdrop {
+    opacity: 0.3;
+  }
 </style>
-<!-- <ion-header>
-  <ion-toolbar class="white-text color-toolbar">
-    <ion-title><b>healthy</b></ion-title>
+    <ion-backdrop *ngIf="dropBack"></ion-backdrop>
+<ion-header>
+  <ion-toolbar class="">
+    <ion-title>
+      <img src="../../assets/logo-fitness-crop.png" height="40px" />
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button>
-        <ion-badge color="danger">
-          11
-        </ion-badge>
-        <ion-icon slot="icon-only" name="cart"></ion-icon>
+        <ion-chip (click)="clickProfile()">
+          <ion-avatar>
+            <img [src]="avatar">
+          </ion-avatar>
+        </ion-chip>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-</ion-header> -->
+</ion-header>
+
+<ion-content>
+  <ion-fab horizontal="center" vertical="bottom" slot="fixed" style="margin-bottom: 20px;" #fabButton
+    (click)="fabClick()">
+    <ion-fab-button color="danger">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="danger">
+        <ion-icon name="fitness" (click)="clickAddExercise()"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="end">
+      <ion-fab-button color="danger" (click)="clickAddWeight()">
+        <ion-icon name="speedometer"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="start">
+      <ion-fab-button color="danger" (click)="clickAddFood()">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
 <ion-tabs>
   <ion-tab-bar slot="bottom">
     <ion-tab-button tab="progress">
-      <ion-icon name="podium"></ion-icon>
+      <ion-icon name="home"></ion-icon>
       <ion-label>Tiến triển</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="menu">
-      <ion-icon name="home"></ion-icon>
+      <ion-icon name="bookmarks"></ion-icon>
       <ion-label>Thực đơn</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="notifications">
       <ion-icon name="notifications"></ion-icon>
-      <ion-badge color="danger">99</ion-badge>
+      <!-- <ion-badge color="danger">99</ion-badge> -->
       <ion-label>Thông báo</ion-label>
     </ion-tab-button>
-    <ion-tab-button tab="more">
-      <ion-icon name="menu"></ion-icon>
-      <ion-label>Thêm</ion-label>
+    <ion-tab-button tab="friend">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Bạn bè</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

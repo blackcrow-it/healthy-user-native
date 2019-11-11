@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { NutritionApi } from '../../services/api/nutrition.service';
 
 @Component({
@@ -16,9 +16,17 @@ export class ResultPage implements OnInit {
   weight: number;
   type: number;
 
-  constructor(public navCtrl: NavController, private nutritionAPI: NutritionApi) { }
+  constructor(
+    public navCtrl: NavController, 
+    private nutritionAPI: NutritionApi,
+    public loadingController: LoadingController
+    ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     this.nutritionAPI.getNutrition().then(ob => {
       ob.subscribe(res => {
         this.calories = Math.round(res.calories * 10)/10 ;
@@ -30,6 +38,7 @@ export class ResultPage implements OnInit {
         this.type = res.type;
       })
     })
+    await loading.dismiss();
   }
 
   clickSuccess() {

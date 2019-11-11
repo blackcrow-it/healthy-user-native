@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { NavController, IonSelect, IonDatetime, ToastController } from '@ionic/angular';
+import { NavController, IonSelect, IonDatetime, ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { FoodMenuApi } from '../services/api/food-menu.service'
 import { NutritionApi } from '../services/api/nutrition.service'
 import { WeightApi } from '../services/api/weight.service';
@@ -104,7 +104,9 @@ export class MenuPage implements OnInit {
     private activeRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
     private navService: DataService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public loadingController: LoadingController,
+    public alertController: AlertController
   ) {
     this.activeRoute.params.subscribe(() => {
       this.isLoaded = false;
@@ -114,6 +116,10 @@ export class MenuPage implements OnInit {
     })
   }
   async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'Đang tải dữ liệu'
+    });
+    await loading.present();
     await this.nutritionAPI.getNutrition().then(ob => {
       ob.subscribe(res => {
         console.log(res)
@@ -126,7 +132,8 @@ export class MenuPage implements OnInit {
       })
     })
     await this.getDataMenu();
-    this.isLoaded = true;
+    // this.isLoaded = await true;
+    await loading.dismiss();
   }
 
   async getDataMenu() {
@@ -137,8 +144,9 @@ export class MenuPage implements OnInit {
     this.isLoaded = false;
 
     this.menuAPI.getMenubyDate(dateTimestamp).then(ob => {
-      ob.subscribe(res => {
+      ob.subscribe(async res => {
         var data = res['data']
+        console.log(data)
         for (var item in this.foods) {
           var meal = this.foods[item].key
           if (data) {
@@ -161,9 +169,9 @@ export class MenuPage implements OnInit {
           this.execise = []
         }
         this.total()
-        this.isLoaded = true;
-      }, error => {
-        this.isLoaded = true;
+        this.isLoaded = await true;
+      }, async error => {
+        this.isLoaded = await true;
       })
     })
   }
@@ -223,7 +231,7 @@ export class MenuPage implements OnInit {
     this.storage.set(SELECT_MEAL, type)
     this.storage.set(SELECT_MENU, this.menu_id)
     this.storage.set(SELECT_TIME, dateTimestamp)
-    this.navCtrl.navigateForward(['tabs-search']);
+    // this.navCtrl.navigateForward(['tabs-search']);
     this.navService.push('tabs-search', { 'type': type })
   }
 
@@ -281,6 +289,27 @@ export class MenuPage implements OnInit {
     })
   }
 
+  checkFoodInMenu(meal_detail_id, meal) {
+    
+    this.foods.forEach(food => {
+      if (food.key == meal) {
+        food.data.forEach(item => {
+          if (item['meal_detail_id'] == meal_detail_id) {
+            if (item['status'] != null) {
+              this.menuAPI.editStatusFoodToMenu(meal_detail_id, !item['status']).then(ob => {
+                ob.subscribe(res => {
+                  item['status'] = !item['status']
+                })
+              })
+            } else {
+              item['status'] = true;
+            }
+          }
+        });
+      }
+    });
+  }
+
   removeExerciseInMenu(exercise_detail_id) {
     this.menuAPI.removeOneExerciseToMenu(exercise_detail_id).then(ob => {
       ob.subscribe(res => {
@@ -316,7 +345,7 @@ export class MenuPage implements OnInit {
             ob.subscribe(async res => {
               console.log(res)
               var meal = this.activeMeal;
-              if(res.data && res.data[meal]) {
+              if (res.data && res.data[meal]) {
                 res.data[meal].foods.forEach(async item => {
                   this.menuAPI.addOneFoodToMenu(dateTimestamp, item.food_id, item.meal_quantity, meal).then(ob => {
                     var detail_meal: string;
@@ -352,5 +381,65 @@ export class MenuPage implements OnInit {
         }
       },
     ]
+  }
+
+  async checkAllFoods() {
+    const alert = await this.alertController.create({
+      header: 'Thông báo',
+      message: 'Bạn chắc chắn đã hoàn thành hết các món ăn chưa?',
+      buttons: [
+        {
+          text: 'Hủy',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Chắc chắn',
+          handler: async () => {
+            var day = parseInt(this.date.split('-')[2])
+            var month = parseInt(this.date.split('-')[1])
+            var year = parseInt(this.date.split('-')[0])
+            var dateTimestamp = (new Date(year, month - 1, day)).getTime()
+            const loading = await this.loadingController.create({
+              message: 'Đang xử lý'
+            });
+            await loading.present();
+
+            this.menuAPI.getMenubyDate(dateTimestamp).then(ob => {
+              ob.subscribe(async res => {
+                var data = res['data']
+                for (var item in this.foods) {
+                  var meal = this.foods[item].key
+                  if (data) {
+                    try {
+                      data[meal]['foods'].forEach(item => {
+                        this.menuAPI.editStatusFoodToMenu(item.meal_detail_id, true).then(ob => {
+                          ob.subscribe(res => {
+                            console.log(res);
+                            console.log("Success");
+                          })
+                        })
+                      });
+                    }
+                    catch {
+                    }
+                  } else {
+                  }
+                }
+                await this.foods.forEach(food => {
+                    food.data.forEach(item => {
+                          item['status'] = true;
+                    });
+                });
+              }, async error => {
+              })
+            })
+            await loading.dismiss();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

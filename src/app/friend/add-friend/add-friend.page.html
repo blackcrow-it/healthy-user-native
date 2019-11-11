@@ -1,0 +1,73 @@
+<style>
+.reverse-icon {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+</style>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bạn bè</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar animated placeholder="Tìm kiếm người" (keyup)="searchPeople($event)"></ion-searchbar>
+  <div>
+    <ion-card *ngFor="let item of data">
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="item.avatar_url">
+        </ion-avatar>
+        <ion-label>
+          <ion-row>
+            <ion-col size="12">
+              <h3 style="font-size: large">{{ item.full_name }}</h3>
+              <h3>{{ item.email }}</h3>
+            </ion-col>
+          </ion-row>
+        </ion-label>
+        <ion-icon slot="end" name="person-add" (click)="actionFriend(item)" *ngIf="item.status == 'Not friend'"></ion-icon>
+        <ion-icon slot="end" name="arrow-round-forward" (click)="actionFriend(item)" color="primary" *ngIf="item.status == 'Wait accept'"></ion-icon>
+        <ion-icon slot="end" name="arrow-round-back" (click)="actionFriend(item)" color="primary" *ngIf="item.status == 'Accept available'"></ion-icon>
+        <ion-icon slot="end" name="person" (click)="actionFriend(item)" color="primary" *ngIf="item.status == 'Friend'"></ion-icon>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="contacts"></ion-icon>
+        <ion-label>Có {{ item.mutual_friends }} bạn chung</ion-label>
+      </ion-item>
+    </ion-card>
+  </div>
+  <ion-list lines="none" *ngIf="data.length == 0 && dataRequests.length > 0">
+    <ion-list-header>
+      <h1>Lời mời kết bạn</h1>
+    </ion-list-header>
+    <ion-item *ngFor="let item of dataRequests">
+      <ion-avatar slot="start">
+        <img [src]="item.avatar_url">
+      </ion-avatar>
+      <ion-label>
+        <ion-row>
+          <ion-col size="12">
+            <h3 style="font-size: large">{{ item.full_name }}</h3>
+            <h3>{{ item.mutual_friends }} bạn chung</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-button expand="full" shape="round" (click)="confirmRequest(item)">Xác nhận</ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button expand="full" shape="round" color="medium" (click)="deleteRequest(item)">Xóa</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
