@@ -16,6 +16,21 @@ export class AddWeightPage implements OnInit {
 
   weightLast = 55;
 
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
+
   constructor(
     private weightAPI: WeightApi,
     private toastController: ToastController,
@@ -26,37 +41,37 @@ export class AddWeightPage implements OnInit {
     ) { }
 
   async ngOnInit() {
-    const loading = await this.loadingController.create({
-      message: 'Đang tải dữ liệu'
-    });
-    await loading.present();
+    this.presentLoading();
     this.today.setHours(0, 0, 0, 0)
     if (this.navService.get('date')) {
       this.today = new Date(this.navService.get('date'));
       this.date = this.today.getFullYear()+'-'+(this.today.getMonth()+1)+'-'+this.today.getDate();
     }
     this.weightAPI.getWeight(this.today.getTime(), this.today.getTime()).then(ob => {
-      ob.subscribe(res => {
-        console.log(res)
+      ob.subscribe(async res => {
+        await this.dismissLoading();
         this.weight = res.data[0].weight
       })
     })
     this.weightAPI.getWeight(0, (new Date()).getTime()).then(ob => {
-      ob.subscribe(res => {
-        console.log(res)
+      ob.subscribe(async res => {
+        await this.dismissLoading();
         this.weightLast = res.data[0].weight
       })
     })
-    await loading.dismiss();
   }
 
   onClose() {
     this.navCtrl.back();
   }
   
-  onSaveWeight() {
+  async onSaveWeight() {
     var choseTime = this.convertStingToTimestamp(this.date)
     if(this.weight){
+      var loading = await this.loadingController.create({
+        message: 'Đang xử lý dữ liệu',
+      });
+      loading.present()
       this.weightAPI.updateWeight(this.weight, choseTime).then(ob => {
         ob.subscribe(res => {
           console.log(res)
@@ -66,7 +81,9 @@ export class AddWeightPage implements OnInit {
           } else {
             this.navService.pop('tabs/progress', {status: 'add'});
           }
+          loading.dismiss()
         }, error => {
+          loading.dismiss()
           this.presentToast('Chưa cập nhật được cân nặng.');
         })
       })

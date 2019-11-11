@@ -58,7 +58,7 @@ export class FoodMenuApi {
   async addOneFoodToMenu(time, foodId, quantity, meal): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Content-Type', 'application/json;');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
     if(meal == 'break_fast'){

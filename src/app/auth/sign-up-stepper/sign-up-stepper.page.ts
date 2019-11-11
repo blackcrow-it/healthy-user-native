@@ -57,6 +57,21 @@ export class SignUpStepperPage implements OnInit {
 
   weightPerWeek = '0.2';
 
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
+
   formatDate(date) {
     var day = date.getDate();
     var month = date.getMonth() + 1;
@@ -84,7 +99,7 @@ export class SignUpStepperPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-
+    var avatar = uuid.v4()
     this.firstFormGroup = this._formBuilder.group({
       typeGoal: ['', Validators.required]
     });
@@ -166,29 +181,28 @@ export class SignUpStepperPage implements OnInit {
       var identity = new Identities();
       identity.email = this.registerForm.value.email;
       identity.password = this.registerForm.value.password;
-      await loading.present();
+      var avatar = uuid.v4().toString()
+      this.presentLoading();
       this.authService.register(identity).subscribe(async res => {
         if (res.success == true) {
           // this.alertSuccess("Đăng ký tài khoản thành công.")
-          await this.authService.login(identity).subscribe(res => {
-            this.authenService.login(res.token).then(async res => {
+          await this.authService.login(identity).subscribe(async res => {
+              var token = res.token;
               var profile = new Profile();
-              profile.avatar_url = `https://gravatar.com/avatar/${uuid.v4().toString().replace('-', '')}?d=identicon&f=y`;
+              profile.avatar_url = `https://gravatar.com/avatar/${avatar.toString().split('-')[0]}?d=identicon&f=y`;
               var timeStampBirth = new Date(this.birthday);
               timeStampBirth.setHours(0, 0, 0, 0);
-              console.log(this.birthday)
-              console.log(Math.round(timeStampBirth.getTime()))
               profile.date_of_birth = Math.round(timeStampBirth.getTime());
               profile.full_name = this.fullname;
               profile.gender = this.gender;
               profile.height = this.height;
               profile.weight = this.weight;
               profile.phone = this.phonenumber;
-              await this.profileAPI.createProfile(profile).then(ob => {
+              await this.profileAPI.createProfile(profile, token).then(ob => {
                 ob.subscribe(async res => {
                   var today = new Date();
                   today.setHours(0, 0, 0, 0);
-                  await this.weightAPI.updateWeight(profile.weight, today.getTime()).then(ob => {
+                  await this.weightAPI.updateWeight(profile.weight, today.getTime(), token).then(ob => {
                     ob.subscribe(async res => {
                       var nutrition = new Nutrition();
                       nutrition.weight = Math.abs(this.weight - this.weightGoal)
@@ -203,10 +217,11 @@ export class SignUpStepperPage implements OnInit {
                       } else {
                         nutrition.type = -1
                       }
-                      await this.nutritionApi.createNutrition(nutrition).then(ob => {
+                      await this.nutritionApi.createNutrition(nutrition, token).then(ob => {
                         ob.subscribe(async res => {
                           await this.navCtrl.navigateForward(['login']);
                           await this.alertSuccess("Đăng ký tài khoản thành công.")
+                          this.dismissLoading()
                         }, err => {
                         })
                       })
@@ -215,15 +230,15 @@ export class SignUpStepperPage implements OnInit {
                 }, error => {
                 })
               })
-            })
           })
         } else {
+          this.dismissLoading()
           this.alertError("Tài khoản đã tồn tại.")
         }
       }, error => {
+        this.dismissLoading()
         this.alertError("Đăng ký thất bại.")
       })
-      await loading.dismiss();
       return;
     }
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
 import { ProfileService } from '../services/api/profile.service';
 import { FriendshipService } from '../services/api/friendship.service';
 import { Storage } from '@ionic/storage';
@@ -18,13 +18,18 @@ export class MorePage implements OnInit {
   avatar: string;
   countRequest = 0;
 
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+
   constructor(
     private authService: AuthenticationService,
     private navCtrl: NavController,
     private alertController: AlertController,
     private profileAPI: ProfileService,
     private friendAPI: FriendshipService,
-    private storage: Storage
+    private storage: Storage,
+    private loadingController: LoadingController
     ) { }
 
   async clickLogout() {
@@ -50,10 +55,16 @@ export class MorePage implements OnInit {
   }
 
   ngOnInit() {
+    this.loading.then(ob =>{
+      ob.present();
+    })
     this.profileAPI.getProfile().then(ob => {
-      ob.subscribe(res => {
-        this.fullname = res['data']['full_name']
+      ob.subscribe(async res => {
+        this.fullname = await res['data']['full_name']
         this.avatar = res['data']['avatar_url']
+        await this.loading.then(ob =>{
+          ob.dismiss();
+        })
       })
     })
     this.storage.get(EMAIL).then(value => {
@@ -91,4 +102,10 @@ export class MorePage implements OnInit {
     this.navCtrl.navigateForward(['add-friend']);
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Đang xử lý dữ liệu',
+    });
+    return loading
+  }
 }

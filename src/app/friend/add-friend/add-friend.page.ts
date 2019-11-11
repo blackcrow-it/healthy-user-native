@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSelect, AlertController } from '@ionic/angular';
+import { IonSelect, AlertController, LoadingController } from '@ionic/angular';
 import { FriendshipService } from '../../services/api/friendship.service'
 
 @Component({
@@ -14,17 +14,38 @@ export class AddFriendPage implements OnInit {
   dataRequests = [];
 
   textSearch: string;
+  spinner = false;
+
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
 
   constructor(
     private alertController: AlertController,
-    private friendAPI: FriendshipService
+    private friendAPI: FriendshipService,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
+    this.presentLoading();
     this.friendAPI.getListRequestsFriend().then(ob => {
       ob.subscribe(res => {
         this.dataRequests = res.data
         console.log(this.dataRequests)
+        this.dismissLoading();
+      }, () =>{
+        this.dismissLoading();
       })
     })
   }
@@ -95,37 +116,48 @@ export class AddFriendPage implements OnInit {
     await alert.present();
   }
 
-  actionFriend(item) {
+  async actionFriend(item) {
+    var loading = await this.loadingController.create({
+      message: 'Đang xử lý dữ liệu',
+    });
+    loading.present()
     if(item.status == 'Not friend') {
       this.friendAPI.sendAddFriend(item.email).then(ob => {
-        ob.subscribe(() => {
+        ob.subscribe(async () => {
           this.successSend(item.full_name)
           item.status = 'Wait accept'
+          await loading.dismiss()
         })
       })
     } else if (item.status == 'Wait accept') {
       this.friendAPI.decline(item.email).then(ob => {
-        ob.subscribe(() => {
+        ob.subscribe(async () => {
           item.status = 'Not friend'
+          await loading.dismiss()
         })
       })
     } else if (item.status == 'Accept available') {
       this.confirmInvite('Phê duyệt', `Đồng ý lời mời kết bạn của ${item.full_name}`, item)
+      await loading.dismiss()
     } else if (item.status == 'Friend') {
       this.confirmUnfriend('Phê duyệt', `Bạn chắc chắn muốn hủy kết bạn với ${item.full_name} chứ?`, item)
+      await loading.dismiss()
     }
   }
 
   searchPeople(event: any) {
+    this.spinner = true;
     if(event.target.value.replace(/\s+/g, '') != "") {
       this.friendAPI.getPeople(event.target.value).then(ob => {
         ob.subscribe(res => {
           this.data = res.data
           console.log(res);
+          this.spinner = false;
         })
       })
     } else{
       this.data = []
+      this.spinner = false;
     }
   }
 

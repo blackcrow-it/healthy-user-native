@@ -17,7 +17,7 @@ export class ExerciseService {
   async getExercise(exerciseId): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Content-Type', 'application/json;');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
     return await this.httpclient.get(environment.URL_API + `/api/exercises/${exerciseId}`, { headers: headers });
@@ -26,7 +26,7 @@ export class ExerciseService {
   async createExercise(exercise:Exercise): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Content-Type', 'application/json;');
       headers = headers.set('Authorization', 'Bearer ' + res);
     });
     return await this.httpclient.post(environment.URL_API + `/api/exercises/create`, exercise, { headers: headers });

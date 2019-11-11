@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data.service';
 import { FriendshipService } from '../services/api/friendship.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-friend',
@@ -10,14 +11,31 @@ import { FriendshipService } from '../services/api/friendship.service';
 export class FriendPage implements OnInit {
 
   data: any;
-  countFriend: number;
+  countFriend = 0;
+
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
 
   constructor(
     private navServie: DataService,
-    private friendAPI: FriendshipService
+    private friendAPI: FriendshipService,
+    private loadingController: LoadingController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.presentLoading();
     var date = new Date();
     date.setHours(0, 0, 0, 0)
     this.friendAPI.getFriend(date.getTime(), "").then(ob => {
@@ -25,6 +43,7 @@ export class FriendPage implements OnInit {
         this.countFriend = res.data.length
       })
     })
+    await this.dismissLoading();
   }
 
   addFriend() {

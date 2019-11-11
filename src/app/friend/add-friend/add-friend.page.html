@@ -19,6 +19,9 @@
 
 <ion-content>
   <ion-searchbar animated placeholder="Tìm kiếm người" (keyup)="searchPeople($event)"></ion-searchbar>
+  <div *ngIf="spinner" style="text-align: center">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
   <div>
     <ion-card *ngFor="let item of data">
       <ion-item>

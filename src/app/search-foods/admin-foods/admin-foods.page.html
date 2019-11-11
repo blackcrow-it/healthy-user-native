@@ -6,13 +6,12 @@
 <ion-content class="background-main">
   <ion-searchbar [(ngModel)]="textSearch" (keyup)="changeSearch($event)" placeholder="Tìm kiếm ..."></ion-searchbar>
   <br />
-  <div *ngIf="searchValue">
-    <ion-title>Kết quả tìm kiếm cho: {{ searchValue }}</ion-title>
+  <div>
+    <!-- <ion-title>Kết quả tìm kiếm cho: {{ searchValue }}</ion-title> -->
 
     <div *ngIf="spinner" style="text-align: center">
       <ion-spinner name="dots"></ion-spinner>
     </div>
-
     <div *ngIf="data.length > 0 && type != 'exercise'">
       <ion-card *ngFor="let item of data">
         <ion-item (click)="clickFood(item['food_id'])">
@@ -20,8 +19,7 @@
             <img [src]="item.description" />
           </ion-avatar> -->
           <ion-label>
-            <h2>{{ item.food_name }}</h2>
-            <p>{{ item.quantity }} {{ item.unit }}</p>
+            <h2>{{ item.food_name }} <span style="color: #666666">({{ item.quantity }} {{ item.unit }})</span></h2>
           </ion-label>
           <ion-note slot="end" style="font-size: 16px;">
             {{ item.calories }} kcal
@@ -46,6 +44,7 @@
           </ion-item>
         </ion-card>
       </div>
+      <h1 style="text-align: center; color: #969696; margin-top: 50%" *ngIf="data.length == 0 && !spinner">Không có dữ liệu</h1>
     <!-- <ion-infinite-scroll threshold="2%" (ionInfinite)="loadMore($event)">
       <ion-infinite-scroll-content loadingSpinner="dots" loadingText="Xem thêm thức ăn">
       </ion-infinite-scroll-content>

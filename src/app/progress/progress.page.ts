@@ -51,6 +51,21 @@ export class ProgressPage implements OnInit {
 
   select_time = 'one-week';
 
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
+
   constructor(
     private weightAPI: WeightApi,
     private nutritionAPI: NutritionApi,
@@ -68,15 +83,13 @@ export class ProgressPage implements OnInit {
   }
 
   async ngOnInit() {
-    const loading = await this.loadingController.create({
-      message: 'Đang tải dữ liệu'
-    });
-    await loading.present();
+    this.presentLoading();
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     // 1 tuần trước
     var weekAgo = today.setDate(today.getDate() - 7);
-    await this.getHistory();
+    this.getHistory();
+    await this.bindData(weekAgo);
     await this.nutritionAPI.getNutrition().then(ob => {
       ob.subscribe(async res => {
         this.start_weight = await res.weightStart
@@ -86,14 +99,13 @@ export class ProgressPage implements OnInit {
         } else {
           this.type_change = 1
         }
-        this.change_weight = await this.current_weight - this.start_weight;
+        console.log(this.current_weight)
+        this.change_weight = this.current_weight - this.start_weight;
         if (this.start_weight != 0) {
-          this.perchange_weight = await Math.round(100 / this.start_weight * this.change_weight * 10) / 10;
+          this.perchange_weight = Math.round(100 / this.start_weight * this.change_weight * 10) / 10;
         }
       })
     })
-    await this.bindData(weekAgo);
-    await loading.dismiss();
   }
 
   onAddWeight() {
@@ -102,11 +114,12 @@ export class ProgressPage implements OnInit {
   }
 
   async bindData(startDate: number) {
+    this.presentLoading();
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     var dataWeight = [];
     await this.weightAPI.getWeight(startDate, (new Date()).getTime()).then(ob => {
-      ob.subscribe(res => {
+      ob.subscribe(async res => {
         if (res.data) {
           res.data.sort(compare).reverse();
           res.data.forEach(item => {
@@ -188,6 +201,7 @@ export class ProgressPage implements OnInit {
 
           this.lineChart = new Chart(this.lineCanvas.nativeElement, config)
         }
+        await this.dismissLoading()
       })
     })
 
@@ -267,6 +281,7 @@ export class ProgressPage implements OnInit {
         if (res.data) {
           res.data.sort(compare).reverse();
           this.current_weight = res.data[0].weight
+          console.log(this.current_weight)
           this.history_weigth = [];
           for (let item of res.data) {
             if (item['weight']) {

@@ -18,26 +18,28 @@ export class NutritionApi {
     
     let headers = new HttpHeaders();
     if (token != null) {
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Content-Type', 'application/json;');
       headers = headers.set('Authorization', 'Bearer ' + token);
     } else {
       await this.storage.get(TOKEN_KEY).then(res => {
-        headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+        headers = headers.set('Content-Type', 'application/json;');
         headers = headers.set('Authorization', 'Bearer ' + res);
       });
     }
     return await this.httpclient.get(environment.URL_API + `/api/my-goal`, { headers: headers});
   }
 
-  async createNutrition(nutrition:Nutrition): Promise<Observable<any>> {
+  async createNutrition(nutrition:Nutrition, token?: string): Promise<Observable<any>> {
     let headers = new HttpHeaders();
-    await this.storage.get(TOKEN_KEY).then(res => {
-      console.log('In Nutrition')
-      console.log(res)
-      console.log(nutrition)
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-      headers = headers.set('Authorization', 'Bearer ' + res);
-    });
+    if(token) {
+      headers = headers.set('Content-Type', 'application/json;');
+      headers = headers.set('Authorization', 'Bearer ' + token);
+    } else {
+      await this.storage.get(TOKEN_KEY).then(res => {
+        headers = headers.set('Content-Type', 'application/json;');
+        headers = headers.set('Authorization', 'Bearer ' + res);
+      });
+    }
     return await this.httpclient.post(environment.URL_API + "/api/nutrition", nutrition, { headers: headers });
   }
 }

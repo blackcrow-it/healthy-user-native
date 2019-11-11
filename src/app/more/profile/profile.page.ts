@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/api/profile.service'
 import { Profile } from '../../models/profile'
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, ToastController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -14,16 +14,39 @@ export class ProfilePage implements OnInit {
 
   birthday = ""
 
-  constructor(private profileApi: ProfileService, public actionSheetController: ActionSheetController, public toastController: ToastController) { }
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
+
+  constructor(
+    private profileApi: ProfileService, 
+    private actionSheetController: ActionSheetController, 
+    private toastController: ToastController,
+    private loadingController: LoadingController) { }
 
   ngOnInit() {
+    this.presentLoading()
     this.profileApi.getProfile().then(ob => {
       ob.subscribe(res => {
         this.data = res.data
         this.birthday = this.formatDate(new Date(this.data['date_of_birth']))
+        this.dismissLoading()
       }, error => {
+        this.dismissLoading()
         console.log(error)
       })
+    }).finally(() => {
     })
   }
 
@@ -80,6 +103,7 @@ export class ProfilePage implements OnInit {
   }
 
   saveProfile() {
+    this.presentLoading()
     var profile = new Profile();
     profile.avatar_url = this.data['avatar_url']
     profile.date_of_birth = this.convertStringToTime(this.birthday)
@@ -95,6 +119,9 @@ export class ProfilePage implements OnInit {
           duration: 2000
         });
         toast.present();
+        this.dismissLoading();
+      }, () => {
+        this.dismissLoading();
       })
     })
     console.log(this.data)

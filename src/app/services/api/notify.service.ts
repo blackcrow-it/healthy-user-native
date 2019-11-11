@@ -18,11 +18,11 @@ export class NotifyService {
     let headers = new HttpHeaders();
 
     if(token) {
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Content-Type', 'application/json;');
       headers = headers.set('Authorization', 'Bearer ' + token);
     } else {
       await this.storage.get(TOKEN_KEY).then(res => {
-        headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+        headers = headers.set('Content-Type', 'application/json;');
         headers = headers.set('Authorization', 'Bearer ' + res);
       });
     }

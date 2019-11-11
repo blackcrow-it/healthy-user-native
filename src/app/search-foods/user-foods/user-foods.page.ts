@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Food } from '../../models/food';
 import { FoodApi } from 'src/app/services/api/food.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-foods',
@@ -18,12 +18,32 @@ export class UserFoodsPage implements OnInit {
   quantity: number
   unit = "g"
 
-  constructor(private foodApi: FoodApi, public toastController: ToastController) { }
+  //Add Loading
+  loading = this.loadingController.create({
+    message: 'Đang xử lý dữ liệu',
+  });
+  presentLoading(){
+    this.loading.then(ob =>{
+      ob.present();
+    })
+  }
+  dismissLoading(){
+    this.loading.then(ob =>{
+      ob.dismiss();
+    })
+  }
+
+  constructor(
+    private foodApi: FoodApi, 
+    public toastController: ToastController,
+    private loadingController: LoadingController
+    ) { }
 
   ngOnInit() {
   }
 
   createFood(){
+    this.presentLoading();
     var food = new Food();
     food.calories = this.calories
     food.carbs = this.carbs
@@ -35,6 +55,7 @@ export class UserFoodsPage implements OnInit {
     food.unit = this.unit
     this.foodApi.createFood(food).then(ob => {
       ob.subscribe(async res => {
+        await this.dismissLoading();
         const toast = await this.toastController.create({
           message: `Thêm ${this.food_name} thành công.`,
           duration: 2000
@@ -49,6 +70,7 @@ export class UserFoodsPage implements OnInit {
         this.unit = null;
         this.calories = null;
       }, async err => {
+        await this.dismissLoading();
         const toast = await this.toastController.create({
           message: `Thêm ${this.food_name} thất bại. Vui lòng xem lại.`,
           duration: 2000
