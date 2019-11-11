@@ -190,7 +190,7 @@
     </ion-card>
     <!-- Phần bài tập  -->
     <ion-card>
-        <ion-card-header data-toggle="collapse" data-target="#excercise">
+        <ion-card-header>
           <ion-card-title>
             <!-- Bữa sáng -->
             <span item-left style="font-weight: bold">
@@ -204,7 +204,7 @@
             </span> -->
           </ion-card-title>
         </ion-card-header>
-        <ion-card-content id="excercise" class="collapse">
+        <ion-card-content id="excercise">
           <ion-list>
             <!-- Multi-line sliding item with icon options on both sides -->
             <ion-item-sliding *ngFor="let item of execise" [id]="item['exercise_id']">
