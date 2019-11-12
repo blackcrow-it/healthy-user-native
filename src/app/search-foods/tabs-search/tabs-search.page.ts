@@ -18,7 +18,8 @@ export class TabsSearchPage implements OnInit {
   }
 
   closeSearch() {
-    this.navCtrl.back();
+    this.navCtrl.navigateBack('tabs/menu');
+    // this.navCtrl.back();
   }
 
 }

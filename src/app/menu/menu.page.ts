@@ -290,7 +290,6 @@ export class MenuPage implements OnInit {
   }
 
   checkFoodInMenu(meal_detail_id, meal) {
-    
     this.foods.forEach(food => {
       if (food.key == meal) {
         food.data.forEach(item => {
@@ -308,6 +307,23 @@ export class MenuPage implements OnInit {
         });
       }
     });
+  }
+
+  checkExerciseInMenu(exercise_detail_id) {
+      this.execise.forEach(item => {
+        console.log(item);
+          // if (item['meal_detail_id'] == meal_detail_id) {
+          //   if (item['status'] != null) {
+          //     this.menuAPI.editStatusFoodToMenu(meal_detail_id, !item['status']).then(ob => {
+          //       ob.subscribe(res => {
+          //         item['status'] = !item['status']
+          //       })
+          //     })
+          //   } else {
+          //     item['status'] = true;
+          //   }
+          // }
+        });
   }
 
   removeExerciseInMenu(exercise_detail_id) {

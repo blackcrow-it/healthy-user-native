@@ -33,7 +33,9 @@
     <ion-label>Tất cả</ion-label>
   </ion-chip>
   <ion-searchbar animated placeholder="Tìm kiếm bạn bè" (keyup)="searchFriend($event)"></ion-searchbar>
-
+  <div *ngIf="spinner" style="text-align: center">
+    <ion-spinner name="dots"></ion-spinner>
+  </div>
 
   <ion-list lines="none">
       <ion-item no-lines *ngFor="let item of data">

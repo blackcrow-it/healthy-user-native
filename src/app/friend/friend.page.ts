@@ -13,6 +13,8 @@ export class FriendPage implements OnInit {
   data: any;
   countFriend = 0;
 
+  spinner = false;
+
   //Add Loading
   loading = this.loadingController.create({
     message: 'Đang xử lý dữ liệu',
@@ -51,34 +53,44 @@ export class FriendPage implements OnInit {
   }
 
   searchFriend(event){
+    this.data = [];
+    this.spinner = true;
     if(event.target.value.replace(/\s+/g, '') != "") {
       var date = new Date();
       date.setHours(0, 0, 0, 0)
       this.friendAPI.getFriend(date.getTime(), event.target.value).then(ob => {
         ob.subscribe(res => {
+          this.spinner = false;
           this.data = res.data
         })
       })
     } else {
+      this.spinner = false;
       this.data = []
     }
   }
 
   getFriend() {
+    this.data = [];
+    this.spinner = true;
     var date = new Date();
     date.setHours(0, 0, 0, 0)
     this.friendAPI.getFriend(date.getTime(), "").then(ob => {
       ob.subscribe(res => {
+        this.spinner = false;
         this.data = res.data
       })
     })
   }
 
   getFriendByStatus(status: number) {
+    this.data = [];
+    this.spinner = true;
     var date = new Date();
     date.setHours(0, 0, 0, 0)
     this.friendAPI.getFriend(date.getTime(), "", status).then(ob => {
       ob.subscribe(res => {
+        this.spinner = false;
         this.data = res.data
       })
     })
@@ -90,15 +102,15 @@ export class FriendPage implements OnInit {
     if(weight_start > weight_finish){
       //Bị tăng cân
       if(weight_current > weight_start){
-        msg = `Bị tăng thêm ${weight_current - weight_start} kg.`
+        msg = `Bị tăng thêm ${ Math.round(weight_current - weight_start)} kg.`
       } 
       //Đang giảm cân
       else if (weight_current < weight_start) {
         //Giảm cân quá mong muốn
         if(weight_current < weight_finish) {
-          msg = `Giảm quá mong muốn ${weight_finish - weight_current} kg.`
+          msg = `Giảm quá mong muốn ${ Math.round((weight_finish - weight_current) / 1) * 1 } kg.`
         } else {
-          msg = `Đã giảm được ${weight_start - weight_current} kg.`
+          msg = `Đã giảm được ${ Math.round((weight_start - weight_current) / 1) * 1 } kg.`
         }
       } else {
         msg = `Chưa có thay đổi gì về cân nặng.`
@@ -108,15 +120,15 @@ export class FriendPage implements OnInit {
     else if (weight_start < weight_finish) {
       //Bị giảm cân
       if(weight_current < weight_start){
-        msg = `Bị sút mất ${weight_start - weight_current} kg.`
+        msg = `Bị sút mất ${ Math.round((weight_start - weight_current) / 1) * 1 } kg.`
       }
       //Đang giảm cân
       else if (weight_current > weight_start) {
         //Giảm cân quá mong muốn
         if(weight_current > weight_finish) {
-          msg = `Tăng vượt mong muốn ${weight_current - weight_finish} kg.`
+          msg = `Tăng vượt mong muốn ${ Math.round((weight_current - weight_finish) / 1) * 1 } kg.`
         } else {
-          msg = `Đã tăng thêm ${weight_current - weight_start} kg.`
+          msg = `Đã tăng thêm ${ Math.round((weight_current - weight_start) / 1) * 1 } kg.`
         }
       } else {
         msg = `Chưa có thay đổi gì về cân nặng.`
@@ -124,9 +136,9 @@ export class FriendPage implements OnInit {
     }
     else {
       if(weight_current < weight_start){
-        msg = `Bị sút mất ${weight_start - weight_current} kg.`
+        msg = `Bị sút mất ${ Math.round((weight_start - weight_current) / 1) * 1 } kg.`
       } else if(weight_current > weight_start){
-        msg = `Bị tăng thêm ${weight_current - weight_start} kg.`
+        msg = `Bị tăng thêm ${ Math.round((weight_current - weight_start) / 1) * 1 } kg.`
       } else {
         msg = `Mục tiêu giữ cân nặng.`
       }

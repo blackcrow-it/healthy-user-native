@@ -95,6 +95,15 @@ export class FoodMenuApi {
     return await this.httpclient.put(environment.URL_API + `/api/menu/meal/${meal_detail_id}?status=${status}`, null, { headers: headers });
   }
 
+  async editExerciseFoodToMenu(meal_detail_id, status: boolean): Promise<Observable<any>> {
+    let headers = new HttpHeaders();
+    await this.storage.get(TOKEN_KEY).then(res => {
+      headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+      headers = headers.set('Authorization', 'Bearer ' + res);
+    });
+    return await this.httpclient.put(environment.URL_API + `/api/menu/meal/${meal_detail_id}?status=${status}`, null, { headers: headers });
+  }
+
   async removeOneFoodToMenu(meal_detail_id): Promise<Observable<any>> {
     let headers = new HttpHeaders();
     await this.storage.get(TOKEN_KEY).then(res => {

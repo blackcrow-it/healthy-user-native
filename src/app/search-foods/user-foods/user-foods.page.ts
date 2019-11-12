@@ -16,67 +16,86 @@ export class UserFoodsPage implements OnInit {
   food_name: string
   proteins: number
   quantity: number
-  unit = "g"
+  unit: string
 
   //Add Loading
   loading = this.loadingController.create({
     message: 'Đang xử lý dữ liệu',
   });
-  presentLoading(){
-    this.loading.then(ob =>{
+  presentLoading() {
+    this.loading.then(ob => {
       ob.present();
     })
   }
-  dismissLoading(){
-    this.loading.then(ob =>{
+  dismissLoading() {
+    this.loading.then(ob => {
       ob.dismiss();
     })
   }
 
   constructor(
-    private foodApi: FoodApi, 
+    private foodApi: FoodApi,
     public toastController: ToastController,
     private loadingController: LoadingController
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
 
-  createFood(){
-    this.presentLoading();
-    var food = new Food();
-    food.calories = this.calories
-    food.carbs = this.carbs
-    food.description = this.description
-    food.fat = this.fat
-    food.food_name = this.food_name
-    food.proteins = this.proteins
-    food.quantity = this.quantity
-    food.unit = this.unit
-    this.foodApi.createFood(food).then(ob => {
-      ob.subscribe(async res => {
-        await this.dismissLoading();
-        const toast = await this.toastController.create({
-          message: `Thêm ${this.food_name} thành công.`,
-          duration: 2000
-        });
-        toast.present();
-        this.carbs = null;
-        this.description = null;
-        this.fat = null;
-        this.food_name = null;
-        this.proteins = null;
-        this.quantity = null;
-        this.unit = null;
-        this.calories = null;
-      }, async err => {
-        await this.dismissLoading();
-        const toast = await this.toastController.create({
-          message: `Thêm ${this.food_name} thất bại. Vui lòng xem lại.`,
-          duration: 2000
-        });
-        toast.present();
+  async createFood() {
+    var loading = await this.loadingController.create({
+      message: 'Đang xử lý dữ liệu',
+    });
+    if (
+      this.carbs == null ||
+      this.fat == null ||
+      this.food_name == null ||
+      this.proteins == null ||
+      this.quantity == null ||
+      this.unit == null ||
+      this.calories == null) {
+        console.log(this.unit)
+      const toast = await this.toastController.create({
+        message: `Vui lòng điền đầy đủ thông tin món ăn`,
+        duration: 2000
+      });
+      toast.present();
+    } else {
+      loading.present();
+      var food = new Food();
+      food.calories = this.calories
+      food.carbs = this.carbs
+      food.description = this.description
+      food.fat = this.fat
+      food.food_name = this.food_name
+      food.proteins = this.proteins
+      food.quantity = this.quantity
+      food.unit = this.unit
+      this.foodApi.createFood(food).then(ob => {
+        ob.subscribe(async res => {
+          loading.dismiss();
+          const toast = await this.toastController.create({
+            message: `Thêm '${this.food_name}' thành công.`,
+            duration: 2000
+          });
+          toast.present();
+          this.carbs = null;
+          this.description = null;
+          this.fat = null;
+          this.food_name = null;
+          this.proteins = null;
+          this.quantity = null;
+          this.unit = null;
+          this.calories = null;
+        }, async () => {
+          loading.dismiss();
+          const toast = await this.toastController.create({
+            message: `Thêm ${this.food_name} thất bại. Vui lòng xem lại.`,
+            duration: 2000
+          });
+          toast.present();
+        })
       })
-    })
+    }
   }
 }
