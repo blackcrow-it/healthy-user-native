@@ -86,7 +86,7 @@ Trường hợp lỗi:
 		platforms;android-28 Android SDK Platform 28
 	To build this project, accept the SDK license agreements and install the missing components using the Android Studio SDK Manager.
 	Alternatively, to transfer the license agreements from one workstation to another, see http://d.android.com/r/studio-ui/export-licenses.html
-
++
 thì run lệnh:
 
 	C:\...\AppData\Local\Android\Sdk\tools\bin\sdkmanager.bat --licenses
